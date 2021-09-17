@@ -1,0 +1,17 @@
+{
+  "name": "sqltest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "browserify-fs": "^1.0.0",
+    "fs": "^0.0.1-security",
+    "sql.js": "^1.6.1"
+  }
+}
