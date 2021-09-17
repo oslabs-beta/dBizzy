@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', () => {
   const body = document.querySelector('body');
   const parseButton = document.createElement('button');
@@ -53,15 +54,32 @@ document.addEventListener('DOMContentLoaded', () => {
   //Create textarea for SQL Query
   var sqlInput = document.createElement('textarea');
   sqlInput.setAttribute('id', 'sqlInput');
+  sqlInput.setAttribute('readonly', 'true');
   sqlInput.style.height = '200px';
   sqlInput.style.width = '100%';
-  sqlInput.value = 
-    'CREATE TABLE Countries\n(\nCountryID int PRIMARY KEY\n);\n\n' + 
-    'CREATE TABLE Persons\n(\nPersonID int PRIMARY KEY,\nLastName varchar(255),\n' +
-    'FirstName varchar(255),\nAddress varchar(255),\nCity varchar(255) FOREIGN KEY REFERENCES Cities(CityID),\nCountry varchar(255) FOREIGN KEY REFERENCES Countries(CountryID)\n);\n\n' + 
-    'CREATE TABLE Cities\n(\nCityID int PRIMARY KEY,\nCountry varchar(255) FOREIGN KEY REFERENCES Countries(CountryID),\n' +
-    'Population int,\n);';
+  // sqlInput.value = 
+  //   'CREATE TABLE Countries\n(\nCountryID int PRIMARY KEY\n);\n\n' + 
+  //   'CREATE TABLE Persons\n(\nPersonID int PRIMARY KEY,\nLastName varchar(255),\n' +
+  //   'FirstName varchar(255),\nAddress varchar(255),\nCity varchar(255) FOREIGN KEY REFERENCES Cities(CityID),\nCountry varchar(255) FOREIGN KEY REFERENCES Countries(CountryID)\n);\n\n' + 
+  //   'CREATE TABLE Cities\n(\nCityID int PRIMARY KEY,\nCountry varchar(255) FOREIGN KEY REFERENCES Countries(CountryID),\n' +
+  //   'Population int,\n);';
   body.appendChild(sqlInput);
+
+
+  // function readTextFile(file) {
+  //   var rawFile = new XMLHttpRequest();
+  //   rawFile.open("GET", file, false);
+  //   rawFile.onreadystatechange = function () {
+  //     if(rawFile.readyState === 4) {
+  //       if(rawFile.status === 200 || rawFile.status == 0) {
+  //         var allText = rawFile.responseText;
+  //         sqlInput.value = allText;
+  //       }
+  //     }
+  //   }
+  // }
+
+  // setInterval(readTextFile(path.resolve(__dirname, './sample.sql'), 2000);
 
 
   function ParseSQLServerForeignKey(name, currentTableModel) {

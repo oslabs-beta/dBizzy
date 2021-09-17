@@ -3,6 +3,7 @@
 import { countReset } from 'console';
 import * as vscode from 'vscode';
 import * as path from 'path';
+import * as fs from 'fs';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -32,6 +33,9 @@ export function activate(context: vscode.ExtensionContext) {
 	// Preview Database -- create new webview panel 
 	context.subscriptions.push(
 		vscode.commands.registerCommand('dbizzy.previewDatabase', () => {
+      
+
+
       vscode.window.showInformationMessage('hello>');
       const preview = 'previewDatabase';
       const previewTitle = 'Preview Database';
@@ -55,6 +59,24 @@ export function activate(context: vscode.ExtensionContext) {
       const styleSrc = panel.webview.asWebviewUri(styleDiskPath);
 
       panel.webview.html = getWebviewContent(preview, previewTitle, scriptSrc.toString(), styleSrc.toString());
+
+      panel.webview.onDidReceiveMessage(
+        message => {
+          switch (message.command) {
+            case 'getText':
+              const filePath = 
+                path.join(context.extensionPath,'src', 'sample.sql')
+              ;
+              const sqlText = fs.readFileSync(filePath, 'utf8')
+              panel.webview.postMessage({ command: 'sendText' , text: sqlText});
+              return;
+          }
+        },
+        undefined,
+        context.subscriptions
+      );
+    
+
     })
   );
 	context.subscriptions.push(
@@ -72,6 +94,7 @@ export function activate(context: vscode.ExtensionContext) {
     })
   );
 }
+
 
 // starting index.html  
 const getWebviewContent = (view: string, viewTitle: string, scriptSrc: string, styleSrc: string) => {
@@ -92,7 +115,27 @@ const getWebviewContent = (view: string, viewTitle: string, scriptSrc: string, s
         ${ view }
       </div>
 
-      
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const sqlInput = document.querySelector('#sqlInput');
+          (function() {
+              const vscode = acquireVsCodeApi();
+              setInterval(() => {
+                vscode.postMessage({
+                    command: 'getText'
+                })           
+              }, 1000);
+          }())
+          window.addEventListener('message', event => {
+            const message = event.data;
+            switch (message.command) {
+              case 'sendText':
+                sqlInput.value = message.text;
+                break;
+            }
+          });
+        });
+      </script> 
     </body>
     </html>`
   );

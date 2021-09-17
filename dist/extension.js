@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deactivate = exports.activate = void 0;
 const vscode = require("vscode");
 const path = require("path");
+const fs = require("fs");
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 function activate(context) {
@@ -36,6 +37,15 @@ function activate(context) {
         const scriptSrc = panel.webview.asWebviewUri(onDiskPath);
         const styleSrc = panel.webview.asWebviewUri(styleDiskPath);
         panel.webview.html = getWebviewContent(preview, previewTitle, scriptSrc.toString(), styleSrc.toString());
+        panel.webview.onDidReceiveMessage(message => {
+            switch (message.command) {
+                case 'getText':
+                    const filePath = path.join(context.extensionPath, 'src', 'sample.sql');
+                    const sqlText = fs.readFileSync(filePath, 'utf8');
+                    panel.webview.postMessage({ command: 'sendText', text: sqlText });
+                    return;
+            }
+        }, undefined, context.subscriptions);
     }));
     context.subscriptions.push(vscode.commands.registerCommand('dbizzy.queryDatabase', () => {
         const query = 'queryDatabase';
@@ -64,7 +74,27 @@ const getWebviewContent = (view, viewTitle, scriptSrc, styleSrc) => {
         ${view}
       </div>
 
-      
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const sqlInput = document.querySelector('#sqlInput');
+          (function() {
+              const vscode = acquireVsCodeApi();
+              setInterval(() => {
+                vscode.postMessage({
+                    command: 'getText'
+                })           
+              }, 1000);
+          }())
+          window.addEventListener('message', event => {
+            const message = event.data;
+            switch (message.command) {
+              case 'sendText':
+                sqlInput.value = message.text;
+                break;
+            }
+          });
+        });
+      </script> 
     </body>
     </html>`);
 };
