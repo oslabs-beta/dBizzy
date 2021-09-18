@@ -1,8 +1,3 @@
-// import fs from 'fs';
-// const fs = require('browserify-fs');
-// const path = require('path');
-import { Uri } from 'vscode';
-import * as path from 'path';
 var execBtn = document.getElementById("execute");
 var outputElm = document.getElementById('output');
 var errorElm = document.getElementById('error');
@@ -12,7 +7,20 @@ var savedbElm = document.getElementById('savedb');
 var localBtn = document.getElementById('localdb');
 // let filePath = path.resolve(__dirname, 'zelmo.sql');
 // console.log(filePath);
+console.log(hello);
 
+let worker;
+
+console.log('workerSource: ', workerSource)
+
+fetch(workerSource)
+  .then(result => result.blob())
+  .then(blob => {
+    const blobUrl = URL.createObjectURL(blob);
+    console.log(blobUrl)
+    worker = new Worker(blobUrl);
+    console.log('worker created from fetch: ', worker);
+  });
 // const sqlFile = fs.readFile('../zelmo.sql', 'utf - 8', (data) => {
 //   console.log(data);
 // });
@@ -20,10 +28,12 @@ var localBtn = document.getElementById('localdb');
 
 // Start the worker in which sql.js will run
 
+// const workerFilePath = Uri.file(path.join(__dirname, 'worker.sql-wasm.js'));
 
-var worker = new Worker(Uri.file(
-  path.join(__dirname, 'worker.sql-wasm.js')
-));
+// console.log('workerFilePath: ',workerFilePath)
+
+// var worker = new Worker(workerFilePath);
+
 
 worker.onerror = error;
 

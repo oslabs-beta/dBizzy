@@ -4,6 +4,7 @@ import { countReset } from 'console';
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
+import { worker } from 'cluster';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -117,14 +118,21 @@ export function activate(context: vscode.ExtensionContext) {
       const onDiskPath = vscode.Uri.file(
         path.join(context.extensionPath,'src', 'gui.js')
       );
+      const workerFilePath = vscode.Uri.file(
+        path.join(context.extensionPath,'src', 'worker.sql-wasm.js')
+      );
 
       // And get the special URI to use with the webview
       const scriptSrc = panel.webview.asWebviewUri(onDiskPath);
+      const workerSrc = panel.webview.asWebviewUri(workerFilePath);
       // const styleSrc = panel.webview.asWebviewUri(styleDiskPath);
-      console.log('onDiskPath: ', onDiskPath)
-      console.log('scriptSrc: ', scriptSrc)
+      console.log('onDiskPath: ', onDiskPath);
+      console.log('scriptSrc: ', scriptSrc);
+      console.log('workerSrc: ', workerSrc);
 
-      panel.webview.html = getBrowserWebviewContent(query, queryTitle, scriptSrc.toString());
+      
+
+      panel.webview.html = getBrowserWebviewContent(query, queryTitle, scriptSrc.toString(), workerSrc.toString());
     })
   );
 }
@@ -173,7 +181,7 @@ const getPreviewWebviewContent = (view: string, viewTitle: string, scriptSrc: st
 };
 
 // starting index.html for previewing databases
-const getBrowserWebviewContent = (query: String, queryTitle: String, guiScript: String) => {
+const getBrowserWebviewContent = (query: String, queryTitle: String, guiScript: String, workerScript: String) => {
   
   return (
     `<!doctype html>
@@ -187,11 +195,31 @@ const getBrowserWebviewContent = (query: String, queryTitle: String, guiScript: 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.1/worker.sql-wasm.min.js"
         integrity="sha512-yBPNUE8HTinpntnbSWtljJYMGIm1liPdtoj1XBbcMvZ/zyFOXHhKX83MW21bDrBSurr/KYMyyQv1QuKeI6ye1Q=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
+
+        
+      <script type="text/javascript">
+        console.log('hello');
+        var hello = 'hello from first script';
+       
+        const workerSource = '${workerScript}';
+
+        // fetch(workerSource)
+        //   .then(result => result.blob())
+        //   .then(blob => {
+        //     const blobUrl = URL.createObjectURL(blob)
+        //     const worker = new Worker(blobUrl);
+        //   });
+        
+        // console.log('Worker is: ',worker);
+        // console.log('${workerScript}');
+        //var worker = new Worker('${ workerScript }');
+        
+      </script>
+     
     </head>
     
     <body>
-    
+      <h1>${workerScript}</h1>
       <h1>Local SQL Interpreter</h1>
     
       <main>
@@ -237,8 +265,13 @@ const getBrowserWebviewContent = (query: String, queryTitle: String, guiScript: 
         Original work by kripken (<a href='https://github.com/sql-js/sql.js'>sql.js</a>).
         C to Javascript compiler by kripken (<a href='https://github.com/kripken/emscripten'>emscripten</a>).
       </footer>
-    
-      <script type="text/javascript" src="${ guiScript }"></script>
+
+      
+
+      <script type="text/javascript" src="${ guiScript }">
+        var hello = 'hello from script';
+      </script>
+
     </body>
     
     </html>`
