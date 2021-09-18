@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   var sqlInput = document.createElement('textarea');
   sqlInput.setAttribute('id', 'sqlInput');
   sqlInput.setAttribute('readonly', 'true');
+  sqlInput.style.display = 'none';
   sqlInput.style.height = '200px';
   sqlInput.style.width = '100%';
   body.appendChild(sqlInput);

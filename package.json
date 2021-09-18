@@ -12,7 +12,7 @@
 	"activationEvents": [
 		"onCommand:dbizzy.helloWorld",
 		"onCommand:dbizzy.previewDatabase",
-		"onCommand:dbizzy.queryDatabase"
+		"onCommand:dbizzy.openDatabaseBrowser"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
@@ -23,8 +23,8 @@
 				"category": "dBizzy"
 			},
 			{
-				"command": "dbizzy.queryDatabase",
-				"title": "Query Database",
+				"command": "dbizzy.openDatabaseBrowser",
+				"title": "Open Database Browser",
 				"category": "dBizzy"
 			},
 			{
@@ -43,6 +43,9 @@
 		"pretest": "npm run test-compile && npm run lint",
 		"lint": "eslint src --ext ts",
 		"test": "node ./out/test/runTest.js"
+	},
+	"dependencies": {
+		"sql.js": "^1.6.1"
 	},
 	"devDependencies": {
 		"@types/vscode": "^1.60.0",
