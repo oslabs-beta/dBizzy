@@ -32,14 +32,31 @@ export function activate(context: vscode.ExtensionContext) {
 	
 	// Preview Database -- create new webview panel 
 	context.subscriptions.push(
-		vscode.commands.registerCommand('dbizzy.previewDatabase', () => {
+		vscode.commands.registerCommand('dbizzy.previewDatabase', async () => {
       
+      let filePath = '';
 
+      const options: vscode.OpenDialogOptions = {
+        canSelectMany: false,
+        openLabel: 'Open',
+        filters: {
+           'SQL files': ['sql'],
+           'All files': ['*']
+          }
+      };
+      
+      await vscode.window.showOpenDialog(options).then(fileUri => {
+        if (fileUri && fileUri[0]) {
+          filePath = fileUri[0].fsPath;
+        }
+      });
 
       vscode.window.showInformationMessage('hello>');
       const preview = 'previewDatabase';
       const previewTitle = 'Preview Database';
       
+      // prompt user to select sql file
+
       const panel = vscode.window.createWebviewPanel(
         preview, // type of webview, internal use
         previewTitle, // title of panel displayed to the user
@@ -64,9 +81,6 @@ export function activate(context: vscode.ExtensionContext) {
         message => {
           switch (message.command) {
             case 'getText':
-              const filePath = 
-                path.join(context.extensionPath,'src', 'sample.sql')
-              ;
               const sqlText = fs.readFileSync(filePath, 'utf8')
               panel.webview.postMessage({ command: 'sendText' , text: sqlText});
               return;

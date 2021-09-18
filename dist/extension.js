@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deactivate = exports.activate = void 0;
 const vscode = require("vscode");
@@ -22,10 +31,25 @@ function activate(context) {
         vscode.window.showInformationMessage('bello World from dBizzy!');
     }));
     // Preview Database -- create new webview panel 
-    context.subscriptions.push(vscode.commands.registerCommand('dbizzy.previewDatabase', () => {
+    context.subscriptions.push(vscode.commands.registerCommand('dbizzy.previewDatabase', () => __awaiter(this, void 0, void 0, function* () {
+        let filePath = '';
+        const options = {
+            canSelectMany: false,
+            openLabel: 'Open',
+            filters: {
+                'SQL files': ['sql'],
+                'All files': ['*']
+            }
+        };
+        yield vscode.window.showOpenDialog(options).then(fileUri => {
+            if (fileUri && fileUri[0]) {
+                filePath = fileUri[0].fsPath;
+            }
+        });
         vscode.window.showInformationMessage('hello>');
         const preview = 'previewDatabase';
         const previewTitle = 'Preview Database';
+        // prompt user to select sql file
         const panel = vscode.window.createWebviewPanel(preview, // type of webview, internal use
         previewTitle, // title of panel displayed to the user
         vscode.ViewColumn.Beside, {
@@ -40,13 +64,12 @@ function activate(context) {
         panel.webview.onDidReceiveMessage(message => {
             switch (message.command) {
                 case 'getText':
-                    const filePath = path.join(context.extensionPath, 'src', 'sample.sql');
                     const sqlText = fs.readFileSync(filePath, 'utf8');
                     panel.webview.postMessage({ command: 'sendText', text: sqlText });
                     return;
             }
         }, undefined, context.subscriptions);
-    }));
+    })));
     context.subscriptions.push(vscode.commands.registerCommand('dbizzy.queryDatabase', () => {
         const query = 'queryDatabase';
         const queryTitle = 'Query Database';
