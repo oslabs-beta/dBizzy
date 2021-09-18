@@ -69,30 +69,27 @@ const getWebviewContent = (view, viewTitle, scriptSrc, styleSrc) => {
       <title> ${viewTitle} </title>
     </head>
     <body>
+      <!-- 
       <div id=${view}>
         hello team dBizzy:
         ${view}
-      </div>
-
+      </div> 
+      -->
       <script>
         document.addEventListener('DOMContentLoaded', () => {
           const sqlInput = document.querySelector('#sqlInput');
           (function() {
-              const vscode = acquireVsCodeApi();
-              setInterval(() => {
-                vscode.postMessage({
-                    command: 'getText'
-                })           
-              }, 1000);
+            const vscode = acquireVsCodeApi();
+            function setIntervalImmediately(func, interval) {
+              func();
+              return setInterval(func, interval);
+            };
+            setIntervalImmediately(() => {
+              vscode.postMessage({
+                command: 'getText'
+              })    
+            }, 1000)
           }())
-          window.addEventListener('message', event => {
-            const message = event.data;
-            switch (message.command) {
-              case 'sendText':
-                sqlInput.value = message.text;
-                break;
-            }
-          });
         });
       </script> 
     </body>

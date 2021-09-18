@@ -1,9 +1,18 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   const body = document.querySelector('body');
+
+  //Create textarea for SQL Query
+  var sqlInput = document.createElement('textarea');
+  sqlInput.setAttribute('id', 'sqlInput');
+  sqlInput.setAttribute('readonly', 'true');
+  sqlInput.style.height = '200px';
+  sqlInput.style.width = '100%';
+  body.appendChild(sqlInput);
+
   const parseButton = document.createElement('button');
   parseButton.setAttribute('id', 'sqlParseButton');
-  parseButton.innerText = 'Parse SQL';
+  parseButton.innerText = 'Update Diagrams';
   body.appendChild(parseButton);
   const resetButton = document.getElementById('reset');
   
@@ -51,19 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
   var primaryKeyList = [];
   var tableList = [];
 
-  //Create textarea for SQL Query
-  var sqlInput = document.createElement('textarea');
-  sqlInput.setAttribute('id', 'sqlInput');
-  sqlInput.setAttribute('readonly', 'true');
-  sqlInput.style.height = '200px';
-  sqlInput.style.width = '100%';
-  // sqlInput.value = 
-  //   'CREATE TABLE Countries\n(\nCountryID int PRIMARY KEY\n);\n\n' + 
-  //   'CREATE TABLE Persons\n(\nPersonID int PRIMARY KEY,\nLastName varchar(255),\n' +
-  //   'FirstName varchar(255),\nAddress varchar(255),\nCity varchar(255) FOREIGN KEY REFERENCES Cities(CityID),\nCountry varchar(255) FOREIGN KEY REFERENCES Countries(CountryID)\n);\n\n' + 
-  //   'CREATE TABLE Cities\n(\nCityID int PRIMARY KEY,\nCountry varchar(255) FOREIGN KEY REFERENCES Countries(CountryID),\n' +
-  //   'Population int,\n);';
-  body.appendChild(sqlInput);
+  
 
 
   // function readTextFile(file) {
@@ -307,8 +304,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function parseSql(text, type) {
     var lines = text.split('\n');
-    console.group('ParseSql')
-    console.log('lines', lines);
 
     // Only able to parse SQL Server syntax
     MODE_SQLSERVER = type !== undefined && type !== null && type == SQLServer;
@@ -597,5 +592,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const sqlInputField = document.querySelector('#sqlInput');
     parseSql(sqlInputField.value, SQLServer)
   })
+
+
+  // maybe just change to click
+  window.addEventListener('message', event => {
+    // while (tableArea.firstChild) {
+    //   tableArea.removeChild(tableArea.lastChild)
+    // }
+    const message = event.data;
+    switch (message.command) {
+      case 'sendText':
+        sqlInput.value = message.text;
+        // parseSql(sqlInput.value, 'sqlserver');
+        break;
+    }
+  });
 
 });

@@ -1,7 +1,7 @@
 CREATE TABLE Countries
 (
 CountryID int PRIMARY KEY,
-something varchar(255)
+population int,
 );
 
 CREATE TABLE Persons
