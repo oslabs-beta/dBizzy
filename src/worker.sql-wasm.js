@@ -13,7 +13,7 @@
 // TODO: Make this not declare a global if used in the browser
 var initSqlJsPromise = undefined;
 
-var initSqlJs = function (moduleConfig) {
+var initSqlJs = async function (moduleConfig) {
 
     if (initSqlJsPromise){
       return initSqlJsPromise;
@@ -104,7 +104,7 @@ function Wa(a,b,c){var d=b+c;for(c=b;a[c]&&!(c>=d);)++c;if(16<c-b&&a.subarray&&V
 function k(a,b,c,d){if(!(0<d))return 0;var f=c;d=c+d-1;for(var g=0;g<a.length;++g){var n=a.charCodeAt(g);if(55296<=n&&57343>=n){var t=a.charCodeAt(++g);n=65536+((n&1023)<<10)|t&1023}if(127>=n){if(c>=d)break;b[c++]=n}else{if(2047>=n){if(c+1>=d)break;b[c++]=192|n>>6}else{if(65535>=n){if(c+2>=d)break;b[c++]=224|n>>12}else{if(c+3>=d)break;b[c++]=240|n>>18;b[c++]=128|n>>12&63}b[c++]=128|n>>6&63}b[c++]=128|n&63}}b[c]=0;return c-f}
 function aa(a){for(var b=0,c=0;c<a.length;++c){var d=a.charCodeAt(c);55296<=d&&57343>=d&&(d=65536+((d&1023)<<10)|a.charCodeAt(++c)&1023);127>=d?++b:b=2047>=d?b+2:65535>=d?b+3:b+4}return b}function Xa(a){var b=aa(a)+1,c=da(b);c&&k(a,y,c,b);return c}var Ya,y,m,Ma,K,Na,Oa;
 function Za(){var a=Pa.buffer;Ya=a;e.HEAP8=y=new Int8Array(a);e.HEAP16=Ma=new Int16Array(a);e.HEAP32=K=new Int32Array(a);e.HEAPU8=m=new Uint8Array(a);e.HEAPU16=new Uint16Array(a);e.HEAPU32=new Uint32Array(a);e.HEAPF32=Na=new Float32Array(a);e.HEAPF64=Oa=new Float64Array(a)}var I,$a=[],ab=[],bb=[],cb=[];ab.push({Ib:function(){db()}});function eb(){var a=e.preRun.shift();$a.unshift(a)}var fb=0,gb=null,hb=null;e.preloadedImages={};e.preloadedAudios={};
-function J(a){if(e.onAbort)e.onAbort(a);F(a);Qa=!0;throw new WebAssembly.RuntimeError("abort("+a+"). Build with -s ASSERTIONS=1 for more info.");}function ib(a){var b=P;return String.prototype.startsWith?b.startsWith(a):0===b.indexOf(a)}function jb(){return ib("data:application/octet-stream;base64,")}var P="sql-wasm.wasm";if(!jb()){var kb=P;P=e.locateFile?e.locateFile(kb,E):E+kb}
+function J(a){if(e.onAbort)e.onAbort(a);F(a);Qa=!0;throw new WebAssembly.RuntimeError("abort("+a+"). Build with -s ASSERTIONS=1 for more info.");}function ib(a){var b=P;return String.prototype.startsWith?b.startsWith(a):0===b.indexOf(a)}function jb(){return ib("data:application/octet-stream;base64,")}var P="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.1/sql-wasm.wasm";if(!jb()){var kb=P;P=e.locateFile?e.locateFile(kb,E):E+kb}
 function lb(){var a=P;try{if(a==P&&La)return new Uint8Array(La);if(Fa)return Fa(a);throw"both async and sync fetching of the wasm failed";}catch(b){J(b)}}
 function mb(){if(!La&&(ya||za)){if("function"===typeof fetch&&!ib("file://"))return fetch(P,{credentials:"same-origin"}).then(function(a){if(!a.ok)throw"failed to load wasm binary file at '"+P+"'";return a.arrayBuffer()}).catch(function(){return lb()});if(Ea)return new Promise(function(a,b){Ea(P,function(c){a(new Uint8Array(c))},b)})}return Promise.resolve().then(function(){return lb()})}var O,L;
 function nb(a){for(;0<a.length;){var b=a.shift();if("function"==typeof b)b(e);else{var c=b.Ib;"number"===typeof c?void 0===b.mb?I.get(c)():I.get(c)(b.mb):c(void 0===b.mb?null:b.mb)}}}function ob(a){return a.replace(/\b_Z[\w\d_]+/g,function(b){return b===b?b:b+" ["+b+"]"})}
@@ -290,10 +290,14 @@ function onError(err) {
 }
 
 if (typeof importScripts === "function") {
+    console.log('importScripts is a function!');
     db = null;
     var sqlModuleReady = initSqlJs();
+    console.log('initSqlJs finished: ', sqlModuleReady);
     self.onmessage = function onmessage(event) {
         return sqlModuleReady
+            .then(console.log('hello'))
+            .then(console.log('promise resolved?: ', sqlModuleReady))
             .then(onModuleReady.bind(event))
             .catch(onError.bind(event));
     };

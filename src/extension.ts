@@ -125,12 +125,11 @@ export function activate(context: vscode.ExtensionContext) {
       // And get the special URI to use with the webview
       const scriptSrc = panel.webview.asWebviewUri(onDiskPath);
       const workerSrc = panel.webview.asWebviewUri(workerFilePath);
+
       // const styleSrc = panel.webview.asWebviewUri(styleDiskPath);
       console.log('onDiskPath: ', onDiskPath);
       console.log('scriptSrc: ', scriptSrc);
       console.log('workerSrc: ', workerSrc);
-
-      
 
       panel.webview.html = getBrowserWebviewContent(query, queryTitle, scriptSrc.toString(), workerSrc.toString());
     })
@@ -182,7 +181,7 @@ const getPreviewWebviewContent = (view: string, viewTitle: string, scriptSrc: st
 
 // starting index.html for previewing databases
 const getBrowserWebviewContent = (query: String, queryTitle: String, guiScript: String, workerScript: String) => {
-  
+
   return (
     `<!doctype html>
     <html>
@@ -198,21 +197,25 @@ const getBrowserWebviewContent = (query: String, queryTitle: String, guiScript: 
 
         
       <script type="text/javascript">
-        console.log('hello');
-        var hello = 'hello from first script';
-       
+        const hello = 'hello from extension.ts';
         const workerSource = '${workerScript}';
+       
+        // let worker;
 
-        // fetch(workerSource)
+        // fetch(workerSource, {
+        //     method: 'GET', 
+        //     mode: 'cors'
+        //   })
         //   .then(result => result.blob())
         //   .then(blob => {
+        //     console.log('blob', blob)
         //     const blobUrl = URL.createObjectURL(blob)
-        //     const worker = new Worker(blobUrl);
+        //     console.log('blobUrl', blobUrl)
+        //     worker = new Worker(blobUrl);
+        //     console.log('Worker is: ',worker);
         //   });
         
         // console.log('Worker is: ',worker);
-        // console.log('${workerScript}');
-        //var worker = new Worker('${ workerScript }');
         
       </script>
      

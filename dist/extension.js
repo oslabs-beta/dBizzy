@@ -147,21 +147,25 @@ const getBrowserWebviewContent = (query, queryTitle, guiScript, workerScript) =>
 
         
       <script type="text/javascript">
-        console.log('hello');
-        var hello = 'hello from first script';
-       
+        const hello = 'hello from extension.ts';
         const workerSource = '${workerScript}';
+       
+        // let worker;
 
-        // fetch(workerSource)
+        // fetch(workerSource, {
+        //     method: 'GET', 
+        //     mode: 'cors'
+        //   })
         //   .then(result => result.blob())
         //   .then(blob => {
+        //     console.log('blob', blob)
         //     const blobUrl = URL.createObjectURL(blob)
-        //     const worker = new Worker(blobUrl);
+        //     console.log('blobUrl', blobUrl)
+        //     worker = new Worker(blobUrl);
+        //     console.log('Worker is: ',worker);
         //   });
         
         // console.log('Worker is: ',worker);
-        // console.log('${workerScript}');
-        //var worker = new Worker('${workerScript}');
         
       </script>
      
