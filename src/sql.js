@@ -2,13 +2,17 @@
 document.addEventListener('DOMContentLoaded', () => {
   const body = document.querySelector('body');
 
+
+
   //Create textarea for SQL Query
   var sqlInput = document.createElement('textarea');
   sqlInput.setAttribute('id', 'sqlInput');
-  sqlInput.setAttribute('readonly', 'true');
-  sqlInput.style.display = 'none';
+  // sqlInput.setAttribute('readonly', 'true');
+  // sqlInput.style.display = 'none';
   sqlInput.style.height = '200px';
   sqlInput.style.width = '100%';
+  sqlInput.value = 'CREATE TABLE Persons\n(\nPersonID int PRIMARY KEY,\nLastName varchar(255),\n' +
+    'FirstName varchar(255),\nAddress varchar(255),\nCity varchar(255)\n);';
   body.appendChild(sqlInput);
 
   const parseButton = document.createElement('button');
@@ -16,10 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
   parseButton.innerText = 'Update Diagrams';
   body.appendChild(parseButton);
   const resetButton = document.getElementById('reset');
-  
+
   const tableArea = document.createElement('div');
   tableArea.setAttribute('class', 'tableArea');
-  
+
 
 
   function TableModel() {
@@ -61,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
   var primaryKeyList = [];
   var tableList = [];
 
-  
+
 
 
   // function readTextFile(file) {
@@ -115,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var alterTableName = name.substring(0, name.indexOf("WITH")).replace('ALTER TABLE ', '');
 
     if (referencesIndex !== -1 /*  && alterTableName !== '' */) {
-    
+
       // //Remove references syntax
       // referencesSQL = referencesSQL.replace("REFERENCES ", '');
 
@@ -181,11 +185,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function AssignForeignKey(foreignKeyModel) {
     // ForeignKeyModel
-      // isDestination
-      // PrimaryKeyName
-      // PrimaryKeyTableName
-      // ReferencesPropertyName
-      // ReferencesTableName
+    // isDestination
+    // PrimaryKeyName
+    // PrimaryKeyTableName
+    // ReferencesPropertyName
+    // ReferencesTableName
     tableList.forEach(function (tableModel) {
       if (tableModel.Name === foreignKeyModel.ReferencesTableName) {
         tableModel.Properties.forEach(function (propertyModel) {
@@ -387,7 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
               name.indexOf("REFERENCES") !== -1) {
               continue;
             }
-          } 
+          }
 
 
           //Create Property
@@ -454,7 +458,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
           }
-          
+
         }
 
         //Parse Foreign Key
@@ -489,7 +493,7 @@ document.addEventListener('DOMContentLoaded', () => {
       //Add table to the list
       tableList.push(currentTableModel);
     }
-    
+
     //Process Primary Keys
     ProcessPrimaryKey();
 
@@ -527,8 +531,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // need to implement is referenced
   // need to implement multiple fk pointing to property
 
+  // .renderDot((d) => 'digraph <table>');
   function CreateTableUI() {
-
+    let d3Tables = [`digraph G {
+      graph [   rankdir = "LR" ];
+      node [shape=plain]`];
     const cache = {};
 
     foreignKeyList.forEach(ForeignKeyModel => {
@@ -536,14 +543,20 @@ document.addEventListener('DOMContentLoaded', () => {
         cache[ForeignKeyModel.PrimaryKeyName] = getRandomColor();
       }
     })
-    
+
     console.log('cache: ', cache)
     console.log(tableList)
     tableList.forEach(function (tableModel) {
-
+      // let d3table = [];
+      // append strings or append to array to render final graphviz;
+      let diagraph = `diagraph {`
       const table = document.createElement('table');
       table.setAttribute('class', 'table');
-
+      d3Tables.push(`${tableModel.Name} [label=<
+        <table border ="0" cellborder ="1" cellspacing = "0">
+        <tr><td><b>${tableModel.Name}</b></td></tr>
+        `)
+      // console.log(d3Tables)
       // Add table name
       const tableName = document.createElement('th');
       tableName.setAttribute('class', 'tableName');
@@ -552,13 +565,21 @@ document.addEventListener('DOMContentLoaded', () => {
       table.appendChild(tableName);
 
       tableArea.appendChild(table)
-      
-      for(let i = 0; i < tableModel.Properties.length; i++) {
-        // render rows     
 
+      for (let i = 0; i < tableModel.Properties.length; i++) {
+        // render rows
+        if (CheckSpecialKey(tableModel.Properties[i])) {
+          d3Tables.push(`
+          <tr><td>${CheckSpecialKey(tableModel.Properties[i])} | ${tableModel.Properties[i].Name}</td></tr>
+          `)
+        } else {
+          d3Tables.push(`
+          <tr><td>${tableModel.Properties[i].Name}</td></tr>
+          `)
+        }
         const row = document.createElement('tr');
         row.setAttribute('class', 'row');
-        
+
         const sb = document.createElement('td');
         sb.setAttribute('class', 'sb');
         sb.innerText = CheckSpecialKey(tableModel.Properties[i]);
@@ -572,7 +593,7 @@ document.addEventListener('DOMContentLoaded', () => {
         property.innerText = tableModel.Properties[i].Name;
         const propertyName = tableModel.Properties[i].Name.split(' ')[0];
         console.log('PROPERTYNAME', propertyName)
-        if(cache[propertyName]) {
+        if (cache[propertyName]) {
           property.style.color = cache[propertyName];
         }
         row.appendChild(sb);
@@ -581,7 +602,20 @@ document.addEventListener('DOMContentLoaded', () => {
         table.appendChild(row);
       }
       tableArea.appendChild(table);
+      d3Tables.push(`
+      </table>>];
+      `)
+
     });
+    // ARROW FUNCTION
+    d3Tables.push('}')
+    const diagraphString = d3Tables.join('');
+    console.log(diagraphString);
+    d3.select("#graph")
+      // .data(tableList)
+      // .enter()
+      .graphviz()
+      .renderDot(diagraphString)
   };
 
   body.appendChild(tableArea);
