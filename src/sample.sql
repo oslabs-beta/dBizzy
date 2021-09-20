@@ -1,22 +1,34 @@
-CREATE TABLE Countries
-(
-CountryID int PRIMARY KEY,
+CREATE TABLE Countries(
+country_ID int PRIMARY KEY,
+name varchar(255),
+population int
+);
+
+
+CREATE TABLE Persons(
+person_ID int PRIMARY KEY,
+last_name varchar(255),
+first_name varchar(255),
+address varchar(255),
+city_ID int,
+country_ID int, 
+FOREIGN KEY (city_ID) REFERENCES Cities(city_ID),
+FOREIGN KEY (country_ID) REFERENCES Countries(country_ID) 
+);
+
+
+CREATE TABLE Cities(
+city_ID int PRIMARY KEY,
+city_name varchar(255),
+country_ID int,
 population int,
+FOREIGN KEY (country_ID) REFERENCES Countries(country_ID)
 );
 
-CREATE TABLE Persons
-(
-PersonID int PRIMARY KEY,
-LastName varchar(255),
-FirstName varchar(255),
-Address varchar(255),
-City varchar(255) FOREIGN KEY REFERENCES Cities(CityID),
-Country varchar(255) FOREIGN KEY REFERENCES Countries(CountryID)
-);
+INSERT INTO Countries VALUES (1, 'USA', 350000);
+INSERT INTO Cities VAlUES (1, 'SQLVille', 1 , 1000); 
+INSERT INTO Persons VALUES (1, 'Chen', 'John', 'Alpha', 1, 1);
 
-CREATE TABLE Cities
-(
-CityID int PRIMARY KEY,
-Country varchar(255) FOREIGN KEY REFERENCES Countries(CountryID),
-Population int,
-);
+SELECT * FROM Cities;
+SELECT * FROM Persons;
+SELECT * FROM CITIES;

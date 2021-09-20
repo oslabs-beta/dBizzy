@@ -5,19 +5,11 @@ var commandsElm = document.getElementById('commands');
 var dbFileElm = document.getElementById('dbfile');
 var savedbElm = document.getElementById('savedb');
 var localBtn = document.getElementById('localdb');
-// let filePath = path.resolve(__dirname, 'zelmo.sql');
-// console.log(filePath);
-console.log(hello);
 
 let worker;
 
-console.log('workerSource: ', workerSource)
-
-// 'https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.1/worker.sql-wasm.js'
-
 fetch(workerSource, {
   method: 'GET', 
-  // mode: 'cors'
 })
   .then(result => result.blob())
   .then(blob => {
@@ -66,6 +58,7 @@ fetch(workerSource, {
       outputElm.textContent = "Fetching results...";
     }
 
+    // add attribute to fix styling;
     // Create an HTML table
     var tableCreate = function () {
       function valconcat(vals, tagName) {

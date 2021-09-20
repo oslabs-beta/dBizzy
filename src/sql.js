@@ -597,14 +597,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // maybe just change to click
   window.addEventListener('message', event => {
-    // while (tableArea.firstChild) {
-    //   tableArea.removeChild(tableArea.lastChild)
-    // }
+
     const message = event.data;
     switch (message.command) {
       case 'sendText':
         sqlInput.value = message.text;
-        // parseSql(sqlInput.value, 'sqlserver');
+      
         break;
     }
   });
