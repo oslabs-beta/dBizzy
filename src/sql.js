@@ -533,9 +533,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // .renderDot((d) => 'digraph <table>');
   function CreateTableUI() {
+    // initial opening string for the rendering of the diagram.
     let d3Tables = [`digraph G {
       graph [   rankdir = "LR" ];
       node [shape=plain]`];
+    // caching being used for previous method of color scheming PK/FK relationships
     const cache = {};
 
     foreignKeyList.forEach(ForeignKeyModel => {
@@ -547,16 +549,15 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('cache: ', cache)
     console.log(tableList)
     tableList.forEach(function (tableModel) {
-      // let d3table = [];
       // append strings or append to array to render final graphviz;
-      let diagraph = `diagraph {`
       const table = document.createElement('table');
       table.setAttribute('class', 'table');
+
+      // push in string code to d3tables array to render table name as a row
       d3Tables.push(`${tableModel.Name} [label=<
         <table border ="0" cellborder ="1" cellspacing = "0">
         <tr><td><b>${tableModel.Name}</b></td></tr>
         `)
-      // console.log(d3Tables)
       // Add table name
       const tableName = document.createElement('th');
       tableName.setAttribute('class', 'tableName');
@@ -568,13 +569,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
       for (let i = 0; i < tableModel.Properties.length; i++) {
         // render rows
+        // if special key, add label to the row
         if (CheckSpecialKey(tableModel.Properties[i])) {
           d3Tables.push(`
-          <tr><td>${CheckSpecialKey(tableModel.Properties[i])} | ${tableModel.Properties[i].Name}</td></tr>
+          <tr><td port="${tableModel.Properties[i].Name.split(' ')[0]}">${CheckSpecialKey(tableModel.Properties[i])} | ${tableModel.Properties[i].Name}</td></tr>
           `)
         } else {
           d3Tables.push(`
-          <tr><td>${tableModel.Properties[i].Name}</td></tr>
+          <tr><td port ="${tableModel.Properties[i].Name.split(' ')[0]}">${tableModel.Properties[i].Name}</td></tr>
           `)
         }
         const row = document.createElement('tr');
@@ -602,18 +604,26 @@ document.addEventListener('DOMContentLoaded', () => {
         table.appendChild(row);
       }
       tableArea.appendChild(table);
+      // ending block for each table outside of the properties for loop 
       d3Tables.push(`
       </table>>];
       `)
 
     });
     // ARROW FUNCTION
+    // Loop through foreign keys for parsing relationships and drawing out arrows with graphviz
+    foreignKeyList.forEach(ForeignKeyModel => {
+      if (!ForeignKeyModel.IsDestination) {
+        d3Tables.push(`
+        ${ForeignKeyModel.ReferencesTableName}:${ForeignKeyModel.ReferencesPropertyName} -> 
+    ${ForeignKeyModel.PrimaryKeyTableName}:${ForeignKeyModel.PrimaryKeyName.split(' ')[0]}
+        `)
+      }
+    })
     d3Tables.push('}')
     const diagraphString = d3Tables.join('');
     console.log(diagraphString);
     d3.select("#graph")
-      // .data(tableList)
-      // .enter()
       .graphviz()
       .renderDot(diagraphString)
   };
