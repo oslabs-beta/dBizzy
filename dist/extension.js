@@ -101,14 +101,16 @@ function activate(context) {
         // Get path to resource on disk
         const onDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'src', 'gui.js'));
         const workerFilePath = vscode.Uri.file(path.join(context.extensionPath, 'src', 'worker.sql-wasm.js'));
+        const styleDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'src', 'browser.css'));
         // And get the special URI to use with the webview
         const scriptSrc = panel.webview.asWebviewUri(onDiskPath);
         const workerSrc = panel.webview.asWebviewUri(workerFilePath);
+        const styleSrc = panel.webview.asWebviewUri(styleDiskPath);
         // const styleSrc = panel.webview.asWebviewUri(styleDiskPath);
         console.log('onDiskPath: ', onDiskPath);
         console.log('scriptSrc: ', scriptSrc);
         console.log('workerSrc: ', workerSrc);
-        panel.webview.html = getBrowserWebviewContent(query, queryTitle, scriptSrc.toString(), workerSrc.toString());
+        panel.webview.html = getBrowserWebviewContent(queryTitle, scriptSrc.toString(), workerSrc.toString(), styleSrc.toString());
         // Listens for 'getText' message.command from webview and sends back SQL file's text content
         panel.webview.onDidReceiveMessage(message => {
             switch (message.command) {
@@ -130,10 +132,14 @@ const getPreviewWebviewContent = (view, viewTitle, scriptSrc, styleSrc) => {
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <link rel="stylesheet" href="${styleSrc}">
+      <script src="https://d3js.org/d3.v5.min.js"></script>
+      <script src="https://unpkg.com/@hpcc-js/wasm@0.3.11/dist/index.min.js"></script>
+      <script src="https://unpkg.com/d3-graphviz@3.0.5/build/d3-graphviz.js"></script>
       <script type="text/javascript" src="${scriptSrc}"></script>
       <title> ${viewTitle} </title>
     </head>
     <body>
+      <div id="graph" style="text-align: center;"></div>
       <script>
         document.addEventListener('DOMContentLoaded', () => {
           const sqlInput = document.querySelector('#sqlInput');
@@ -155,7 +161,7 @@ const getPreviewWebviewContent = (view, viewTitle, scriptSrc, styleSrc) => {
     </html>`);
 };
 // starting index.html for previewing databases
-const getBrowserWebviewContent = (query, queryTitle, guiScript, workerScript) => {
+const getBrowserWebviewContent = (queryTitle, guiScript, workerScript, styleSrc) => {
     return (`<!doctype html>
     <html>
     
@@ -163,24 +169,18 @@ const getBrowserWebviewContent = (query, queryTitle, guiScript, workerScript) =>
       <meta charset="utf8">
       <title>${queryTitle}</title>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.1/codemirror.css">
+      <link rel="stylesheet" href="${styleSrc}">
       <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.1/codemirror.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.1/worker.sql-wasm.min.js"
         integrity="sha512-yBPNUE8HTinpntnbSWtljJYMGIm1liPdtoj1XBbcMvZ/zyFOXHhKX83MW21bDrBSurr/KYMyyQv1QuKeI6ye1Q=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-        
-      
-     
     </head>
     
     <body>
-      <h1>${workerScript}</h1>
-      <h1>Local SQL Interpreter</h1>
+      <h1 id="title">Local SQL Interpreter</h1>
     
       <main>
-        <label for='commands'>Enter some SQL</label>
-        <br>
-    
         <textarea id="commands">DROP TABLE IF EXISTS employees;
               CREATE TABLE employees( id          integer,  name    text,
               designation text,     manager integer,
@@ -207,7 +207,7 @@ const getBrowserWebviewContent = (query, queryTitle, guiScript, workerScript) =>
     
         <button id="execute" class="button">Execute</button>
         <button id='savedb' class="button">Save the db</button>
-        <label class="button">Load an SQLite database file: <input type='file' id='dbfile'></label>
+        <label id='savedesc' class="button">Load an SQLite database file: <input type='file' id='dbfile'></label>
         <button id="localdb" class="button">Use Local File</button>
         <div id="error" class="error"></div>
     

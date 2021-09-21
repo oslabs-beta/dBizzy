@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+
+body, main {
+  display: flex;
+  flex-direction: column;
+}
+
+#savedb, 
+#savedesc, 
+#localdb {
+  display: none
+}
+
+#title {
+  font-family: 'Poppins', sans-serif;
+  color: rgb(235, 235, 235);
+}
+
+table {
+  width: 100%;
+  margin-bottom: 20px;
+  border-collapse: collapse;
+}
+
+th {
+  font-size: .8rem;
+  text-align: left;
+  border-bottom: 1px solid white; 
+  padding-bottom: .25rem;
+}
+
+.CodeMirror-lines {
+  background-color: #e7e9f2;
+}
+
+.CodeMirror-gutter {
+  background-color: #c3c6d1;
+}
+
+.CodeMirror-linenumber.CodeMirror-gutter-elt{
+  color: #282a36;
+}
+
+tbody::before {
+  height: 0.5em;
+  display: table-row;
+  content: '';
+}
