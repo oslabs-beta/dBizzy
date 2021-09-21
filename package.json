@@ -45,6 +45,7 @@
 		"test": "node ./out/test/runTest.js"
 	},
 	"dependencies": {
+		"d3-graphviz": "^4.0.0",
 		"sql.js": "^1.6.1"
 	},
 	"devDependencies": {

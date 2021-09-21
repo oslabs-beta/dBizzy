@@ -1,6 +1,11 @@
-
 document.addEventListener('DOMContentLoaded', () => {
   const body = document.querySelector('body');
+  const graph = document.querySelector('#graph');
+  
+  const parseButton = document.createElement('button');
+  parseButton.setAttribute('id', 'sqlParseButton');
+  parseButton.innerText = 'Update Diagrams';
+  body.prepend(parseButton);
 
   //Create textarea for SQL Query
   var sqlInput = document.createElement('textarea');
@@ -9,17 +14,16 @@ document.addEventListener('DOMContentLoaded', () => {
   sqlInput.style.display = 'none';
   sqlInput.style.height = '200px';
   sqlInput.style.width = '100%';
-  body.appendChild(sqlInput);
+  sqlInput.value = 'CREATE TABLE Persons\n(\nPersonID int PRIMARY KEY,\nLastName varchar(255),\n' +
+    'FirstName varchar(255),\nAddress varchar(255),\nCity varchar(255)\n);';
+  body.prepend(sqlInput);
 
-  const parseButton = document.createElement('button');
-  parseButton.setAttribute('id', 'sqlParseButton');
-  parseButton.innerText = 'Update Diagrams';
-  body.appendChild(parseButton);
-  const resetButton = document.getElementById('reset');
   
-  const tableArea = document.createElement('div');
-  tableArea.setAttribute('class', 'tableArea');
-  
+  // const resetButton = document.getElementById('reset');
+
+  // const tableArea = document.createElement('div');
+  // tableArea.setAttribute('class', 'tableArea');
+
 
 
   function TableModel() {
@@ -61,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
   var primaryKeyList = [];
   var tableList = [];
 
-  
+
 
 
   // function readTextFile(file) {
@@ -345,7 +349,7 @@ document.addEventListener('DOMContentLoaded', () => {
               name.indexOf("REFERENCES") !== -1) {
               continue;
             }
-          } 
+          }
 
 
           //Create Property
@@ -391,7 +395,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
 
           }
-          
+
         }
 
         //Parse Foreign Key
@@ -450,12 +454,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // //Add last table
-    // if (currentTableModel !== null) {
-    //   //Add table to the list
-    //   tableList.push(currentTableModel);
-    // }
-    
     //Process Primary Keys
     ProcessPrimaryKey();
     console.log('primaryKeyList: ', primaryKeyList)
@@ -483,86 +481,130 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function getRandomColor() {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  }
+  // function getRandomColor() {
+  //   var letters = '0123456789ABCDEF';
+  //   var color = '#';
+  //   for (var i = 0; i < 6; i++) {
+  //     color += letters[Math.floor(Math.random() * 16)];
+  //   }
+  //   return color;
+  // }
 
+  // .renderDot((d) => 'digraph <table>');
   function CreateTableUI() {
+    // initial opening string for the rendering of the diagram.
+    let d3Tables = [`digraph G {
+      graph [   rankdir = "LR" ];
+      node [shape=plain]`];
+    // // caching being used for previous method of color scheming PK/FK relationships
+    // const cache = {};
 
-    const cache = {};
-
-    foreignKeyList.forEach(ForeignKeyModel => {
-      if (ForeignKeyModel.IsDestination) {
-        cache[ForeignKeyModel.PrimaryKeyName] = getRandomColor();
-      }
-    })
+    // foreignKeyList.forEach(ForeignKeyModel => {
+    //   if (ForeignKeyModel.IsDestination) {
+    //     cache[ForeignKeyModel.PrimaryKeyName] = getRandomColor();
+    //   }
+    // })
     
     tableList.forEach(function (tableModel) {
+      // // append strings or append to array to render final graphviz;
+      // const table = document.createElement('table');
+      // table.setAttribute('class', 'table');
 
-      const table = document.createElement('table');
-      table.setAttribute('class', 'table');
+      // push in string code to d3tables array to render table name as a row
+      d3Tables.push(`${tableModel.Name} [label=<
+        <table border ="0" cellborder ="1" cellspacing = "0">
+        <tr><td><b>${tableModel.Name}</b></td></tr>
+        `)
+      // // Add table name
+      // const tableName = document.createElement('th');
+      // tableName.setAttribute('class', 'tableName');
+      // tableName.innerText = tableModel.Name;
 
-      // Add table name
-      const tableName = document.createElement('th');
-      tableName.setAttribute('class', 'tableName');
-      tableName.innerText = tableModel.Name;
+      // table.appendChild(tableName);
 
-      table.appendChild(tableName);
+      // tableArea.appendChild(table)
 
-      tableArea.appendChild(table)
-      
-      for(let i = 0; i < tableModel.Properties.length; i++) {
-        // render rows     
-
-        const row = document.createElement('tr');
-        row.setAttribute('class', 'row');
-        
-        const sb = document.createElement('td');
-        sb.setAttribute('class', 'sb');
-        sb.innerText = CheckSpecialKey(tableModel.Properties[i]);
-        if (sb.innerText.includes('FK')) {
-          let references = tableModel.Properties[i].References[0].PrimaryKeyName;
-          sb.style.color = cache[references];
+      for (let i = 0; i < tableModel.Properties.length; i++) {
+        // render rows
+        // if special key, add label to the row
+        if (CheckSpecialKey(tableModel.Properties[i])) {
+          d3Tables.push(`
+          <tr><td port="${tableModel.Properties[i].Name.split(' ')[0]}">${CheckSpecialKey(tableModel.Properties[i])} | ${tableModel.Properties[i].Name}</td></tr>
+          `)
+        } else {
+          d3Tables.push(`
+          <tr><td port ="${tableModel.Properties[i].Name.split(' ')[0]}">${tableModel.Properties[i].Name}</td></tr>
+          `)
         }
-        const property = document.createElement('td');
-        property.setAttribute('class', 'property');
-        property.innerText = tableModel.Properties[i].Name;
-        const propertyName = tableModel.Properties[i].Name.split(' ')[0];
-        if(cache[propertyName] && !sb.innerText.includes('FK')) {
-          property.style.color = cache[propertyName];
-        }
-        row.appendChild(sb);
-        row.appendChild(property);
+        // const row = document.createElement('tr');
+        // row.setAttribute('class', 'row');
 
-        table.appendChild(row);
+        // const sb = document.createElement('td');
+        // sb.setAttribute('class', 'sb');
+        // sb.innerText = CheckSpecialKey(tableModel.Properties[i]);
+        // if (sb.innerText.includes('FK')) {
+        //   let references = tableModel.Properties[i].References[0].PrimaryKeyName;
+        //   sb.style.color = cache[references];
+        // }
+        // const property = document.createElement('td');
+        // property.setAttribute('class', 'property');
+        // property.innerText = tableModel.Properties[i].Name;
+        // const propertyName = tableModel.Properties[i].Name.split(' ')[0];
+        // if(cache[propertyName] && !sb.innerText.includes('FK')) {
+        //   property.style.color = cache[propertyName];
+        // }
+        // row.appendChild(sb);
+        // row.appendChild(property);
+
+        // table.appendChild(row);
       }
-      tableArea.appendChild(table);
+      // tableArea.appendChild(table);
+      // ending block for each table outside of the properties for loop 
+      d3Tables.push(`
+      </table>>];
+      `)
+
     });
+    // ARROW FUNCTION
+    // Loop through foreign keys for parsing relationships and drawing out arrows with graphviz
+    foreignKeyList.forEach(ForeignKeyModel => {
+      if (!ForeignKeyModel.IsDestination) {
+        d3Tables.push(`
+        ${ForeignKeyModel.ReferencesTableName}:${ForeignKeyModel.ReferencesPropertyName} -> 
+    ${ForeignKeyModel.PrimaryKeyTableName}:${ForeignKeyModel.PrimaryKeyName.split(' ')[0]}
+        `)
+      }
+    })
+    d3Tables.push('}')
+    const diagraphString = d3Tables.join('');
+    console.log(diagraphString);
+    d3.select("#graph")
+      .graphviz()
+      .renderDot(diagraphString)
   };
 
-  body.appendChild(tableArea);
+  // body.appendChild(tableArea);
   // Event Listeners
   parseButton.addEventListener('click', () => {
-    while (tableArea.firstChild) {
-      tableArea.removeChild(tableArea.lastChild)
+    
+    while (graph.firstChild) {
+      graph.removeChild(graph.lastChild)
     }
     const sqlInputField = document.querySelector('#sqlInput');
     parseSql(sqlInputField.value, SQLServer)
   })
 
-
+  let counter = 0;
   // maybe just change to click
   window.addEventListener('message', event => {
-
     const message = event.data;
     switch (message.command) {
       case 'sendText':
         sqlInput.value = message.text;
+        if (counter === 0) {
+          counter++;
+          parseSql(sqlInput.value, SQLServer);
+        }
         break;
     }
   });
