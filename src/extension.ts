@@ -172,10 +172,14 @@ const getPreviewWebviewContent = (view: string, viewTitle: string, scriptSrc: st
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <link rel="stylesheet" href="${ styleSrc }">
+      <script src="https://d3js.org/d3.v5.min.js"></script>
+      <script src="https://unpkg.com/@hpcc-js/wasm@0.3.11/dist/index.min.js"></script>
+      <script src="https://unpkg.com/d3-graphviz@3.0.5/build/d3-graphviz.js"></script>
       <script type="text/javascript" src="${ scriptSrc }"></script>
       <title> ${ viewTitle } </title>
     </head>
     <body>
+      <div id="graph" style="text-align: center;"></div>
       <script>
         document.addEventListener('DOMContentLoaded', () => {
           const sqlInput = document.querySelector('#sqlInput');
