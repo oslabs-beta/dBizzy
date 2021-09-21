@@ -134,19 +134,21 @@ export function activate(context: vscode.ExtensionContext) {
       const styleDiskPath = vscode.Uri.file(
         path.join(context.extensionPath,'src', 'browser.css')
       );
-
+      const logoDiskPath = vscode.Uri.file(
+        path.join(context.extensionPath,'src/assets', 'dbizzy-logo.svg')
+      );
 
       // And get the special URI to use with the webview
       const scriptSrc = panel.webview.asWebviewUri(onDiskPath);
       const workerSrc = panel.webview.asWebviewUri(workerFilePath);
       const styleSrc = panel.webview.asWebviewUri(styleDiskPath);
-
+      const logoSrc = panel.webview.asWebviewUri(logoDiskPath);
       // const styleSrc = panel.webview.asWebviewUri(styleDiskPath);
       console.log('onDiskPath: ', onDiskPath);
       console.log('scriptSrc: ', scriptSrc);
       console.log('workerSrc: ', workerSrc);
-
-      panel.webview.html = getBrowserWebviewContent(queryTitle, scriptSrc.toString(), workerSrc.toString(), styleSrc.toString());
+      console.log('logoSrc: ', logoSrc);
+      panel.webview.html = getBrowserWebviewContent(queryTitle, scriptSrc.toString(), workerSrc.toString(), styleSrc.toString(), logoSrc.toString());
 
       // Listens for 'getText' message.command from webview and sends back SQL file's text content
       panel.webview.onDidReceiveMessage(
@@ -208,7 +210,7 @@ const getPreviewWebviewContent = (view: string, viewTitle: string, scriptSrc: st
 };
 
 // starting index.html for previewing databases
-const getBrowserWebviewContent = (queryTitle: String, guiScript: String, workerScript: String, styleSrc: string) => {
+const getBrowserWebviewContent = (queryTitle: String, guiScript: String, workerScript: String, styleSrc: string, logoSrc: string) => {
 
   return (
     `<!doctype html>
@@ -227,7 +229,7 @@ const getBrowserWebviewContent = (queryTitle: String, guiScript: String, workerS
     </head>
     
     <body>
-      <h1 id="title">Local SQL Interpreter</h1>
+      <h1 id="title"><img id="dbizzy_logo"src="${ logoSrc }">Local SQL Interpreter</h1>
     
       <main>
         <textarea id="commands">DROP TABLE IF EXISTS employees;
@@ -253,11 +255,12 @@ const getBrowserWebviewContent = (queryTitle: String, guiScript: String, workerS
               
               SELECT designation,COUNT(*) AS nbr, (AVG(salary)) AS avg_salary FROM employees GROUP BY designation ORDER BY avg_salary DESC;
               SELECT name,hired_on FROM employees ORDER BY hired_on;</textarea>
-    
-        <button id="execute" class="button">Execute</button>
-        <button id='savedb' class="button">Save the db</button>
-        <label id='savedesc' class="button">Load an SQLite database file: <input type='file' id='dbfile'></label>
-        <button id="localdb" class="button">Use Local File</button>
+        <div class="button_container">
+          <button id="execute" class="button">Execute</button>
+          <button id='savedb' class="button">Save the db</button>
+          <label id='savedesc' class="button">Load an SQLite database file: <input type='file' id='dbfile'></label>
+          <button id="localdb" class="button">Use Local File</button>
+        </div>
         <div id="error" class="error"></div>
     
         <pre id="output">Results will be displayed here</pre>
@@ -265,11 +268,12 @@ const getBrowserWebviewContent = (queryTitle: String, guiScript: String, workerS
     
       <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.1/mode/sql/sql.min.js"></script>
     
+      <!--
       <footer>
         Original work by kripken (<a href='https://github.com/sql-js/sql.js'>sql.js</a>).
         C to Javascript compiler by kripken (<a href='https://github.com/kripken/emscripten'>emscripten</a>).
       </footer>
-
+      -->
       <script type="text/javascript">
         const workerSource = '${workerScript}';
         
