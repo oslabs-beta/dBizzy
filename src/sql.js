@@ -84,65 +84,16 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Found Foreign Key Query: ', name)
     // Regex expression to find referenced foreign table 
     var referencesIndex = name.match(/(?<=REFERENCES\s)([a-zA-Z_]+)(\([a-zA-Z_]*\))/);
-    console.log('referencesIndex: ', referencesIndex);
     const referencedTableName = referencesIndex[1];
     const referencedPropertyName = referencesIndex[2].replace(/\(|\)/g, '');
-    console.log('referencedTableName: ', referencedTableName);
-    console.log('referencedPropertyName: ', referencedPropertyName);
 
     var foreignKeyLabelIndex = name.toLowerCase().indexOf('foreign key');
     var foreignKey = name.slice(0, foreignKeyLabelIndex).trim();
-    console.log('Foreign Key Name: ', foreignKey);
-
-    // var rIndex = name.toLowerCase().indexOf('references') + 10;
-    // let slicedName = name.slice(rIndex);
-    // // let matches = slicedName.match('')
-    // console.log('sliced name', slicedName);
-    // var referencedTable = slicedName.slice(0, slicedName.indexOf('(')).trim();
-    // console.log('found reference table', referencedTable)
-    // var referencedTableColumn = slicedName.slice(slicedName.indexOf('(') + 1, slicedName.indexOf(')')).trim();
-    // console.log('referenced column is  ', referencedTableColumn);
-
-
-    // if (name.toLowerCase().indexOf("foreign key") !== -1) {
-    //   var foreignKeySQL = name.substring(name.toLowerCase().indexOf("foreign key"), referencesIndex).replace("FOREIGN KEY(", '').replace(')', '');
-    //   console.log('ParsedForeignKey', foreignKeySQL);
-    // } else {
-    //   var foreignKeySQL = name.substring(name.toLowerCase().indexOf("foreign key ("), referencesIndex).replace("FOREIGN KEY (", '').replace(')', '');
-    // }
 
     // var referencesSQL = name.substring(referencesIndex, name.length);
     var alterTableName = name.substring(0, name.indexOf("WITH")).replace('ALTER TABLE ', '');
 
     if (referencesIndex !== -1 /*  && alterTableName !== '' */) {
-    
-      // //Remove references syntax
-      // referencesSQL = referencesSQL.replace("REFERENCES ", '');
-
-      //Get Table and Property Index
-      // var referencedTableIndex = referencesSQL.indexOf("(");
-      // var referencedPropertyIndex = referencesSQL.indexOf(")");
-
-      // //Get Referenced Table
-      // var referencedTableName = referencesSQL.substring(0, referencedTableIndex);
-
-      // //Parse Name
-      // referencedTableName = ParseSQLServerName(referencedTableName);
-
-      // //Get Referenced Key
-      // var referencedPropertyName = referencesSQL.substring(referencedTableIndex + 1, referencedPropertyIndex);
-
-      // //Parse Name
-      // referencedPropertyName = ParseSQLServerName(referencedPropertyName);
-
-      //Get ForeignKey 
-      // var foreignKey = foreignKeySQL.replace("FOREIGN KEY (", '').replace(")", '');
-
-      // //Parse Name
-      // foreignKey = ParseSQLServerName(foreignKey);
-
-      // //Parse Name
-      // alterTableName = ParseSQLServerName(alterTableName);
 
       //Create ForeignKey
       var foreignKeyOriginModel = CreateForeignKey(foreignKey, currentTableModel.Name, referencedPropertyName, referencedTableName, false);
@@ -186,10 +137,12 @@ document.addEventListener('DOMContentLoaded', () => {
       // PrimaryKeyTableName
       // ReferencesPropertyName
       // ReferencesTableName
+    console.log('trying to assign foreign key')
     tableList.forEach(function (tableModel) {
       if (tableModel.Name === foreignKeyModel.ReferencesTableName) {
         tableModel.Properties.forEach(function (propertyModel) {
           if (propertyModel.Name === foreignKeyModel.ReferencesPropertyName) {
+            console.log('pushing foreignmodel into references', propertyModel.Name, foreignKeyModel)
             propertyModel.IsForeignKey = true;
             propertyModel.References.push(foreignKeyModel);
           }
@@ -208,7 +161,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function ProcessForeignKey() {
-    console.log('ForeignKeyList', foreignKeyList)
     foreignKeyList.forEach(function (foreignKeyModel) {
       //Assign ForeignKey
       AssignForeignKey(foreignKeyModel);
@@ -306,6 +258,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function parseSql(text, type) {
     var lines = text.split('\n');
 
+    console.log('LINES:', lines)
+
     // Only able to parse SQL Server syntax
     MODE_SQLSERVER = type !== undefined && type !== null && type == SQLServer;
 
@@ -326,6 +280,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       var propertyRow = tmp.substring(0, 12).toLowerCase();
 
+      if (currentTableModel !== null && tmp.includes(');')) {
+        tableList.push(currentTableModel);
+        currentTableModel = null;
+      }
+
       //Parse Table
       if (propertyRow === 'create table') {
 
@@ -335,14 +294,15 @@ document.addEventListener('DOMContentLoaded', () => {
         //Parse Table Name
         name = ParseTableName(name);
 
-        if (currentTableModel !== null) {
-          //Add table to the list
-          tableList.push(currentTableModel);
-        }
+        // if (currentTableModel !== null) {
+        //   //Add table to the list
+        //   tableList.push(currentTableModel);
+        // }
 
         //Create Table
         currentTableModel = CreateTable(name);
       }
+
       // Parse Properties 
       else if (tmp !== '(' && currentTableModel != null && propertyRow !== 'alter table ') {
 
@@ -351,19 +311,17 @@ document.addEventListener('DOMContentLoaded', () => {
         //Attempt to get the Key Type
         var propertyType = name.substring(0, 11).toLowerCase();
         //Add special constraints
-        if (MODE_SQLSERVER) {
-          if (/* tmp.indexOf("CONSTRAINT") !== -1 && */ tmp.indexOf("PRIMARY KEY") !== -1) {
-            propertyType = "constrain primary key";
+        if (propertyType !== 'primary key' && propertyType !== 'foreign key') {
+          if (tmp.indexOf("PRIMARY KEY") !== -1) {
+            propertyType = "SQLServer primary key";
           }
 
-          if (/*tmp.indexOf("CONSTRAINT") !== -1 && */ tmp.indexOf("FOREIGN KEY") !== -1) {
-            console.log('found foreign key')
-            propertyType = "constrain foreign key";
+          if (tmp.indexOf("FOREIGN KEY") !== -1) {
+            propertyType = "SQLServer foreign key";
           }
         }
-
         //Verify if this is a property that doesn't have a relationship (One minute of silence for the property)
-        var normalProperty = propertyType !== 'primary key' && propertyType !== 'foreign key' && propertyType !== 'constrain primary key' && propertyType !== 'constrain foreign key';
+        var normalProperty = propertyType !== 'primary key' && propertyType !== 'foreign key' && propertyType !== 'SQLServer primary key' && propertyType !== 'SQLServer foreign key';
 
         //Parse properties that don't have relationships
         if (normalProperty) {
@@ -398,17 +356,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         //Parse Primary Key
-        if (propertyType === 'primary key' || propertyType === 'constrain primary key') {
-          if (!MODE_SQLSERVER) {
-            var primaryKey = name.replace('PRIMARY KEY (', '').replace(')', '');
-
-            //Create Primary Key
-            var primaryKeyModel = CreatePrimaryKey(primaryKey, currentTableModel.Name);
-
-            //Add Primary Key to List
-            primaryKeyList.push(primaryKeyModel);
-
-          } else {
+        if (propertyType === 'primary key' || propertyType === 'SQLServer primary key') {
+          if (propertyType === 'SQLServer primary key') {
+            console.log(propertyType)
             var start = i + 2;
             var end = 0;
             if (name.indexOf('PRIMARY KEY') !== -1 && name.indexOf('CLUSTERED') === -1) {
@@ -429,45 +379,61 @@ document.addEventListener('DOMContentLoaded', () => {
               //Add Property to table
               currentTableModel.Properties.push(propertyModel);
 
-            } else {
-              while (end === 0) {
-                var primaryKeyRow = (lines[start]).trim();
-
-                if (primaryKeyRow.indexOf(')') !== -1) {
-                  end = 1;
-                  break;
-                }
-
-                start++;
-
-                primaryKeyRow = primaryKeyRow.replace("ASC", '');
-
-                //Parse name
-                primaryKeyRow = ParseSQLServerName(primaryKeyRow, true);
-
-                //Create Primary Key
-                var primaryKeyModel = CreatePrimaryKey(primaryKeyRow, currentTableModel.Name);
-
-                //Add Primary Key to List
-                primaryKeyList.push(primaryKeyModel);
+            } 
+            
+          } else if (propertyType === 'primary key') {
+            var primaryKeyName = name.slice(13).replace(')', '');
+            currentTableModel.Properties.forEach(property => {
+              if (property.Name.split(' ')[0] === primaryKeyName) {
+                property.IsPrimaryKey = true;
+                primaryKeyList.push(property);
               }
-            }
+            })
 
           }
           
         }
 
         //Parse Foreign Key
-        if (propertyType === 'foreign key' || propertyType === 'constrain foreign key') {
-          if (SQLServer) {
+        if (propertyType === 'foreign key' || propertyType === 'SQLServer foreign key') {
+          console.log(propertyType)
+          if (propertyType === 'SQLServer foreign key') {
             var completeRow = name;
 
             if (name.indexOf('REFERENCES') === -1) {
               var referencesRow = (lines[i + 1]).trim();
               completeRow = 'ALTER TABLE [dbo].[' + currentTableModel.Name + ']  WITH CHECK ADD' + ' ' + name + ' ' + referencesRow;
             }
-
             ParseSQLServerForeignKey(completeRow, currentTableModel);
+          }
+          else {
+            console.log('foreign key row: ', name);
+            let foreignKeyName = name.match(/(?<=FOREIGN\sKEY\s)(\([a-zA-Z_]+\))(?=\sREFERENCES\s)/)[0].replace(/\(|\)/g, '');
+            console.log(foreignKeyName);
+            const referencedTableName = name.match(/(?<=REFERENCES\s)([a-zA-Z_]+)(?=\()/)[0];
+            console.log(referencedTableName);
+            const referencedPropertyName = name.match(/(?<=REFERENCES\s[a-zA-Z_]+)(\([a-zA-Z_]+\))/)[0].replace(/\(|\)/g, '');
+            console.log(referencedPropertyName);
+
+            // Look through current table and reassign isForeignKey prop to true, reassign foreignKeyName to include type
+            currentTableModel.Properties.forEach(property => {
+              if (property.Name.split(' ')[0] === foreignKeyName) {
+                property.IsForeignKey = true;
+                foreignKeyName = property.Name;
+              }
+            })
+
+             //Create ForeignKey
+            var foreignKeyOriginModel = CreateForeignKey(foreignKeyName, currentTableModel.Name, referencedPropertyName, referencedTableName, false);
+
+            // Add ForeignKey Origin
+            foreignKeyList.push(foreignKeyOriginModel);
+
+            //Create ForeignKey
+            var foreignKeyDestinationModel = CreateForeignKey(referencedPropertyName, referencedTableName, foreignKeyName, currentTableModel.Name, true);
+
+            //Add ForeignKey Destination
+            foreignKeyList.push(foreignKeyDestinationModel);
           }
         }
 
@@ -484,19 +450,20 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    //Add last table
-    if (currentTableModel !== null) {
-      //Add table to the list
-      tableList.push(currentTableModel);
-    }
+    // //Add last table
+    // if (currentTableModel !== null) {
+    //   //Add table to the list
+    //   tableList.push(currentTableModel);
+    // }
     
     //Process Primary Keys
     ProcessPrimaryKey();
-
+    console.log('primaryKeyList: ', primaryKeyList)
     //Process Foreign Keys
     ProcessForeignKey();
-
+    console.log('foreignKeyList: ', foreignKeyList)
     //Create Table in UI
+    console.log('tableList: ', tableList);
     CreateTableUI();
 
   };
@@ -524,8 +491,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     return color;
   }
-  // need to implement is referenced
-  // need to implement multiple fk pointing to property
 
   function CreateTableUI() {
 
@@ -537,8 +502,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     })
     
-    console.log('cache: ', cache)
-    console.log(tableList)
     tableList.forEach(function (tableModel) {
 
       const table = document.createElement('table');
@@ -564,15 +527,13 @@ document.addEventListener('DOMContentLoaded', () => {
         sb.innerText = CheckSpecialKey(tableModel.Properties[i]);
         if (sb.innerText.includes('FK')) {
           let references = tableModel.Properties[i].References[0].PrimaryKeyName;
-          console.log('References: ', references, cache[references]);
           sb.style.color = cache[references];
         }
         const property = document.createElement('td');
         property.setAttribute('class', 'property');
         property.innerText = tableModel.Properties[i].Name;
         const propertyName = tableModel.Properties[i].Name.split(' ')[0];
-        console.log('PROPERTYNAME', propertyName)
-        if(cache[propertyName]) {
+        if(cache[propertyName] && !sb.innerText.includes('FK')) {
           property.style.color = cache[propertyName];
         }
         row.appendChild(sb);
@@ -602,7 +563,6 @@ document.addEventListener('DOMContentLoaded', () => {
     switch (message.command) {
       case 'sendText':
         sqlInput.value = message.text;
-      
         break;
     }
   });
