@@ -534,9 +534,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // .renderDot((d) => 'digraph <table>');
   function CreateTableUI() {
     // initial opening string for the rendering of the diagram.
-    let d3Tables = [`digraph G {
+    let d3Tables = [`digraph G { bgcolor = "none"
       graph [   rankdir = "LR" ];
-      node [shape=plain]`];
+      node [fontsize = 10 fontname = "opensans" shape=plain]`];
     // caching being used for previous method of color scheming PK/FK relationships
     const cache = {};
 
@@ -555,8 +555,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // push in string code to d3tables array to render table name as a row
       d3Tables.push(`${tableModel.Name} [label=<
-        <table border ="0" cellborder ="1" cellspacing = "0">
-        <tr><td><b>${tableModel.Name}</b></td></tr>
+        <table border ="0" cellborder ="1" cellspacing = "0" color = "white">
+        <tr><td ALIGN = "LEFT" bgcolor = "midnightblue"><b><font color = "white">${tableModel.Name}</font></b></td></tr>
         `)
       // Add table name
       const tableName = document.createElement('th');
@@ -572,11 +572,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // if special key, add label to the row
         if (CheckSpecialKey(tableModel.Properties[i])) {
           d3Tables.push(`
-          <tr><td port="${tableModel.Properties[i].Name.split(' ')[0]}">${CheckSpecialKey(tableModel.Properties[i])} | ${tableModel.Properties[i].Name}</td></tr>
+          <tr>
+  
+          <td ALIGN = "LEFT" bgcolor = "gray25" port="${tableModel.Properties[i].Name.split(' ')[0]}"><font color = "darkgoldenrod">${CheckSpecialKey(tableModel.Properties[i])} </font> | <font color = "white"> ${tableModel.Properties[i].Name}</font></td></tr>
           `)
         } else {
           d3Tables.push(`
-          <tr><td port ="${tableModel.Properties[i].Name.split(' ')[0]}">${tableModel.Properties[i].Name}</td></tr>
+          <tr><td ALIGN = "LEFT" bgcolor = "gray25" port ="${tableModel.Properties[i].Name.split(' ')[0]}"><font color = "white">          ${tableModel.Properties[i].Name}</font></td></tr>
           `)
         }
         const row = document.createElement('tr');
@@ -616,7 +618,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!ForeignKeyModel.IsDestination) {
         d3Tables.push(`
         ${ForeignKeyModel.ReferencesTableName}:${ForeignKeyModel.ReferencesPropertyName} -> 
-    ${ForeignKeyModel.PrimaryKeyTableName}:${ForeignKeyModel.PrimaryKeyName.split(' ')[0]}
+    ${ForeignKeyModel.PrimaryKeyTableName}:${ForeignKeyModel.PrimaryKeyName.split(' ')[0]} [color = lightseagreen]
         `)
       }
     })
