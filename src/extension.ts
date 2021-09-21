@@ -9,9 +9,6 @@ import { worker } from 'cluster';
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) { 
-	const styleDiskPath = vscode.Uri.file(
-    path.join(context.extensionPath,'src', 'styles.css')
-  );
 
   // // And get the special URI to use with the webview
   // const scriptSrc = panel.webview.asWebviewUri(onDiskPath);
@@ -34,30 +31,27 @@ export function activate(context: vscode.ExtensionContext) {
 	// Preview Database -- create new webview panel 
 	context.subscriptions.push(
 		vscode.commands.registerCommand('dbizzy.previewDatabase', async () => {
-      
-      let filePath = '';
+      // Prompt user to select SQL file to preview
+      let SQLfilePath = '';
 
       const options: vscode.OpenDialogOptions = {
         canSelectMany: false,
         openLabel: 'Open',
         filters: {
-           'SQL files': ['sql'],
-           'All files': ['*']
+           'SQL files': ['sql']
           }
       };
       
       await vscode.window.showOpenDialog(options).then(fileUri => {
         if (fileUri && fileUri[0]) {
-          filePath = fileUri[0].fsPath;
+          SQLfilePath = fileUri[0].fsPath;
         }
       });
 
-      vscode.window.showInformationMessage('hello>');
       const preview = 'previewDatabase';
       const previewTitle = 'Preview Database';
       
-      // prompt user to select sql file
-
+      // Creates new webview panel beside current panel
       const panel = vscode.window.createWebviewPanel(
         preview, // type of webview, internal use
         previewTitle, // title of panel displayed to the user
@@ -71,6 +65,9 @@ export function activate(context: vscode.ExtensionContext) {
       const onDiskPath = vscode.Uri.file(
         path.join(context.extensionPath,'src', 'sql.js')
       );
+      const styleDiskPath = vscode.Uri.file(
+        path.join(context.extensionPath,'src', 'styles.css')
+      );
 
       // And get the special URI to use with the webview
       const scriptSrc = panel.webview.asWebviewUri(onDiskPath);
@@ -82,7 +79,7 @@ export function activate(context: vscode.ExtensionContext) {
         message => {
           switch (message.command) {
             case 'getText':
-              const sqlText = fs.readFileSync(filePath, 'utf8')
+              const sqlText = fs.readFileSync(SQLfilePath, 'utf8')
               panel.webview.postMessage({ command: 'sendText' , text: sqlText});
               return;
           }
@@ -91,14 +88,31 @@ export function activate(context: vscode.ExtensionContext) {
         context.subscriptions
       );
     
-
     })
   );
 
 
   // Query Database Command
 	context.subscriptions.push(
-		vscode.commands.registerCommand('dbizzy.openDatabaseBrowser', () => {
+		vscode.commands.registerCommand('dbizzy.openDatabaseBrowser', async () => {
+      // Prompt user to select SQL file to preview
+      let SQLfilePath = '';
+
+      const options: vscode.OpenDialogOptions = {
+        canSelectMany: false,
+        openLabel: 'Open',
+        filters: {
+           'SQL files': ['sql']
+          }
+      };
+      
+      await vscode.window.showOpenDialog(options).then(fileUri => {
+        if (fileUri && fileUri[0]) {
+          SQLfilePath = fileUri[0].fsPath;
+        }
+      });
+      
+      
       const query = 'openDatabaseBrowser';
       const queryTitle = 'Database Browser';
       const panel = vscode.window.createWebviewPanel(
@@ -108,10 +122,6 @@ export function activate(context: vscode.ExtensionContext) {
         {
           enableScripts: true
         }, 
-        // {
-        //    // Only allow the webview to access resources in our extension's media directory
-        //    localResourceRoots: [vscode.Uri.file(path.join(context.extensionPath, 'media'))]
-        // }
       );
 
       // Get path to resource on disk
@@ -132,6 +142,21 @@ export function activate(context: vscode.ExtensionContext) {
       console.log('workerSrc: ', workerSrc);
 
       panel.webview.html = getBrowserWebviewContent(query, queryTitle, scriptSrc.toString(), workerSrc.toString());
+
+      // Listens for 'getText' message.command from webview and sends back SQL file's text content
+      panel.webview.onDidReceiveMessage(
+        message => {
+          switch (message.command) {
+            case 'getText':
+              const sqlText = fs.readFileSync(SQLfilePath, 'utf8')
+              panel.webview.postMessage({ command: 'sendText' , text: sqlText});
+              // console.log('Browser path posted message: ', sqlText)
+              return;
+          }
+        },
+        undefined,
+        context.subscriptions
+      );
     })
   );
 }
@@ -147,16 +172,14 @@ const getPreviewWebviewContent = (view: string, viewTitle: string, scriptSrc: st
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <link rel="stylesheet" href="${ styleSrc }">
+      <script src="https://d3js.org/d3.v5.min.js"></script>
+      <script src="https://unpkg.com/@hpcc-js/wasm@0.3.11/dist/index.min.js"></script>
+      <script src="https://unpkg.com/d3-graphviz@3.0.5/build/d3-graphviz.js"></script>
       <script type="text/javascript" src="${ scriptSrc }"></script>
       <title> ${ viewTitle } </title>
     </head>
     <body>
-      <!-- 
-      <div id=${ view }>
-        hello team dBizzy:
-        ${ view }
-      </div> 
-      -->
+      <div id="graph" style="text-align: center;"></div>
       <script>
         document.addEventListener('DOMContentLoaded', () => {
           const sqlInput = document.querySelector('#sqlInput');
@@ -171,7 +194,7 @@ const getPreviewWebviewContent = (view: string, viewTitle: string, scriptSrc: st
                 command: 'getText'
               })    
             }, 1000)
-          }())
+          }());
         });
       </script> 
     </body>
@@ -196,28 +219,7 @@ const getBrowserWebviewContent = (query: String, queryTitle: String, guiScript: 
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
         
-      <script type="text/javascript">
-        const hello = 'hello from extension.ts';
-        const workerSource = '${workerScript}';
-       
-        // let worker;
-
-        // fetch(workerSource, {
-        //     method: 'GET', 
-        //     mode: 'cors'
-        //   })
-        //   .then(result => result.blob())
-        //   .then(blob => {
-        //     console.log('blob', blob)
-        //     const blobUrl = URL.createObjectURL(blob)
-        //     console.log('blobUrl', blobUrl)
-        //     worker = new Worker(blobUrl);
-        //     console.log('Worker is: ',worker);
-        //   });
-        
-        // console.log('Worker is: ',worker);
-        
-      </script>
+      
      
     </head>
     
@@ -269,10 +271,32 @@ const getBrowserWebviewContent = (query: String, queryTitle: String, guiScript: 
         C to Javascript compiler by kripken (<a href='https://github.com/kripken/emscripten'>emscripten</a>).
       </footer>
 
-      
+      <script type="text/javascript">
+        const workerSource = '${workerScript}';
+        
+        const sqlInput = document.querySelector('#commands');
+        (function() {
+          const vscode = acquireVsCodeApi();
+          vscode.postMessage({
+              command: 'getText'
+          })    
+        }());
 
-      <script type="text/javascript" src="${ guiScript }">
-        var hello = 'hello from script';
+      </script>
+
+      <script type="text/javascript" src="${ guiScript }"></script>
+
+      <script type="text/javascript">
+
+        window.addEventListener('message', event => {
+          const message = event.data;
+          switch (message.command) {
+            case 'sendText':
+              console.log('Webview received message text: ',message.text);
+              sqlInput.value = message.text;
+              break;
+          }
+        });
       </script>
 
     </body>
