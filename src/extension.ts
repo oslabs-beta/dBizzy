@@ -66,14 +66,18 @@ export function activate(context: vscode.ExtensionContext) {
         path.join(context.extensionPath,'src', 'sql.js')
       );
       const styleDiskPath = vscode.Uri.file(
-        path.join(context.extensionPath,'src', 'styles.css')
+        path.join(context.extensionPath,'src', 'preview.css')
       );
-
+      const logoDiskPath = vscode.Uri.file(
+        path.join(context.extensionPath,'src/assets', 'dbizzy-logo.svg')
+      );
+    
       // And get the special URI to use with the webview
       const scriptSrc = panel.webview.asWebviewUri(onDiskPath);
       const styleSrc = panel.webview.asWebviewUri(styleDiskPath);
+      const logoSrc = panel.webview.asWebviewUri(logoDiskPath);
 
-      panel.webview.html = getPreviewWebviewContent(preview, previewTitle, scriptSrc.toString(), styleSrc.toString());
+      panel.webview.html = getPreviewWebviewContent(preview, previewTitle, scriptSrc.toString(), styleSrc.toString(), logoSrc.toString());
 
       panel.webview.onDidReceiveMessage(
         message => {
@@ -170,7 +174,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 
 // starting index.html for previewing databases
-const getPreviewWebviewContent = (view: string, viewTitle: string, scriptSrc: string, styleSrc: string) => {
+const getPreviewWebviewContent = (view: string, viewTitle: string, scriptSrc: string, styleSrc: string, logoSrc: string) => {
   
   return (
     `<!DOCTYPE html>
@@ -186,6 +190,7 @@ const getPreviewWebviewContent = (view: string, viewTitle: string, scriptSrc: st
       <title> ${ viewTitle } </title>
     </head>
     <body>
+      <h1 id="title"><img id="dbizzy_logo"src="${ logoSrc }">Entity-Relation Visualizer</h1>
       <div id="graph" style="text-align: center;"></div>
       <script>
         document.addEventListener('DOMContentLoaded', () => {
