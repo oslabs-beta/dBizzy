@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 485f2c495bf53b809082be5e6b5b59453a8b480e
 # dbizzy README
 
 This is the README for your extension "dbizzy". After writing up a brief description, we recommend including the following sections.
@@ -69,6 +72,9 @@ Ensure that you've read through the extensions guidelines and follow the best pr
 * [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
 
 **Enjoy!**
+<<<<<<< HEAD
 =======
 # dBizzy
 >>>>>>> 22b87c67422cfeeabf48e7c0cc62d7c06b014448
+=======
+>>>>>>> 485f2c495bf53b809082be5e6b5b59453a8b480e

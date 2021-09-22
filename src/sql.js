@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // setInterval(readTextFile(path.resolve(__dirname, './sample.sql'), 2000);
 
 
-  function ParseSQLServerForeignKey(name, currentTableModel) {
+  function ParseSQLServerForeignKey(name, currentTableModel, propertyType) {
     console.log('Found Foreign Key Query: ', name)
     // Regex expression to find referenced foreign table 
     var referencesIndex = name.match(/(?<=REFERENCES\s)([a-zA-Z_]+)(\([a-zA-Z_]*\))/);
@@ -93,6 +93,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     var foreignKeyLabelIndex = name.toLowerCase().indexOf('foreign key');
     var foreignKey = name.slice(0, foreignKeyLabelIndex).trim();
+    var primaryKeyLabelIndex = name.toLowerCase().indexOf('primary key');
+    if (primaryKeyLabelIndex) {
+      foreignKey = foreignKey.slice(0, primaryKeyLabelIndex).trim();
+    };
 
     // var referencesSQL = name.substring(referencesIndex, name.length);
     var alterTableName = name.substring(0, name.indexOf("WITH")).replace('ALTER TABLE ', '');
@@ -113,6 +117,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
       //Create Property
       var propertyModel = CreateProperty(foreignKey, currentTableModel.Name, null, false);
+
+      if (propertyType === 'SQLServer both') {
+        propertyModel.IsPrimaryKey = true;
+      }
 
       //Add Property to table
       currentTableModel.Properties.push(propertyModel);
@@ -316,16 +324,16 @@ document.addEventListener('DOMContentLoaded', () => {
         var propertyType = name.substring(0, 11).toLowerCase();
         //Add special constraints
         if (propertyType !== 'primary key' && propertyType !== 'foreign key') {
-          if (tmp.indexOf("PRIMARY KEY") !== -1) {
+          if (tmp.indexOf("PRIMARY KEY") !== -1 && tmp.indexOf("FOREIGN KEY") !== -1) {
+            propertyType = "SQLServer both";
+          } else if (tmp.indexOf("PRIMARY KEY") !== -1) {
             propertyType = "SQLServer primary key";
-          }
-
-          if (tmp.indexOf("FOREIGN KEY") !== -1) {
+          } else if (tmp.indexOf("FOREIGN KEY") !== -1) {
             propertyType = "SQLServer foreign key";
           }
         }
         //Verify if this is a property that doesn't have a relationship (One minute of silence for the property)
-        var normalProperty = propertyType !== 'primary key' && propertyType !== 'foreign key' && propertyType !== 'SQLServer primary key' && propertyType !== 'SQLServer foreign key';
+        var normalProperty = propertyType !== 'primary key' && propertyType !== 'foreign key' && propertyType !== 'SQLServer primary key' && propertyType !== 'SQLServer foreign key' && propertyType !== 'SQLServer both';
 
         //Parse properties that don't have relationships
         if (normalProperty) {
@@ -360,9 +368,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         //Parse Primary Key
-        if (propertyType === 'primary key' || propertyType === 'SQLServer primary key') {
-          if (propertyType === 'SQLServer primary key') {
-            console.log(propertyType)
+        if (propertyType === 'primary key' || propertyType === 'SQLServer primary key' || propertyType === 'SQLServer both') {
+          if (propertyType === 'SQLServer primary key' || propertyType === 'SQLServer both') {
             var start = i + 2;
             var end = 0;
             if (name.indexOf('PRIMARY KEY') !== -1 && name.indexOf('CLUSTERED') === -1) {
@@ -371,6 +378,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 .replace('PRIMARY KEY', '')
                 .trim();
 
+
+              if (propertyType === 'SQLServer both') {
+                  console.log(primaryKey)
+              }
               //Create Primary Key
               var primaryKeyModel = CreatePrimaryKey(primaryKey, currentTableModel.Name);
 
@@ -381,8 +392,9 @@ document.addEventListener('DOMContentLoaded', () => {
               var propertyModel = CreateProperty(primaryKey, currentTableModel.Name, null, true);
 
               //Add Property to table
-              currentTableModel.Properties.push(propertyModel);
-
+              if (propertyType !== 'SQLServer both') {
+                currentTableModel.Properties.push(propertyModel);
+              }
             } 
             
           } else if (propertyType === 'primary key') {
@@ -399,16 +411,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         //Parse Foreign Key
-        if (propertyType === 'foreign key' || propertyType === 'SQLServer foreign key') {
+        if (propertyType === 'foreign key' || propertyType === 'SQLServer foreign key' || propertyType === 'SQLServer both') {
           console.log(propertyType)
-          if (propertyType === 'SQLServer foreign key') {
+          if (propertyType === 'SQLServer foreign key' || propertyType === 'SQLServer both') {
             var completeRow = name;
-
+            if (propertyType === 'SQLServer both') {
+              console.log(completeRow)
+            }
             if (name.indexOf('REFERENCES') === -1) {
               var referencesRow = (lines[i + 1]).trim();
               completeRow = 'ALTER TABLE [dbo].[' + currentTableModel.Name + ']  WITH CHECK ADD' + ' ' + name + ' ' + referencesRow;
             }
-            ParseSQLServerForeignKey(completeRow, currentTableModel);
+            ParseSQLServerForeignKey(completeRow, currentTableModel, propertyType);
           }
           else {
             console.log('foreign key row: ', name);
@@ -468,15 +482,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function CheckSpecialKey(propertyModel) {
     if (propertyModel.IsForeignKey && propertyModel.IsPrimaryKey) {
+      console.log('FOUND OUR BOTH:', propertyModel)
       return 'PK | FK';
-    }
-    if (propertyModel.IsForeignKey) {
+    } else if (propertyModel.IsForeignKey) {
       return 'FK';
-    }
-    if (propertyModel.IsPrimaryKey) {
+    } else if (propertyModel.IsPrimaryKey) {
       return 'PK';
-    }
-    else {
+    } else {
       return '';
     }
   }
@@ -493,27 +505,21 @@ document.addEventListener('DOMContentLoaded', () => {
   // .renderDot((d) => 'digraph <table>');
   function CreateTableUI() {
     // initial opening string for the rendering of the diagram.
-    let d3Tables = [`digraph G {
+    let d3Tables = [`digraph G { bgcolor = "none"
       graph [   rankdir = "LR" ];
-      node [shape=plain]`];
-    // // caching being used for previous method of color scheming PK/FK relationships
-    // const cache = {};
 
-    // foreignKeyList.forEach(ForeignKeyModel => {
-    //   if (ForeignKeyModel.IsDestination) {
-    //     cache[ForeignKeyModel.PrimaryKeyName] = getRandomColor();
-    //   }
-    // })
-    
+      node [fontsize = 10 fontname = "opensans" shape=plain]`];
+    // caching being used for previous method of color scheming PK/FK relationships
+
     tableList.forEach(function (tableModel) {
       // // append strings or append to array to render final graphviz;
       // const table = document.createElement('table');
       // table.setAttribute('class', 'table');
-
+ 
       // push in string code to d3tables array to render table name as a row
       d3Tables.push(`${tableModel.Name} [label=<
-        <table border ="0" cellborder ="1" cellspacing = "0">
-        <tr><td><b>${tableModel.Name}</b></td></tr>
+        <table border ="0" cellborder ="1" cellspacing = "0" color = "white">
+        <tr><td ALIGN = "LEFT" bgcolor = "midnightblue"><b><font color = "white">${tableModel.Name}</font></b></td></tr>
         `)
       // // Add table name
       // const tableName = document.createElement('th');
@@ -529,11 +535,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // if special key, add label to the row
         if (CheckSpecialKey(tableModel.Properties[i])) {
           d3Tables.push(`
-          <tr><td port="${tableModel.Properties[i].Name.split(' ')[0]}">${CheckSpecialKey(tableModel.Properties[i])} | ${tableModel.Properties[i].Name}</td></tr>
+          <tr>
+  
+          <td ALIGN = "LEFT" bgcolor = "gray25" port="${tableModel.Properties[i].Name.split(' ')[0]}"><font color = "darkgoldenrod">${CheckSpecialKey(tableModel.Properties[i])} </font> | <font color = "white"> ${tableModel.Properties[i].Name}</font></td></tr>
           `)
         } else {
           d3Tables.push(`
-          <tr><td port ="${tableModel.Properties[i].Name.split(' ')[0]}">${tableModel.Properties[i].Name}</td></tr>
+          <tr><td ALIGN = "LEFT" bgcolor = "gray25" port ="${tableModel.Properties[i].Name.split(' ')[0]}"><font color = "white">          ${tableModel.Properties[i].Name}</font></td></tr>
           `)
         }
         // const row = document.createElement('tr');
@@ -571,7 +579,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!ForeignKeyModel.IsDestination) {
         d3Tables.push(`
         ${ForeignKeyModel.ReferencesTableName}:${ForeignKeyModel.ReferencesPropertyName} -> 
-    ${ForeignKeyModel.PrimaryKeyTableName}:${ForeignKeyModel.PrimaryKeyName.split(' ')[0]}
+    ${ForeignKeyModel.PrimaryKeyTableName}:${ForeignKeyModel.PrimaryKeyName.split(' ')[0]} [color = lightseagreen]
         `)
       }
     })
