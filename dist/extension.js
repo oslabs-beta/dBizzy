@@ -54,9 +54,9 @@ function activate(context) {
             enableScripts: true
         });
         // Get path to resource on disk
-        const onDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'src', 'sql.js'));
-        const styleDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'src', 'preview.css'));
-        const logoDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'src/assets', 'dbizzy-logo.svg'));
+        const onDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'scripts', 'sql.js'));
+        const styleDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'stylesheets', 'preview.css'));
+        const logoDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'assets', 'dbizzy-logo.svg'));
         // And get the special URI to use with the webview
         const scriptSrc = panel.webview.asWebviewUri(onDiskPath);
         const styleSrc = panel.webview.asWebviewUri(styleDiskPath);
@@ -95,10 +95,10 @@ function activate(context) {
             enableScripts: true
         });
         // Get path to resource on disk
-        const onDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'src', 'gui.js'));
-        const workerFilePath = vscode.Uri.file(path.join(context.extensionPath, 'src', 'worker.sql-wasm.js'));
-        const styleDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'src', 'browser.css'));
-        const logoDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'src/assets', 'dbizzy-logo.svg'));
+        const onDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'scripts', 'gui.js'));
+        const workerFilePath = vscode.Uri.file(path.join(context.extensionPath, 'scripts', 'worker.sql-wasm.js'));
+        const styleDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'stylesheets', 'browser.css'));
+        const logoDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'assets', 'dbizzy-logo.svg'));
         // And get the special URI to use with the webview
         const scriptSrc = panel.webview.asWebviewUri(onDiskPath);
         const workerSrc = panel.webview.asWebviewUri(workerFilePath);
