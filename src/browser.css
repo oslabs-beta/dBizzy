@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --primary-font: 'Poppins', sans-serif;
+  --primary-off-white: rgb(235, 235, 235);
+  --secondary-off-white: #c3c6d1;
+  --grey: #282a36;
+}
+
+body, main {
+  display: flex;
+  flex-direction: column;
+}
+
+table {
+  width: 100%;
+  margin-bottom: 20px;
+  border-collapse: collapse;
+}
+
+th {
+  font-size: .8rem;
+  text-align: left;
+  border-bottom: 1px solid var(--primary-off-white);
+  padding-bottom: .25rem;
+}
+
+tbody::before {
+  height: 0.5em;
+  display: table-row;
+  content: '';
+}
+
+#dbizzy_logo {
+  height: auto;
+  margin-right: 0.5rem;
+  width: 1.25rem;
+}
+
+/* styling for execute button */
+#execute{
+  border-radius: 3px;
+  background-color: var(--primary-off-white);
+  border: none;
+  font-family: var(--primary-font);
+  padding: .3rem .5rem;
+}
+
+/* buttons with no functionality are not displayed */
+#savedb, 
+#savedesc, 
+#localdb {
+  display: none
+}
+
+#title {
+  font-family: var(--primary-font);
+  font-weight: 500;
+  color: rgb(235, 235, 235);
+}
+
+/* styling for text area */
+.CodeMirror-lines {
+  background-color: var(--primary-off-white);
+}
+
+/* styling for textarea sidebar */
+.CodeMirror-gutter {
+  background-color: var(--secondary-off-white);
+}
+
+/* styling for textarea sidebar numbers*/
+.CodeMirror-linenumber.CodeMirror-gutter-elt{
+  color: var(--grey);
+}
+
+.button_container {
+  display: flex;
+  flex-direction: row;
+  margin-top: 0.8rem;
+}

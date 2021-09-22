@@ -55,11 +55,13 @@ function activate(context) {
         });
         // Get path to resource on disk
         const onDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'src', 'sql.js'));
-        const styleDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'src', 'styles.css'));
+        const styleDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'src', 'preview.css'));
+        const logoDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'src/assets', 'dbizzy-logo.svg'));
         // And get the special URI to use with the webview
         const scriptSrc = panel.webview.asWebviewUri(onDiskPath);
         const styleSrc = panel.webview.asWebviewUri(styleDiskPath);
-        panel.webview.html = getPreviewWebviewContent(preview, previewTitle, scriptSrc.toString(), styleSrc.toString());
+        const logoSrc = panel.webview.asWebviewUri(logoDiskPath);
+        panel.webview.html = getPreviewWebviewContent(preview, previewTitle, scriptSrc.toString(), styleSrc.toString(), logoSrc.toString());
         panel.webview.onDidReceiveMessage(message => {
             switch (message.command) {
                 case 'getText':
@@ -95,14 +97,19 @@ function activate(context) {
         // Get path to resource on disk
         const onDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'src', 'gui.js'));
         const workerFilePath = vscode.Uri.file(path.join(context.extensionPath, 'src', 'worker.sql-wasm.js'));
+        const styleDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'src', 'browser.css'));
+        const logoDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'src/assets', 'dbizzy-logo.svg'));
         // And get the special URI to use with the webview
         const scriptSrc = panel.webview.asWebviewUri(onDiskPath);
         const workerSrc = panel.webview.asWebviewUri(workerFilePath);
+        const styleSrc = panel.webview.asWebviewUri(styleDiskPath);
+        const logoSrc = panel.webview.asWebviewUri(logoDiskPath);
         // const styleSrc = panel.webview.asWebviewUri(styleDiskPath);
         console.log('onDiskPath: ', onDiskPath);
         console.log('scriptSrc: ', scriptSrc);
         console.log('workerSrc: ', workerSrc);
-        panel.webview.html = getBrowserWebviewContent(query, queryTitle, scriptSrc.toString(), workerSrc.toString());
+        console.log('logoSrc: ', logoSrc);
+        panel.webview.html = getBrowserWebviewContent(queryTitle, scriptSrc.toString(), workerSrc.toString(), styleSrc.toString(), logoSrc.toString());
         // Listens for 'getText' message.command from webview and sends back SQL file's text content
         panel.webview.onDidReceiveMessage(message => {
             switch (message.command) {
@@ -117,7 +124,7 @@ function activate(context) {
 }
 exports.activate = activate;
 // starting index.html for previewing databases
-const getPreviewWebviewContent = (view, viewTitle, scriptSrc, styleSrc) => {
+const getPreviewWebviewContent = (view, viewTitle, scriptSrc, styleSrc, logoSrc) => {
     return (`<!DOCTYPE html>
     <html lang="en">
     <head>
@@ -131,6 +138,7 @@ const getPreviewWebviewContent = (view, viewTitle, scriptSrc, styleSrc) => {
       <title> ${viewTitle} </title>
     </head>
     <body>
+      <h1 id="title"><img id="dbizzy_logo"src="${logoSrc}">Entity-Relation Visualizer</h1>
       <div id="graph" style="text-align: center;"></div>
       <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -153,7 +161,7 @@ const getPreviewWebviewContent = (view, viewTitle, scriptSrc, styleSrc) => {
     </html>`);
 };
 // starting index.html for previewing databases
-const getBrowserWebviewContent = (query, queryTitle, guiScript, workerScript) => {
+const getBrowserWebviewContent = (queryTitle, guiScript, workerScript, styleSrc, logoSrc) => {
     return (`<!doctype html>
     <html>
     
@@ -161,24 +169,18 @@ const getBrowserWebviewContent = (query, queryTitle, guiScript, workerScript) =>
       <meta charset="utf8">
       <title>${queryTitle}</title>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.1/codemirror.css">
+      <link rel="stylesheet" href="${styleSrc}">
       <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.1/codemirror.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.1/worker.sql-wasm.min.js"
         integrity="sha512-yBPNUE8HTinpntnbSWtljJYMGIm1liPdtoj1XBbcMvZ/zyFOXHhKX83MW21bDrBSurr/KYMyyQv1QuKeI6ye1Q=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-        
-      
-     
     </head>
     
     <body>
-      <h1>${workerScript}</h1>
-      <h1>Local SQL Interpreter</h1>
+      <h1 id="title"><img id="dbizzy_logo"src="${logoSrc}">Local SQL Interpreter</h1>
     
       <main>
-        <label for='commands'>Enter some SQL</label>
-        <br>
-    
         <textarea id="commands">DROP TABLE IF EXISTS employees;
               CREATE TABLE employees( id          integer,  name    text,
               designation text,     manager integer,
@@ -202,11 +204,12 @@ const getBrowserWebviewContent = (query, queryTitle, guiScript, workerScript) =>
               
               SELECT designation,COUNT(*) AS nbr, (AVG(salary)) AS avg_salary FROM employees GROUP BY designation ORDER BY avg_salary DESC;
               SELECT name,hired_on FROM employees ORDER BY hired_on;</textarea>
-    
-        <button id="execute" class="button">Execute</button>
-        <button id='savedb' class="button">Save the db</button>
-        <label class="button">Load an SQLite database file: <input type='file' id='dbfile'></label>
-        <button id="localdb" class="button">Use Local File</button>
+        <div class="button_container">
+          <button id="execute" class="button">Execute</button>
+          <button id='savedb' class="button">Save the db</button>
+          <label id='savedesc' class="button">Load an SQLite database file: <input type='file' id='dbfile'></label>
+          <button id="localdb" class="button">Use Local File</button>
+        </div>
         <div id="error" class="error"></div>
     
         <pre id="output">Results will be displayed here</pre>
@@ -214,11 +217,12 @@ const getBrowserWebviewContent = (query, queryTitle, guiScript, workerScript) =>
     
       <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.1/mode/sql/sql.min.js"></script>
     
+      <!--
       <footer>
         Original work by kripken (<a href='https://github.com/sql-js/sql.js'>sql.js</a>).
         C to Javascript compiler by kripken (<a href='https://github.com/kripken/emscripten'>emscripten</a>).
       </footer>
-
+      -->
       <script type="text/javascript">
         const workerSource = '${workerScript}';
         

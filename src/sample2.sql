@@ -17,7 +17,7 @@ country_ID int FOREIGN KEY REFERENCES Countries(country_ID),
 
 CREATE TABLE Cities
 (
-city_ID int PRIMARY KEY,
+city_ID int PRIMARY KEY FOREIGN KEY REFERENCES Countries(population),
 city_name varchar(255),
 country_ID int FOREIGN KEY REFERENCES Countries(country_ID),
 population int,
