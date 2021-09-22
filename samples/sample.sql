@@ -1,7 +1,7 @@
 CREATE TABLE Countries(
 country_ID int,
 name varchar(255),
-population int,
+"population" int,
 PRIMARY KEY (country_ID)
 );
 
