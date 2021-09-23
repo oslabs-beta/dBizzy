@@ -278,16 +278,17 @@ document.addEventListener('DOMContentLoaded', () => {
             propertyType = "SQLServer foreign key";
           }
         }
-        //Verify if this is a property that doesn't have a relationship (One minute of silence for the property)
+        // Verify if this is a property that doesn't have a relationship (One minute of silence for the property)
         var normalProperty = propertyType !== 'primary key' && propertyType !== 'foreign key' && propertyType !== 'SQLServer primary key' && propertyType !== 'SQLServer foreign key' && propertyType !== 'SQLServer both';
 
-        //Parse properties that don't have relationships
+        // Parse properties that don't have relationships
         if (normalProperty) {
 
           if (name === '' || name === "" || name === ");") {
             continue;
           }
 
+          // For now, skip lines with these commands
           if (name.indexOf("ASC") !== -1 ||
             name.indexOf("DESC") !== -1 ||
             name.indexOf("EXEC") !== -1 ||
@@ -308,14 +309,14 @@ document.addEventListener('DOMContentLoaded', () => {
           // Takes quotation marks out of normal property names
           name = name.replace(/\"/g, '');
 
-          //Create Property
+          // Create Property
           var propertyModel = CreateProperty(name, currentTableModel.Name, null, false, false);
 
-          //Add Property to table
+          // Add Property to table
           currentTableModel.Properties.push(propertyModel);
         }
 
-        //Parse Primary Key
+        // Parse Primary Key
         if (propertyType === 'primary key' || propertyType === 'SQLServer primary key' || propertyType === 'SQLServer both') {
           // Parse Primary Key from SQL Server syntax
           if (propertyType === 'SQLServer primary key' || propertyType === 'SQLServer both') {
@@ -327,13 +328,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 .replace('PRIMARY KEY', '')
                 .trim();
 
-              //Create Primary Key
+              // Create Primary Key
               var primaryKeyModel = CreatePrimaryKey(primaryKey, currentTableModel.Name);
 
-              //Add Primary Key to List
+              // Add Primary Key to List
               primaryKeyList.push(primaryKeyModel);
 
-              //Create Property
+              // Create Property
               var propertyModel = CreateProperty(primaryKey, currentTableModel.Name, null, true);
 
               // Add Property to table if not both primary key and foreign key
@@ -355,7 +356,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
 
-        //Parse Foreign Key
+        // Parse Foreign Key
         if (propertyType === 'foreign key' || propertyType === 'SQLServer foreign key' || propertyType === 'SQLServer both') {
           // Parse Foreign Key from SQL Server syntax
           if (propertyType === 'SQLServer foreign key' || propertyType === 'SQLServer both') {
@@ -383,33 +384,33 @@ document.addEventListener('DOMContentLoaded', () => {
               }
             })
 
-             //Create ForeignKey
+            // Create ForeignKey
             const foreignKeyOriginModel = CreateForeignKey(foreignKeyName, currentTableModel.Name, referencedPropertyName, referencedTableName, false);
 
             // Add ForeignKey Origin
             foreignKeyList.push(foreignKeyOriginModel);
 
-            //Create ForeignKey
+            // Create ForeignKey
             const foreignKeyDestinationModel = CreateForeignKey(referencedPropertyName, referencedTableName, foreignKeyName, currentTableModel.Name, true);
 
-            //Add ForeignKey Destination
+            // Add ForeignKey Destination
             foreignKeyList.push(foreignKeyDestinationModel);
           }
         }
       } 
     }
 
-    //Process Primary Keys
+    // Process Primary Keys
     ProcessPrimaryKey();
     
-    //Process Foreign Keys
+    // Process Foreign Keys
     ProcessForeignKey();
 
-    //Create Table in UI
+    // Create Table in UI
     CreateTableUI();
 
   };
-  // adding Primary Key and Foreign Key designations for table columns
+  // Adding Primary Key and Foreign Key designations for table columns
   function CheckSpecialKey(propertyModel) {
     if (propertyModel.IsForeignKey && propertyModel.IsPrimaryKey) {
       console.log('FOUND OUR BOTH:', propertyModel)
