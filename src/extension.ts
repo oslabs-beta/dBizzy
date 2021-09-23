@@ -63,7 +63,7 @@ export function activate(context: vscode.ExtensionContext) {
       
       // Get path to resource on disk
       const onDiskPath = vscode.Uri.file(
-        path.join(context.extensionPath,'scripts', 'sql.js')
+        path.join(context.extensionPath,'scripts', 'parser.js')
       );
       const styleDiskPath = vscode.Uri.file(
         path.join(context.extensionPath,'stylesheets', 'preview.css')

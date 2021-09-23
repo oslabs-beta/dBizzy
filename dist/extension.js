@@ -60,7 +60,7 @@ function activate(context) {
             enableScripts: true
         });
         // Get path to resource on disk
-        const onDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'scripts', 'sql.js'));
+        const onDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'scripts', 'parser.js'));
         const styleDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'stylesheets', 'preview.css'));
         const logoDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'assets', 'dbizzy-logo.svg'));
         // And get the special URI to use with the webview

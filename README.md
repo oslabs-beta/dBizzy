@@ -1,4 +1,4 @@
-## \[dBizzy\]\(assets/dbizzy-logo.svg\) About
+## ![dBizzy](./assets/dbizzy-logo.png) About
 
 dBizzy is an easy-to-use VS Code Extension designed to facilitate early-stage database development.
 
@@ -32,6 +32,6 @@ Implements base product:
 
 ## Credits
 
-* Link sql.js
-* Link diagrams.net
-* Link d3-graphviz
+* Link to [sql.js](https://www.npmjs.com/package/sql.js).
+* Link to [diagrams.net](https://www.diagrams.net/).
+* Link to [d3-graphviz](https://www.npmjs.com/package/d3-graphviz).
