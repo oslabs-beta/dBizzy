@@ -8,13 +8,13 @@ Once the extension is installed, navigate to the command palette. Two commands a
 
 ### Preview Database
 
-Running the command [dBizzy: Preview Database] prompts .sql file selection.  Selected .sql file is then displayed in new VSCode panel beside current panel.  Changes to the .sql file can be reflected in the visualization upon clicking 'Update Diagrams.'
+Running the command [dBizzy: Preview Database] prompts .sql file selection.  The selected .sql file is then displayed in a new VSCode panel beside current panel.  Changes to the .sql file can be reflected in the visualization upon clicking 'Update Diagrams.'
 
 \!\[Preview Database\]\(images/feature-x.png\)
 
 ### Open Database Browser
 
-Running the command [dBizzy: Open Database Browser] prompts .sql file selection. Selected .sql file's text content is populated in the browser's query field.  Upon first executing a valid query, a database is created in memory and the query is executed.  Any returned results from the query are displayed under the query field.  The database is cleared from memory upon closing the browser panel.  
+Running the command [dBizzy: Open Database Browser] prompts .sql file selection. The selected .sql file's text content is populated in the browser's query field.  Upon first executing a valid query, a database is created in memory and the query is executed.  Any returned results from the query are displayed under the query field.  The database is cleared from memory upon closing the browser panel.  
 
 \!\[Open Database Browser\]\(images/feature-x.png\)
 
