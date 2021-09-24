@@ -474,9 +474,13 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     foreignKeyList.forEach(ForeignKeyModel => {
       if (!ForeignKeyModel.IsDestination) {
+        // d3Tables.push(`
+        //   ${ForeignKeyModel.ReferencesTableName}:${ForeignKeyModel.ReferencesPropertyName} -> 
+        //   ${ForeignKeyModel.PrimaryKeyTableName}:${ForeignKeyModel.PrimaryKeyName.split(' ')[0]} [color = lightseagreen]
+        // `)
         d3Tables.push(`
-          ${ForeignKeyModel.ReferencesTableName}:${ForeignKeyModel.ReferencesPropertyName} -> 
-          ${ForeignKeyModel.PrimaryKeyTableName}:${ForeignKeyModel.PrimaryKeyName.split(' ')[0]} [color = lightseagreen]
+        ${ForeignKeyModel.PrimaryKeyTableName}:${ForeignKeyModel.PrimaryKeyName.split(' ')[0]} -> 
+          ${ForeignKeyModel.ReferencesTableName}:${ForeignKeyModel.ReferencesPropertyName} [color = lightseagreen]
         `)
       }
     })

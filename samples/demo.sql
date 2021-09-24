@@ -23,7 +23,6 @@ city_name varchar(255),
 country_ID int,
 population int,
 PRIMARY KEY (city_ID),
-FOREIGN KEY (city_ID) REFERENCES Countries(population),
 FOREIGN KEY (country_ID) REFERENCES Countries(country_ID)
 );
 
