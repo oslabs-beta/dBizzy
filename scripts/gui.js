@@ -1,10 +1,11 @@
-var execBtn = document.getElementById("execute");
-var outputElm = document.getElementById('output');
-var errorElm = document.getElementById('error');
-var commandsElm = document.getElementById('commands');
-var dbFileElm = document.getElementById('dbfile');
-var savedbElm = document.getElementById('savedb');
-var localBtn = document.getElementById('localdb');
+const execBtn = document.getElementById("execute");
+const outputElm = document.getElementById('output');
+const errorElm = document.getElementById('error');
+const commandsElm = document.getElementById('commands');
+const dbFileElm = document.getElementById('dbfile');
+const savedbElm = document.getElementById('savedb');
+const localBtn = document.getElementById('localdb');
+const queryPerformance = document.getElementById('query_performance');
 
 let worker;
 
@@ -54,7 +55,7 @@ fetch(workerSource, {
         for (var i = 0; i < results.length; i++) {
           outputElm.appendChild(tableCreate(results[i].columns, results[i].values));
         }
-        toc("Displaying results");
+        toc("Query Execution Time");
       }
       worker.postMessage({ action: 'exec', sql: commands });
       outputElm.textContent = "Fetching results...";
@@ -91,6 +92,7 @@ fetch(workerSource, {
     function tic() { tictime = performance.now() }
     function toc(msg) {
       var dt = performance.now() - tictime;
+      queryPerformance.innerText = `${msg || 'toc'}` + ': ' + dt + 'ms';
       console.log((msg || 'toc') + ": " + dt + "ms");
     }
 

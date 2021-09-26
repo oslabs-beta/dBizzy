@@ -56,7 +56,18 @@ tbody::before {
 #title {
   font-family: var(--primary-font);
   font-weight: 500;
-  color: rgb(235, 235, 235);
+  color: var(--primary-off-white);
+}
+
+#query_performance {
+  font-family: monospace;
+  color: var(--primary-off-white);
+  margin-top: 18px;
+}
+
+#error {
+  font-family: monospace;
+  color: var(--primary-off-white);
 }
 
 /* styling for text area */

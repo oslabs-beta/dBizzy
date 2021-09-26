@@ -431,6 +431,8 @@ document.addEventListener('DOMContentLoaded', () => {
   strings are pushed into the array as needed and combined at the end 
    */
   function CreateTableUI() {
+    // Declaring custom d3 colors
+    // #b0e298
     // Initial opening string for the rendering of the diagram.
     // Refer to https://graphviz.readthedocs.io/en/stable/manual.html#quoting-and-html-like-labels 
     let d3Tables = [`digraph G { bgcolor = "none"
@@ -443,7 +445,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Push in string code to d3tables array to render table name as a row
       d3Tables.push(`${tableModel.Name} [label=<
         <table border ="0" cellborder ="1" cellspacing = "0" color = "white">
-        <tr><td ALIGN = "LEFT" bgcolor = "midnightblue"><b><font color = "white">${tableModel.Name}</font></b></td></tr>
+        <tr><td ALIGN = "LEFT" bgcolor = "#232d95"><b><font color = "white">${tableModel.Name}</font></b></td></tr>
         `)
 
       for (let i = 0; i < tableModel.Properties.length; i++) {
@@ -453,7 +455,7 @@ document.addEventListener('DOMContentLoaded', () => {
           d3Tables.push(`
           <tr>
   
-          <td ALIGN = "LEFT" bgcolor = "gray25" port="${tableModel.Properties[i].Name.split(' ')[0]}"><font color = "darkgoldenrod">${CheckSpecialKey(tableModel.Properties[i])} </font> | <font color = "white"> ${tableModel.Properties[i].Name}</font></td></tr>
+          <td ALIGN = "LEFT" bgcolor = "gray25" port="${tableModel.Properties[i].Name.split(' ')[0]}"><font color = "#e2c044">${CheckSpecialKey(tableModel.Properties[i])} </font> | <font color = "white"> ${tableModel.Properties[i].Name}</font></td></tr>
           `)
         } else {
           d3Tables.push(`
@@ -480,7 +482,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // `)
         d3Tables.push(`
         ${ForeignKeyModel.PrimaryKeyTableName}:${ForeignKeyModel.PrimaryKeyName.split(' ')[0]} -> 
-          ${ForeignKeyModel.ReferencesTableName}:${ForeignKeyModel.ReferencesPropertyName} [color = lightseagreen]
+          ${ForeignKeyModel.ReferencesTableName}:${ForeignKeyModel.ReferencesPropertyName} [color = "#5ea54a"]
         `)
       }
     })

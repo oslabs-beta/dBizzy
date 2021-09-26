@@ -216,6 +216,7 @@ const getBrowserWebviewContent = (queryTitle, guiScript, workerScript, styleSrc,
           <label id='savedesc' class="button">Load an SQLite database file: <input type='file' id='dbfile'></label>
           <button id="localdb" class="button">Use Local File</button>
         </div>
+        <div id="query_performance"></div>
         <div id="error" class="error"></div>
     
         <pre id="output">Results will be displayed here</pre>
