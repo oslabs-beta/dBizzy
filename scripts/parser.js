@@ -1,3 +1,5 @@
+// const { parse } = require("path/posix");
+
 document.addEventListener('DOMContentLoaded', () => {
   // Declare constants to refer to HTML elements
   const body = document.querySelector('body');
@@ -100,6 +102,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
   
+  function ParseMySQLForeignKey(name, currentTableModel) {
+    // Parsing Foreign Key from MySQL syntax
+    name = name.replace(/\"/g, '');
+
+    let foreignKeyName = name.match(/(?<=FOREIGN\sKEY\s)(\([a-zA-Z_]+\))(?=\sREFERENCES\s)/)[0].replace(/\(|\)/g, '');
+    const referencedTableName = name.match(/(?<=REFERENCES\s)([a-zA-Z_]+)(?=\()/)[0];
+    const referencedPropertyName = name.match(/(?<=REFERENCES\s[a-zA-Z_]+)(\([a-zA-Z_]+\))/)[0].replace(/\(|\)/g, '');
+
+    // Look through current table and reassign isForeignKey prop to true, reassign foreignKeyName to include type
+    currentTableModel.Properties.forEach(property => {
+      if (property.Name.split(' ')[0] === foreignKeyName) {
+        property.IsForeignKey = true;
+        foreignKeyName = property.Name;
+      }
+    })
+
+    // Create ForeignKey
+    const foreignKeyOriginModel = CreateForeignKey(foreignKeyName, currentTableModel.Name, referencedPropertyName, referencedTableName, false);
+
+    // Add ForeignKey Origin
+    foreignKeyList.push(foreignKeyOriginModel);
+
+    // Create ForeignKey
+    const foreignKeyDestinationModel = CreateForeignKey(referencedPropertyName, referencedTableName, foreignKeyName, currentTableModel.Name, true);
+
+    // Add ForeignKey Destination
+    foreignKeyList.push(foreignKeyDestinationModel);
+  }
+
   // Iterates through primaryKeyList and checks every property in every table
   // If primaryKeyList.Name === propertyModel.Name, set IsPrimaryKey property to true
   function ProcessPrimaryKey() {
@@ -221,6 +252,26 @@ document.addEventListener('DOMContentLoaded', () => {
     return name;
   };
 
+  function parseAlterTable(tmp) {
+    console.log(tmp)
+    const tableName = tmp.match(/(?<=ALTER\sTABLE\s)([a-zA-Z_]+)(?=\sADD\sCONSTRAINT)/)[0];
+    console.log('tableName: ', tableName)
+    let currentTableModel;
+    tableList.forEach(tableModel => {
+      if (tableModel.Name === tableName) {
+        currentTableModel = tableModel;
+      }
+    })
+    if (tmp.indexOf('FOREIGN KEY') !== -1) {
+      const name = tmp.substring(tmp.indexOf('FOREIGN KEY'), tmp.length - 1);
+      console.log('Foreign key name string', name);
+      ParseMySQLForeignKey(name, currentTableModel)
+    } else if (tmp.indexOf('PRIMARY KEY') !== -1) {
+
+    }
+  }
+
+
   // Takes in SQL creation file as text, then parses
   function parseSql(text) {
     const lines = text.split('\n');
@@ -261,11 +312,28 @@ document.addEventListener('DOMContentLoaded', () => {
         currentTableModel = CreateTable(name);
       }
 
+      else if (propertyRow === 'alter table ') {
+        parseAlterTable(tmp);
+      }
+
       // Parse Properties 
       else if (tmp !== '(' && currentTableModel != null && propertyRow !== 'alter table ') {
 
         //Parse the row
         var name = tmp.substring(0, (tmp.charAt(tmp.length - 1) === ',') ? tmp.length - 1 : tmp.length);
+
+        // Check if first 10 characters are 'constraint'
+        var constraint = name.substring(0, 10).toLowerCase();
+        if (constraint === 'constraint') {
+          // console.log('name before: ', name)
+          if (name.indexOf("PRIMARY KEY") !== -1) {
+            name = name.substring(name.indexOf("PRIMARY KEY"), name.length).replace(/\"/g, "")
+          } else if (name.indexOf("FOREIGN KEY") !== -1) {
+            name = name.substring(name.indexOf("FOREIGN KEY"), name.length).replace(/\"/g, "")
+          }
+          // console.log('name after: ', name)
+        }
+
         //Attempt to get the Key Type
         var propertyType = name.substring(0, 11).toLowerCase();
         //Add special constraints
@@ -371,30 +439,9 @@ document.addEventListener('DOMContentLoaded', () => {
             ParseSQLServerForeignKey(completeRow, currentTableModel, propertyType);
           }
           else {
-            // Parsing Foreign Key from MySQL syntax
-            let foreignKeyName = name.match(/(?<=FOREIGN\sKEY\s)(\([a-zA-Z_]+\))(?=\sREFERENCES\s)/)[0].replace(/\(|\)/g, '');
-            const referencedTableName = name.match(/(?<=REFERENCES\s)([a-zA-Z_]+)(?=\()/)[0];
-            const referencedPropertyName = name.match(/(?<=REFERENCES\s[a-zA-Z_]+)(\([a-zA-Z_]+\))/)[0].replace(/\(|\)/g, '');
 
-            // Look through current table and reassign isForeignKey prop to true, reassign foreignKeyName to include type
-            currentTableModel.Properties.forEach(property => {
-              if (property.Name.split(' ')[0] === foreignKeyName) {
-                property.IsForeignKey = true;
-                foreignKeyName = property.Name;
-              }
-            })
-
-            // Create ForeignKey
-            const foreignKeyOriginModel = CreateForeignKey(foreignKeyName, currentTableModel.Name, referencedPropertyName, referencedTableName, false);
-
-            // Add ForeignKey Origin
-            foreignKeyList.push(foreignKeyOriginModel);
-
-            // Create ForeignKey
-            const foreignKeyDestinationModel = CreateForeignKey(referencedPropertyName, referencedTableName, foreignKeyName, currentTableModel.Name, true);
-
-            // Add ForeignKey Destination
-            foreignKeyList.push(foreignKeyDestinationModel);
+            ParseMySQLForeignKey(name, currentTableModel);
+            
           }
         }
       } 
@@ -407,6 +454,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ProcessForeignKey();
 
     // Create Table in UI
+    console.log(tableList)
     CreateTableUI();
 
   };
