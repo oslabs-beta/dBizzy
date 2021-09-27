@@ -13,6 +13,7 @@ exports.deactivate = exports.activate = void 0;
 const vscode = require("vscode");
 const path = require("path");
 const fs = require("fs");
+const sql_formatter_1 = require("sql-formatter");
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 function activate(context) {
@@ -65,7 +66,8 @@ function activate(context) {
         panel.webview.onDidReceiveMessage(message => {
             switch (message.command) {
                 case 'getText':
-                    const sqlText = fs.readFileSync(SQLfilePath, 'utf8');
+                    let sqlText = fs.readFileSync(SQLfilePath, 'utf8');
+                    sqlText = (0, sql_formatter_1.format)(sqlText);
                     panel.webview.postMessage({ command: 'sendText', text: sqlText });
                     return;
             }

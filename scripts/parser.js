@@ -252,30 +252,61 @@ document.addEventListener('DOMContentLoaded', () => {
     return name;
   };
 
-  function parseAlterTable(tmp) {
-    console.log(tmp)
-    const tableName = tmp.match(/(?<=ALTER\sTABLE\s)([a-zA-Z_]+)(?=\sADD\sCONSTRAINT)/)[0];
-    console.log('tableName: ', tableName)
+  function parseAlterTable(tableName, constraint) {
+    // const tableName = tmp.match(/(?<=ALTER\sTABLE\s)([a-zA-Z_]+)(?=\sADD\sCONSTRAINT)/)[0];
+    tableName = tableName.trim();
     let currentTableModel;
     tableList.forEach(tableModel => {
       if (tableModel.Name === tableName) {
         currentTableModel = tableModel;
       }
     })
-    if (tmp.indexOf('FOREIGN KEY') !== -1) {
-      const name = tmp.substring(tmp.indexOf('FOREIGN KEY'), tmp.length - 1);
-      console.log('Foreign key name string', name);
-      ParseMySQLForeignKey(name, currentTableModel)
-    } else if (tmp.indexOf('PRIMARY KEY') !== -1) {
-
+    if (constraint.indexOf('FOREIGN KEY') !== -1) {
+      const name = constraint.substring(constraint.indexOf('FOREIGN KEY'), constraint.length - 1);
+      ParseMySQLForeignKey(name, currentTableModel);
+    } else if (constraint.indexOf('PRIMARY KEY') !== -1) {
+      const name = constraint.substring(constraint.indexOf('PRIMARY KEY'), constraint.length - 1);
+      parseMYSQLPrimaryKey(name, currentTableModel);
     }
   }
 
+  function parseSQLServerPrimaryKey(name, currentTableModel, propertyType) {
+    var primaryKey = name.replace('PRIMARY KEY (', '')
+      .replace(')', '')
+      .replace('PRIMARY KEY', '')
+      .replace(/\"/g, '')
+      .trim();
+
+    // Create Primary Key
+    var primaryKeyModel = CreatePrimaryKey(primaryKey, currentTableModel.Name);
+
+    // Add Primary Key to List
+    primaryKeyList.push(primaryKeyModel);
+
+    // Create Property
+    var propertyModel = CreateProperty(primaryKey, currentTableModel.Name, null, true);
+
+    // Add Property to table if not both primary key and foreign key
+      // If both, property is added when parsing foreign key
+    if (propertyType !== 'SQLServer both') {
+      currentTableModel.Properties.push(propertyModel);
+    }
+  }
+
+  function parseMYSQLPrimaryKey(name, currentTableModel) {
+    var primaryKeyName = name.slice(13).replace(')', '').replace(/\"/g, '');
+    currentTableModel.Properties.forEach(property => {
+      if (property.Name.split(' ')[0] === primaryKeyName) {
+        property.IsPrimaryKey = true;
+        primaryKeyList.push(property);
+      }
+    })
+  }
 
   // Takes in SQL creation file as text, then parses
   function parseSql(text) {
     const lines = text.split('\n');
-
+    console.log(lines);
     tableCell = null;
     cells = [];
     exportedTables = 0;
@@ -311,9 +342,10 @@ document.addEventListener('DOMContentLoaded', () => {
         //Create Table
         currentTableModel = CreateTable(name);
       }
-
-      else if (propertyRow === 'alter table ') {
-        parseAlterTable(tmp);
+      // tmp === 'ALTER TABLE'
+      else if (tmp === 'ALTER TABLE') {
+        parseAlterTable(lines[i + 1], lines[i + 3]);
+        i += 3;
       }
 
       // Parse Properties 
@@ -388,39 +420,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (propertyType === 'primary key' || propertyType === 'SQLServer primary key' || propertyType === 'SQLServer both') {
           // Parse Primary Key from SQL Server syntax
           if (propertyType === 'SQLServer primary key' || propertyType === 'SQLServer both') {
-            var start = i + 2;
-            var end = 0;
             if (name.indexOf('PRIMARY KEY') !== -1 && name.indexOf('CLUSTERED') === -1) {
-              var primaryKey = name.replace('PRIMARY KEY (', '')
-                .replace(')', '')
-                .replace('PRIMARY KEY', '')
-                .trim();
-
-              // Create Primary Key
-              var primaryKeyModel = CreatePrimaryKey(primaryKey, currentTableModel.Name);
-
-              // Add Primary Key to List
-              primaryKeyList.push(primaryKeyModel);
-
-              // Create Property
-              var propertyModel = CreateProperty(primaryKey, currentTableModel.Name, null, true);
-
-              // Add Property to table if not both primary key and foreign key
-                // If both, property is added when parsing foreign key
-              if (propertyType !== 'SQLServer both') {
-                currentTableModel.Properties.push(propertyModel);
-              }
+              parseSQLServerPrimaryKey(name, currentTableModel, propertyType);
             } 
             
             // Parsing primary key from MySQL syntax
           } else if (propertyType === 'primary key') {
-            var primaryKeyName = name.slice(13).replace(')', '');
-            currentTableModel.Properties.forEach(property => {
-              if (property.Name.split(' ')[0] === primaryKeyName) {
-                property.IsPrimaryKey = true;
-                primaryKeyList.push(property);
-              }
-            })
+            parseMYSQLPrimaryKey(name, currentTableModel);
           }
         }
 
@@ -439,9 +445,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ParseSQLServerForeignKey(completeRow, currentTableModel, propertyType);
           }
           else {
-
             ParseMySQLForeignKey(name, currentTableModel);
-            
           }
         }
       } 
@@ -449,7 +453,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Process Primary Keys
     ProcessPrimaryKey();
-    
+    console.log(primaryKeyList);
     // Process Foreign Keys
     ProcessForeignKey();
 

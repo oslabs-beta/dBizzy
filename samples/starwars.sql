@@ -2,21 +2,6 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 11.3 (Ubuntu 11.3-1.pgdg18.04+1)
--- Dumped by pg_dump version 11.5
-
--- Started on 2019-09-11 16:56:10 PDT
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET xmloption = content;
-SET client_min_messages = warning;
-SET row_security = off;
 
 CREATE TABLE people (
 	"_id" serial NOT NULL,
@@ -30,10 +15,10 @@ CREATE TABLE people (
 	"species_id" bigint,
 	"homeworld_id" bigint,
 	"height" integer,
-	CONSTRAINT "people_pk" PRIMARY KEY ("_id")
 ) WITH (
   OIDS=FALSE
-);
+)
+;
 
 
 
@@ -175,6 +160,7 @@ CREATE TABLE starship_specs (
 );
 
 
+ALTER TABLE people ADD CONSTRAINT "people_pk0" PRIMARY KEY ("_id");
 
 ALTER TABLE people ADD CONSTRAINT "people_fk0" FOREIGN KEY ("species_id") REFERENCES species("_id");
 ALTER TABLE people ADD CONSTRAINT "people_fk1" FOREIGN KEY ("homeworld_id") REFERENCES planets("_id");
@@ -1049,21 +1035,4 @@ Luke''s whereabouts....', 'J. J. Abrams', 'Kathleen Kennedy, J. J. Abrams, Bryan
  INSERT INTO species_in_films VALUES (75, 7, 2);
  INSERT INTO species_in_films VALUES (76, 7, 1);
 
-
-select setval('public.people__id_seq', 89, false);
-select setval('public.planets__id_seq', 62, false);
-select setval('public.vessels__id_seq', 78, false);
-select setval('public.species__id_seq', 38, false);
-select setval('public.films__id_seq', 8, false);
-select setval('public.people_in_films__id_seq', 174, false);
-select setval('public.planets_in_films__id_seq', 35, false);
-select setval('public.species_in_films__id_seq', 77, false);
-select setval('public.pilots__id_seq', 45, false);
-select setval('public.starship_specs__id_seq', 39, false);
-
--- Completed on 2019-09-11 17:02:50 PDT
-
---
--- PostgreSQL database dump complete
---
 

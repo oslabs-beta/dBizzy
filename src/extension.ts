@@ -5,6 +5,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
 import { worker } from 'cluster';
+import { format } from 'sql-formatter';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -83,7 +84,8 @@ export function activate(context: vscode.ExtensionContext) {
         message => {
           switch (message.command) {
             case 'getText':
-              const sqlText = fs.readFileSync(SQLfilePath, 'utf8')
+              let sqlText = fs.readFileSync(SQLfilePath, 'utf8');
+              sqlText = format(sqlText);
               panel.webview.postMessage({ command: 'sendText' , text: sqlText});
               return;
           }
