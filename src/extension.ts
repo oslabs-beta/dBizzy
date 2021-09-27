@@ -63,13 +63,13 @@ export function activate(context: vscode.ExtensionContext) {
       
       // Get path to resource on disk
       const onDiskPath = vscode.Uri.file(
-        path.join(context.extensionPath,'src', 'sql.js')
+        path.join(context.extensionPath,'scripts', 'parser.js')
       );
       const styleDiskPath = vscode.Uri.file(
-        path.join(context.extensionPath,'src', 'preview.css')
+        path.join(context.extensionPath,'stylesheets', 'preview.css')
       );
       const logoDiskPath = vscode.Uri.file(
-        path.join(context.extensionPath,'src/assets', 'dbizzy-logo.svg')
+        path.join(context.extensionPath,'assets', 'dbizzy-logo.svg')
       );
     
       // And get the special URI to use with the webview
@@ -116,7 +116,6 @@ export function activate(context: vscode.ExtensionContext) {
         }
       });
       
-      
       const query = 'openDatabaseBrowser';
       const queryTitle = 'Database Browser';
       const panel = vscode.window.createWebviewPanel(
@@ -130,16 +129,16 @@ export function activate(context: vscode.ExtensionContext) {
 
       // Get path to resource on disk
       const onDiskPath = vscode.Uri.file(
-        path.join(context.extensionPath,'src', 'gui.js')
+        path.join(context.extensionPath,'scripts', 'gui.js')
       );
       const workerFilePath = vscode.Uri.file(
-        path.join(context.extensionPath,'src', 'worker.sql-wasm.js')
+        path.join(context.extensionPath,'scripts', 'worker.sql-wasm.js')
       );
       const styleDiskPath = vscode.Uri.file(
-        path.join(context.extensionPath,'src', 'browser.css')
+        path.join(context.extensionPath,'stylesheets', 'browser.css')
       );
       const logoDiskPath = vscode.Uri.file(
-        path.join(context.extensionPath,'src/assets', 'dbizzy-logo.svg')
+        path.join(context.extensionPath,'assets', 'dbizzy-logo.svg')
       );
 
       // And get the special URI to use with the webview
@@ -266,6 +265,7 @@ const getBrowserWebviewContent = (queryTitle: String, guiScript: String, workerS
           <label id='savedesc' class="button">Load an SQLite database file: <input type='file' id='dbfile'></label>
           <button id="localdb" class="button">Use Local File</button>
         </div>
+        <div id="query_performance"></div>
         <div id="error" class="error"></div>
     
         <pre id="output">Results will be displayed here</pre>
