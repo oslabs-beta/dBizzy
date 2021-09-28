@@ -1,9 +1,9 @@
-// const { parse } = require("path/posix");
-
 document.addEventListener('DOMContentLoaded', () => {
   // Declare constants to refer to HTML elements
   const body = document.querySelector('body');
-  const graph = document.querySelector('#graph');
+  // const graph = document.querySelector('#graph');
+  // const graphvizInstance = d3.select("#graph").graphviz();
+  // console.log(graphvizInstance)
 
   // Create button for updating ER diagrams, prepend to body
   const parseButton = document.createElement('button');
@@ -23,6 +23,12 @@ document.addEventListener('DOMContentLoaded', () => {
     'FirstName varchar(255),\nAddress varchar(255),\nCity varchar(255)\n);';
   body.prepend(sqlInput);
 
+  function handleZoom(e) {
+    d3.select('svg g')
+      .attr('transform', e.transform);
+  }
+  let zoom = d3.zoom()
+  .on('zoom', handleZoom);
   // Declare various model classes
   function TableModel() {
     this.Name = null;
@@ -306,12 +312,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Takes in SQL creation file as text, then parses
   function parseSql(text) {
     const lines = text.split('\n');
-    console.log(lines);
     tableCell = null;
     cells = [];
     exportedTables = 0;
     tableList = [];
     foreignKeyList = [];
+    primaryKeyList = [];
 
     let currentTableModel = null;
 
@@ -483,6 +489,12 @@ document.addEventListener('DOMContentLoaded', () => {
   strings are pushed into the array as needed and combined at the end 
    */
   function CreateTableUI() {
+    const body = document.querySelector('body');
+    const graph = document.createElement('div');
+    graph.setAttribute('id', 'graph');
+    body.appendChild(graph);
+    // const graph = document.querySelector('#graph1');
+
     // Declaring custom d3 colors
     // #b0e298
     // Initial opening string for the rendering of the diagram.
@@ -542,24 +554,25 @@ document.addEventListener('DOMContentLoaded', () => {
     d3Tables.push('}')
     // Combine array to form a string for graphviz syntax
     const diagraphString = d3Tables.join('');
-    console.log(diagraphString);
+    // console.log(diagraphString);
     // Select #graph div and render the graph
-    d3.select("#graph")
-      .graphviz()
-      .renderDot(diagraphString)
+    // const graphvizInstance = d3.select("#graph")
+    //   .graphviz();
+    d3.select('#graph').graphviz().renderDot(diagraphString);
+
   };
 
 
   // Event Listeners
 
-  // Update diagrams on parseButton click
-  parseButton.addEventListener('click', () => {
-    // Remove any existing graphs to avoid duplicate rendering
-    while (graph.firstChild) {
-      graph.removeChild(graph.lastChild)
-    }
-    parseSql(sqlInput.value)
-  })
+  // // Update diagrams on parseButton click
+  // parseButton.addEventListener('click', () => {
+  //   // Remove any existing graphs to avoid duplicate rendering
+  //   while (graph.firstChild) {
+  //     graph.removeChild(graph.lastChild)
+  //   }
+  //   parseSql(sqlInput.value)
+  // })
 
   // Webview panel listens for messages from extension
   let counter = 0;
@@ -573,9 +586,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (counter === 0) {
           counter++;
           parseSql(sqlInput.value);
-        }
+        };
         break;
-    }
+      case 'parseAgain': 
+        // Remove any existing graphs to avoid duplicate rendering
+        const graph = document.querySelector('#graph');
+        body.removeChild(graph);
+        
+        parseSql(sqlInput.value);
+        break;
+    };
   });
 
 });

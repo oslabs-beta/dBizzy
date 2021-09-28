@@ -3,10 +3,8 @@
 --
 
 
-CREATE TABLE people (
-	"_id" serial NOT NULL,
-	"name" varchar NOT NULL,
-	"mass" varchar,
+CREATE TABLE people ("_id" serial NOT NULL,
+	"name" varchar NOT NULL, "mass" varchar,
 	"hair_color" varchar,
 	"skin_color" varchar,
 	"eye_color" varchar,
