@@ -553,26 +553,67 @@ document.addEventListener('DOMContentLoaded', () => {
     // Closing curly brace for ending out graphviz syntax
     d3Tables.push('}')
     // Combine array to form a string for graphviz syntax
-    const diagraphString = d3Tables.join('');
+    let diagraphString = d3Tables.join('');
+    console.log(diagraphString);
     // console.log(diagraphString);
+    let graphviz = d3.select('#graph').graphviz();
     // Select #graph div and render the graph
-    // const graphvizInstance = d3.select("#graph")
-    //   .graphviz();
-    d3.select('#graph').graphviz().renderDot(diagraphString);
+    function render() {
+      dotSrcLines = diagraphString.split('\n');
+  
+      graphviz
+        .renderDot(diagraphString)
+        .on("end", interactive);
+    }
+
+    function interactive() {
+      nodes = d3.selectAll('.node');
+      // nodes = d3.selectAll('.node,.edge');
+      nodes
+        .on("mouseenter", function () {
+            var title = d3.select(this).selectAll('title').text().trim();
+            var text = d3.select(this).selectAll('text').text();
+            var id = d3.select(this).attr('id');
+            var class1 = d3.select(this).attr('class');
+            dotElement = title.replace('->',' -> ');
+            console.log('Element id="%s" class="%s" title="%s" text="%s" dotElement="%s"', id, class1, title, text, dotElement);
+            console.log('Finding references to %s "%s" from the DOT source', class1, dotElement);
+            for (i = 0; i < dotSrcLines.length; i += 1) {
+              if (dotSrcLines[i].indexOf(dotElement) >= 0) {
+                console.log('Reference on line %d: %s', i, dotSrcLines[i]);
+                
+              } 
+            }
+            diagraphString = dotSrcLines.join('\n');
+            render();
+        });
+    }
+
+    render(diagraphString);
+    // d3.select('#graph')
+    // .graphviz()
+    // .renderDot(diagraphString)
+    // .on("end", interactive);
 
   };
 
+  
+
+  function render() {
+    console.log('DOT source =', dotSrc);
+    dotSrcLines = dotSrc.split('\n');
+
+    graphviz
+      .transition(function() {
+        return d3.transition()
+          .delay(100)
+          .duration(1000);
+      })
+      .renderDot(dotSrc)
+      .on("end", interactive);
+  }
 
   // Event Listeners
-
-  // // Update diagrams on parseButton click
-  // parseButton.addEventListener('click', () => {
-  //   // Remove any existing graphs to avoid duplicate rendering
-  //   while (graph.firstChild) {
-  //     graph.removeChild(graph.lastChild)
-  //   }
-  //   parseSql(sqlInput.value)
-  // })
 
   // Webview panel listens for messages from extension
   let counter = 0;
