@@ -499,38 +499,38 @@ document.addEventListener('DOMContentLoaded', () => {
     // #b0e298
     // Initial opening string for the rendering of the diagram.
     // Refer to https://graphviz.readthedocs.io/en/stable/manual.html#quoting-and-html-like-labels 
-    let d3Tables = [`digraph G { bgcolor = "none"
-      graph [   rankdir = "LR" ];
-      node [fontsize = 10 fontname = "opensans" shape=plain]`];
+    let d3Tables = 
+      [`
+        digraph G { bgcolor = "none"
+        graph [   rankdir = "LR" ];
+        node [fontsize = 10 fontname = "opensans" shape=plain]
+      `];
 
     tableList.forEach(function (tableModel) {
 
  
       // Push in string code to d3tables array to render table name as a row
-      d3Tables.push(`${tableModel.Name} [label=<
-        <table border ="0" cellborder ="1" cellspacing = "0" color = "white">
-        <tr><td ALIGN = "LEFT" bgcolor = "#232d95"><b><font color = "white">${tableModel.Name}</font></b></td></tr>
-        `)
+      d3Tables.push(`
+        ${tableModel.Name} [label=<<table border ="0" cellborder ="1" cellspacing = "0" color = "white"><tr><td ALIGN = "LEFT" bgcolor = "#232d95"><b><font color = "white">${tableModel.Name}</font></b></td></tr>
+      `)
 
       for (let i = 0; i < tableModel.Properties.length; i++) {
         // Render columns from the database that appear as rows on the table
         // If primary key or foreign key, add label to the row 
         if (CheckSpecialKey(tableModel.Properties[i])) {
           d3Tables.push(`
-          <tr>
-  
-          <td ALIGN = "LEFT" bgcolor = "gray25" port="${tableModel.Properties[i].Name.split(' ')[0]}"><font color = "#e2c044">${CheckSpecialKey(tableModel.Properties[i])} </font> | <font color = "white"> ${tableModel.Properties[i].Name}</font></td></tr>
+            <tr><td ALIGN = "LEFT" bgcolor = "gray25" port="${tableModel.Properties[i].Name.split(' ')[0]}"><font color = "#e2c044">${CheckSpecialKey(tableModel.Properties[i])} </font> | <font color = "white"> ${tableModel.Properties[i].Name}</font></td></tr>
           `)
         } else {
           d3Tables.push(`
-          <tr><td ALIGN = "LEFT" bgcolor = "gray25" port ="${tableModel.Properties[i].Name.split(' ')[0]}"><font color = "white">          ${tableModel.Properties[i].Name}</font></td></tr>
+            <tr><td ALIGN = "LEFT" bgcolor = "gray25" port ="${tableModel.Properties[i].Name.split(' ')[0]}"><font color = "white">          ${tableModel.Properties[i].Name}</font></td></tr>
           `)
         }
 
       }
       // Ending block for each table once the relevant rows/columns have been appended
       d3Tables.push(`
-      </table>>];
+        </table>>];
       `)
 
     });
@@ -545,8 +545,7 @@ document.addEventListener('DOMContentLoaded', () => {
         //   ${ForeignKeyModel.PrimaryKeyTableName}:${ForeignKeyModel.PrimaryKeyName.split(' ')[0]} [color = lightseagreen]
         // `)
         d3Tables.push(`
-        ${ForeignKeyModel.PrimaryKeyTableName}:${ForeignKeyModel.PrimaryKeyName.split(' ')[0]} -> 
-          ${ForeignKeyModel.ReferencesTableName}:${ForeignKeyModel.ReferencesPropertyName} [color = "#5ea54a"]
+          ${ForeignKeyModel.PrimaryKeyTableName}:${ForeignKeyModel.PrimaryKeyName.split(' ')[0]} -> ${ForeignKeyModel.ReferencesTableName}:${ForeignKeyModel.ReferencesPropertyName} [color = "#5ea54a"]
         `)
       }
     })
