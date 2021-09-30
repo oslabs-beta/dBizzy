@@ -5,6 +5,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
 import { worker } from 'cluster';
+import { format } from 'sql-formatter';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -83,9 +84,12 @@ export function activate(context: vscode.ExtensionContext) {
         message => {
           switch (message.command) {
             case 'getText':
-              const sqlText = fs.readFileSync(SQLfilePath, 'utf8')
+              let sqlText = fs.readFileSync(SQLfilePath, 'utf8');
+              sqlText = format(sqlText);
               panel.webview.postMessage({ command: 'sendText' , text: sqlText});
               return;
+            case 'parseButtonClicked': 
+              panel.webview.postMessage({ command: 'parseAgain' });
           }
         },
         undefined,
@@ -159,6 +163,7 @@ export function activate(context: vscode.ExtensionContext) {
           switch (message.command) {
             case 'getText':
               const sqlText = fs.readFileSync(SQLfilePath, 'utf8');
+              console.log('sending text to webview: ', sqlText);
               panel.webview.postMessage({ command: 'sendText' , text: sqlText});
               // console.log('Browser path posted message: ', sqlText)
               return;
@@ -190,22 +195,25 @@ const getPreviewWebviewContent = (view: string, viewTitle: string, scriptSrc: st
     </head>
     <body>
       <h1 id="title"><img id="dbizzy_logo"src="${ logoSrc }">Entity-Relation Visualizer</h1>
-      <div id="graph" style="text-align: center;"></div>
       <script>
         document.addEventListener('DOMContentLoaded', () => {
+          const parseButton = document.querySelector('#sqlParseButton');
           const sqlInput = document.querySelector('#sqlInput');
-          (function() {
-            const vscode = acquireVsCodeApi();
-            function setIntervalImmediately(func, interval) {
-              func();
-              return setInterval(func, interval);
-            };
-            setIntervalImmediately(() => {
-              vscode.postMessage({
-                command: 'getText'
-              })    
-            }, 1000)
-          }());
+          
+          const vscode = acquireVsCodeApi();
+          function getText() {
+            vscode.postMessage({
+              command: 'getText'
+            })
+          };
+          getText();
+          parseButton.addEventListener('click', () => {
+            getText();
+            vscode.postMessage({
+              command: 'parseButtonClicked'
+            })
+          })
+
         });
       </script> 
     </body>
