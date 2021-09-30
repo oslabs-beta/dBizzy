@@ -13,3 +13,8 @@ table, th, td {
   font-weight: 500;
   color: rgb(235, 235, 235);
 }
+
+button {
+  display: inline-block;
+  margin-right: 10px;
+}
