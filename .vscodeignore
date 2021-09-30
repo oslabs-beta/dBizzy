@@ -3,7 +3,7 @@
 node_modules/**
 src/**
 samples/**
-saved_diagrams/**.svg
+saved_diagrams/*.svg
 .gitignore
 .yarnrc
 vsc-extension-quickstart.md
