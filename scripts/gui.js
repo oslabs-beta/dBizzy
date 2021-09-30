@@ -18,6 +18,7 @@ fetch(workerSource, {
   .then(blob => {
     // Create url using fetch blob and use that to create new web worker
     const blobUrl = URL.createObjectURL(blob);
+    console.log('BLOBLUR', blobUrl)
     worker = new Worker(blobUrl);
 
     worker.onerror = error;

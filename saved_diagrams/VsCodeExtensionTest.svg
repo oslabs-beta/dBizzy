@@ -1,0 +1,427 @@
+<svg width="917" height="953" viewBox="0 0 687.75 714.75" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="translate(98.53405524504427,580.4663850962756) scale(0.6597539553864471)">
+<title>G</title>
+<polygon fill="transparent" stroke="transparent" points="-4,4 -4,-780 696,-780 696,4 -4,4"></polygon>
+<!-- people -->
+<g id="node1" class="node" style="opacity: 1;">
+<title>people</title>
+<polygon fill="#232d95" stroke="transparent" points="205.5,-468 205.5,-486 342.5,-486 342.5,-468 205.5,-468"></polygon>
+<polygon fill="none" stroke="white" points="205.5,-468 205.5,-486 342.5,-486 342.5,-468 205.5,-468"></polygon>
+<text text-anchor="start" x="208.5" y="-475" font-family="opensans" font-weight="bold" font-size="10.00" fill="white">people</text>
+<polygon fill="#404040" stroke="transparent" points="205.5,-450 205.5,-468 342.5,-468 342.5,-450 205.5,-450"></polygon>
+<polygon fill="none" stroke="white" points="205.5,-450 205.5,-468 342.5,-468 342.5,-450 205.5,-450"></polygon>
+<text text-anchor="start" x="208.5" y="-457" font-family="opensans" font-size="10.00" fill="#e2c044">PK </text>
+<text text-anchor="start" x="223.78" y="-457" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="230.78" y="-457" font-family="opensans" font-size="10.00" fill="white"> _id serial NOT NULL</text>
+<polygon fill="#404040" stroke="transparent" points="205.5,-432 205.5,-450 342.5,-450 342.5,-432 205.5,-432"></polygon>
+<polygon fill="none" stroke="white" points="205.5,-432 205.5,-450 342.5,-450 342.5,-432 205.5,-432"></polygon>
+<text text-anchor="start" x="208.33" y="-438" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;name varchar NOT NULL</text>
+<polygon fill="#404040" stroke="transparent" points="205.5,-414 205.5,-432 342.5,-432 342.5,-414 205.5,-414"></polygon>
+<polygon fill="none" stroke="white" points="205.5,-414 205.5,-432 342.5,-432 342.5,-414 205.5,-414"></polygon>
+<text text-anchor="start" x="208.5" y="-420" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;mass varchar</text>
+<polygon fill="#404040" stroke="transparent" points="205.5,-396 205.5,-414 342.5,-414 342.5,-396 205.5,-396"></polygon>
+<polygon fill="none" stroke="white" points="205.5,-396 205.5,-414 342.5,-414 342.5,-396 205.5,-396"></polygon>
+<text text-anchor="start" x="208.5" y="-402" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;hair_color varchar</text>
+<polygon fill="#404040" stroke="transparent" points="205.5,-378 205.5,-396 342.5,-396 342.5,-378 205.5,-378"></polygon>
+<polygon fill="none" stroke="white" points="205.5,-378 205.5,-396 342.5,-396 342.5,-378 205.5,-378"></polygon>
+<text text-anchor="start" x="208.5" y="-384" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;skin_color varchar</text>
+<polygon fill="#404040" stroke="transparent" points="205.5,-360 205.5,-378 342.5,-378 342.5,-360 205.5,-360"></polygon>
+<polygon fill="none" stroke="white" points="205.5,-360 205.5,-378 342.5,-378 342.5,-360 205.5,-360"></polygon>
+<text text-anchor="start" x="208.5" y="-366" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;eye_color varchar</text>
+<polygon fill="#404040" stroke="transparent" points="205.5,-342 205.5,-360 342.5,-360 342.5,-342 205.5,-342"></polygon>
+<polygon fill="none" stroke="white" points="205.5,-342 205.5,-360 342.5,-360 342.5,-342 205.5,-342"></polygon>
+<text text-anchor="start" x="208.5" y="-348" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;birth_year varchar</text>
+<polygon fill="#404040" stroke="transparent" points="205.5,-324 205.5,-342 342.5,-342 342.5,-324 205.5,-324"></polygon>
+<polygon fill="none" stroke="white" points="205.5,-324 205.5,-342 342.5,-342 342.5,-324 205.5,-324"></polygon>
+<text text-anchor="start" x="208.5" y="-330" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;gender varchar</text>
+<polygon fill="#404040" stroke="transparent" points="205.5,-306 205.5,-324 342.5,-324 342.5,-306 205.5,-306"></polygon>
+<polygon fill="none" stroke="white" points="205.5,-306 205.5,-324 342.5,-324 342.5,-306 205.5,-306"></polygon>
+<text text-anchor="start" x="208.5" y="-313" font-family="opensans" font-size="10.00" fill="#e2c044">FK </text>
+<text text-anchor="start" x="223.78" y="-313" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="230.78" y="-313" font-family="opensans" font-size="10.00" fill="white"> species_id bigint</text>
+<polygon fill="#404040" stroke="transparent" points="205.5,-288 205.5,-306 342.5,-306 342.5,-288 205.5,-288"></polygon>
+<polygon fill="none" stroke="white" points="205.5,-288 205.5,-306 342.5,-306 342.5,-288 205.5,-288"></polygon>
+<text text-anchor="start" x="208.5" y="-295" font-family="opensans" font-size="10.00" fill="#e2c044">FK </text>
+<text text-anchor="start" x="223.78" y="-295" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="230.78" y="-295" font-family="opensans" font-size="10.00" fill="white"> homeworld_id bigint</text>
+<polygon fill="#404040" stroke="transparent" points="205.5,-270 205.5,-288 342.5,-288 342.5,-270 205.5,-270"></polygon>
+<polygon fill="none" stroke="white" points="205.5,-270 205.5,-288 342.5,-288 342.5,-270 205.5,-270"></polygon>
+<text text-anchor="start" x="208.5" y="-276" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;height integer</text>
+</g>
+<!-- planets -->
+<g id="node4" class="node" style="opacity: 1;">
+<title>planets</title>
+<polygon fill="#232d95" stroke="transparent" points="570,-523 570,-541 692,-541 692,-523 570,-523"></polygon>
+<polygon fill="none" stroke="white" points="570,-523 570,-541 692,-541 692,-523 570,-523"></polygon>
+<text text-anchor="start" x="573" y="-530" font-family="opensans" font-weight="bold" font-size="10.00" fill="white">planets</text>
+<polygon fill="#404040" stroke="transparent" points="570,-505 570,-523 692,-523 692,-505 570,-505"></polygon>
+<polygon fill="none" stroke="white" points="570,-505 570,-523 692,-523 692,-505 570,-505"></polygon>
+<text text-anchor="start" x="573" y="-512" font-family="opensans" font-size="10.00" fill="#e2c044">PK </text>
+<text text-anchor="start" x="588.28" y="-512" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="595.28" y="-512" font-family="opensans" font-size="10.00" fill="white"> _id serial NOT NULL</text>
+<polygon fill="#404040" stroke="transparent" points="570,-487 570,-505 692,-505 692,-487 570,-487"></polygon>
+<polygon fill="none" stroke="white" points="570,-487 570,-505 692,-505 692,-487 570,-487"></polygon>
+<text text-anchor="start" x="573" y="-493" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;name varchar</text>
+<polygon fill="#404040" stroke="transparent" points="570,-469 570,-487 692,-487 692,-469 570,-469"></polygon>
+<polygon fill="none" stroke="white" points="570,-469 570,-487 692,-487 692,-469 570,-469"></polygon>
+<text text-anchor="start" x="572.54" y="-475" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;rotation_period integer</text>
+<polygon fill="#404040" stroke="transparent" points="570,-451 570,-469 692,-469 692,-451 570,-451"></polygon>
+<polygon fill="none" stroke="white" points="570,-451 570,-469 692,-469 692,-451 570,-451"></polygon>
+<text text-anchor="start" x="573" y="-457" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;orbital_period integer</text>
+<polygon fill="#404040" stroke="transparent" points="570,-433 570,-451 692,-451 692,-433 570,-433"></polygon>
+<polygon fill="none" stroke="white" points="570,-433 570,-451 692,-451 692,-433 570,-433"></polygon>
+<text text-anchor="start" x="573" y="-439" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;diameter integer</text>
+<polygon fill="#404040" stroke="transparent" points="570,-415 570,-433 692,-433 692,-415 570,-415"></polygon>
+<polygon fill="none" stroke="white" points="570,-415 570,-433 692,-433 692,-415 570,-415"></polygon>
+<text text-anchor="start" x="573" y="-421" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;climate varchar</text>
+<polygon fill="#404040" stroke="transparent" points="570,-397 570,-415 692,-415 692,-397 570,-397"></polygon>
+<polygon fill="none" stroke="white" points="570,-397 570,-415 692,-415 692,-397 570,-397"></polygon>
+<text text-anchor="start" x="573" y="-403" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;gravity varchar</text>
+<polygon fill="#404040" stroke="transparent" points="570,-379 570,-397 692,-397 692,-379 570,-379"></polygon>
+<polygon fill="none" stroke="white" points="570,-379 570,-397 692,-397 692,-379 570,-379"></polygon>
+<text text-anchor="start" x="573" y="-385" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;terrain varchar</text>
+<polygon fill="#404040" stroke="transparent" points="570,-361 570,-379 692,-379 692,-361 570,-361"></polygon>
+<polygon fill="none" stroke="white" points="570,-361 570,-379 692,-379 692,-361 570,-361"></polygon>
+<text text-anchor="start" x="573" y="-367" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;surface_water varchar</text>
+<polygon fill="#404040" stroke="transparent" points="570,-343 570,-361 692,-361 692,-343 570,-343"></polygon>
+<polygon fill="none" stroke="white" points="570,-343 570,-361 692,-361 692,-343 570,-343"></polygon>
+<text text-anchor="start" x="573" y="-349" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;population bigint</text>
+</g>
+<!-- people&#45;&gt;planets -->
+<g id="edge2" class="edge" style="opacity: 1;">
+<title>people:homeworld_id-&gt;planets:_id</title>
+<path fill="none" stroke="#5ea54a" d="M343.5,-297C409.94,-297 492.17,-494.13 560.09,-512.61"></path>
+<polygon fill="#5ea54a" stroke="#5ea54a" points="559.61,-516.08 570,-514 560.58,-509.15 559.61,-516.08"></polygon>
+</g>
+<!-- species -->
+<g id="node5" class="node" style="opacity: 1;">
+<title>species</title>
+<polygon fill="#232d95" stroke="transparent" points="397.5,-722 397.5,-740 534.5,-740 534.5,-722 397.5,-722"></polygon>
+<polygon fill="none" stroke="white" points="397.5,-722 397.5,-740 534.5,-740 534.5,-722 397.5,-722"></polygon>
+<text text-anchor="start" x="400.5" y="-729" font-family="opensans" font-weight="bold" font-size="10.00" fill="white">species</text>
+<polygon fill="#404040" stroke="transparent" points="397.5,-704 397.5,-722 534.5,-722 534.5,-704 397.5,-704"></polygon>
+<polygon fill="none" stroke="white" points="397.5,-704 397.5,-722 534.5,-722 534.5,-704 397.5,-704"></polygon>
+<text text-anchor="start" x="400.5" y="-711" font-family="opensans" font-size="10.00" fill="#e2c044">PK </text>
+<text text-anchor="start" x="415.78" y="-711" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="422.78" y="-711" font-family="opensans" font-size="10.00" fill="white"> _id serial NOT NULL</text>
+<polygon fill="#404040" stroke="transparent" points="397.5,-686 397.5,-704 534.5,-704 534.5,-686 397.5,-686"></polygon>
+<polygon fill="none" stroke="white" points="397.5,-686 397.5,-704 534.5,-704 534.5,-686 397.5,-686"></polygon>
+<text text-anchor="start" x="400.33" y="-692" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;name varchar NOT NULL</text>
+<polygon fill="#404040" stroke="transparent" points="397.5,-668 397.5,-686 534.5,-686 534.5,-668 397.5,-668"></polygon>
+<polygon fill="none" stroke="white" points="397.5,-668 397.5,-686 534.5,-686 534.5,-668 397.5,-668"></polygon>
+<text text-anchor="start" x="400.5" y="-674" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;classification varchar</text>
+<polygon fill="#404040" stroke="transparent" points="397.5,-650 397.5,-668 534.5,-668 534.5,-650 397.5,-650"></polygon>
+<polygon fill="none" stroke="white" points="397.5,-650 397.5,-668 534.5,-668 534.5,-650 397.5,-650"></polygon>
+<text text-anchor="start" x="400.5" y="-656" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;average_height varchar</text>
+<polygon fill="#404040" stroke="transparent" points="397.5,-632 397.5,-650 534.5,-650 534.5,-632 397.5,-632"></polygon>
+<polygon fill="none" stroke="white" points="397.5,-632 397.5,-650 534.5,-650 534.5,-632 397.5,-632"></polygon>
+<text text-anchor="start" x="400.5" y="-638" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;average_lifespan varchar</text>
+<polygon fill="#404040" stroke="transparent" points="397.5,-614 397.5,-632 534.5,-632 534.5,-614 397.5,-614"></polygon>
+<polygon fill="none" stroke="white" points="397.5,-614 397.5,-632 534.5,-632 534.5,-614 397.5,-614"></polygon>
+<text text-anchor="start" x="400.5" y="-620" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;hair_colors varchar</text>
+<polygon fill="#404040" stroke="transparent" points="397.5,-596 397.5,-614 534.5,-614 534.5,-596 397.5,-596"></polygon>
+<polygon fill="none" stroke="white" points="397.5,-596 397.5,-614 534.5,-614 534.5,-596 397.5,-596"></polygon>
+<text text-anchor="start" x="400.5" y="-602" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;skin_colors varchar</text>
+<polygon fill="#404040" stroke="transparent" points="397.5,-578 397.5,-596 534.5,-596 534.5,-578 397.5,-578"></polygon>
+<polygon fill="none" stroke="white" points="397.5,-578 397.5,-596 534.5,-596 534.5,-578 397.5,-578"></polygon>
+<text text-anchor="start" x="400.5" y="-584" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;eye_colors varchar</text>
+<polygon fill="#404040" stroke="transparent" points="397.5,-560 397.5,-578 534.5,-578 534.5,-560 397.5,-560"></polygon>
+<polygon fill="none" stroke="white" points="397.5,-560 397.5,-578 534.5,-578 534.5,-560 397.5,-560"></polygon>
+<text text-anchor="start" x="400.5" y="-566" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;language varchar</text>
+<polygon fill="#404040" stroke="transparent" points="397.5,-542 397.5,-560 534.5,-560 534.5,-542 397.5,-542"></polygon>
+<polygon fill="none" stroke="white" points="397.5,-542 397.5,-560 534.5,-560 534.5,-542 397.5,-542"></polygon>
+<text text-anchor="start" x="400.5" y="-549" font-family="opensans" font-size="10.00" fill="#e2c044">FK </text>
+<text text-anchor="start" x="415.78" y="-549" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="422.78" y="-549" font-family="opensans" font-size="10.00" fill="white"> homeworld_id bigint</text>
+</g>
+<!-- people&#45;&gt;species -->
+<g id="edge1" class="edge" style="opacity: 1;">
+<title>people:species_id-&gt;species:_id</title>
+<path fill="none" stroke="#5ea54a" d="M343.5,-315C429.08,-315 317.65,-681.02 387.07,-711.05"></path>
+<polygon fill="#5ea54a" stroke="#5ea54a" points="386.51,-714.5 397,-713 387.86,-707.64 386.51,-714.5"></polygon>
+</g>
+<!-- films -->
+<g id="node2" class="node" style="opacity: 1;">
+<title>films</title>
+<polygon fill="#232d95" stroke="transparent" points="186.5,-668 186.5,-686 361.5,-686 361.5,-668 186.5,-668"></polygon>
+<polygon fill="none" stroke="white" points="186.5,-668 186.5,-686 361.5,-686 361.5,-668 186.5,-668"></polygon>
+<text text-anchor="start" x="189.5" y="-675" font-family="opensans" font-weight="bold" font-size="10.00" fill="white">films</text>
+<polygon fill="#404040" stroke="transparent" points="186.5,-650 186.5,-668 361.5,-668 361.5,-650 186.5,-650"></polygon>
+<polygon fill="none" stroke="white" points="186.5,-650 186.5,-668 361.5,-668 361.5,-650 186.5,-650"></polygon>
+<text text-anchor="start" x="189.5" y="-657" font-family="opensans" font-size="10.00" fill="#e2c044">PK </text>
+<text text-anchor="start" x="204.78" y="-657" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="211.78" y="-657" font-family="opensans" font-size="10.00" fill="white"> _id serial NOT NULL</text>
+<polygon fill="#404040" stroke="transparent" points="186.5,-632 186.5,-650 361.5,-650 361.5,-632 186.5,-632"></polygon>
+<polygon fill="none" stroke="white" points="186.5,-632 186.5,-650 361.5,-650 361.5,-632 186.5,-632"></polygon>
+<text text-anchor="start" x="189.5" y="-638" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;title varchar NOT NULL</text>
+<polygon fill="#404040" stroke="transparent" points="186.5,-614 186.5,-632 361.5,-632 361.5,-614 186.5,-614"></polygon>
+<polygon fill="none" stroke="white" points="186.5,-614 186.5,-632 361.5,-632 361.5,-614 186.5,-614"></polygon>
+<text text-anchor="start" x="189.5" y="-620" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;episode_id integer NOT NULL</text>
+<polygon fill="#404040" stroke="transparent" points="186.5,-596 186.5,-614 361.5,-614 361.5,-596 186.5,-596"></polygon>
+<polygon fill="none" stroke="white" points="186.5,-596 186.5,-614 361.5,-614 361.5,-596 186.5,-596"></polygon>
+<text text-anchor="start" x="189.45" y="-602" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;opening_crawl varchar NOT NULL</text>
+<polygon fill="#404040" stroke="transparent" points="186.5,-578 186.5,-596 361.5,-596 361.5,-578 186.5,-578"></polygon>
+<polygon fill="none" stroke="white" points="186.5,-578 186.5,-596 361.5,-596 361.5,-578 186.5,-578"></polygon>
+<text text-anchor="start" x="189.5" y="-584" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;director varchar NOT NULL</text>
+<polygon fill="#404040" stroke="transparent" points="186.5,-560 186.5,-578 361.5,-578 361.5,-560 186.5,-560"></polygon>
+<polygon fill="none" stroke="white" points="186.5,-560 186.5,-578 361.5,-578 361.5,-560 186.5,-560"></polygon>
+<text text-anchor="start" x="189.5" y="-566" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;producer varchar NOT NULL</text>
+<polygon fill="#404040" stroke="transparent" points="186.5,-542 186.5,-560 361.5,-560 361.5,-542 186.5,-542"></polygon>
+<polygon fill="none" stroke="white" points="186.5,-542 186.5,-560 361.5,-560 361.5,-542 186.5,-542"></polygon>
+<text text-anchor="start" x="189.5" y="-548" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;release_date DATE NOT NULL</text>
+</g>
+<!-- people_in_films -->
+<g id="node3" class="node" style="opacity: 1;">
+<title>people_in_films</title>
+<polygon fill="#232d95" stroke="transparent" points="1,-576 1,-594 149,-594 149,-576 1,-576"></polygon>
+<polygon fill="none" stroke="white" points="1,-576 1,-594 149,-594 149,-576 1,-576"></polygon>
+<text text-anchor="start" x="4" y="-583" font-family="opensans" font-weight="bold" font-size="10.00" fill="white">people_in_films</text>
+<polygon fill="#404040" stroke="transparent" points="1,-558 1,-576 149,-576 149,-558 1,-558"></polygon>
+<polygon fill="none" stroke="white" points="1,-558 1,-576 149,-576 149,-558 1,-558"></polygon>
+<text text-anchor="start" x="4" y="-565" font-family="opensans" font-size="10.00" fill="#e2c044">PK </text>
+<text text-anchor="start" x="19.28" y="-565" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="26.28" y="-565" font-family="opensans" font-size="10.00" fill="white"> _id serial NOT NULL</text>
+<polygon fill="#404040" stroke="transparent" points="1,-540 1,-558 149,-558 149,-540 1,-540"></polygon>
+<polygon fill="none" stroke="white" points="1,-540 1,-558 149,-558 149,-540 1,-540"></polygon>
+<text text-anchor="start" x="3.87" y="-547" font-family="opensans" font-size="10.00" fill="#e2c044">FK </text>
+<text text-anchor="start" x="19.15" y="-547" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="26.15" y="-547" font-family="opensans" font-size="10.00" fill="white"> person_id bigint NOT NULL</text>
+<polygon fill="#404040" stroke="transparent" points="1,-522 1,-540 149,-540 149,-522 1,-522"></polygon>
+<polygon fill="none" stroke="white" points="1,-522 1,-540 149,-540 149,-522 1,-522"></polygon>
+<text text-anchor="start" x="4" y="-529" font-family="opensans" font-size="10.00" fill="#e2c044">FK </text>
+<text text-anchor="start" x="19.28" y="-529" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="26.28" y="-529" font-family="opensans" font-size="10.00" fill="white"> film_id bigint NOT NULL</text>
+</g>
+<!-- people_in_films&#45;&gt;people -->
+<g id="edge3" class="edge" style="opacity: 1;">
+<title>people_in_films:person_id-&gt;people:_id</title>
+<path fill="none" stroke="#5ea54a" d="M150,-549C192.93,-549 163.56,-473.16 194.63,-460.72"></path>
+<polygon fill="#5ea54a" stroke="#5ea54a" points="195.25,-464.16 204.5,-459 194.05,-457.27 195.25,-464.16"></polygon>
+</g>
+<!-- people_in_films&#45;&gt;films -->
+<g id="edge4" class="edge" style="opacity: 1;">
+<title>people_in_films:film_id-&gt;films:_id</title>
+<path fill="none" stroke="#5ea54a" d="M150,-531C205.17,-531 137.2,-642.56 176.01,-657.38"></path>
+<polygon fill="#5ea54a" stroke="#5ea54a" points="175.57,-660.86 186,-659 176.69,-653.95 175.57,-660.86"></polygon>
+</g>
+<!-- species&#45;&gt;planets -->
+<g id="edge5" class="edge" style="opacity: 1;">
+<title>species:homeworld_id-&gt;planets:_id</title>
+<path fill="none" stroke="#5ea54a" d="M534,-551C552.82,-551 549.55,-526.1 560.43,-517.15"></path>
+<polygon fill="#5ea54a" stroke="#5ea54a" points="561.6,-520.46 570,-514 559.41,-513.81 561.6,-520.46"></polygon>
+</g>
+<!-- vessels -->
+<g id="node6" class="node" style="opacity: 1;">
+<title>vessels</title>
+<polygon fill="#232d95" stroke="transparent" points="190.5,-234 190.5,-252 357.5,-252 357.5,-234 190.5,-234"></polygon>
+<polygon fill="none" stroke="white" points="190.5,-234 190.5,-252 357.5,-252 357.5,-234 190.5,-234"></polygon>
+<text text-anchor="start" x="193.5" y="-241" font-family="opensans" font-weight="bold" font-size="10.00" fill="white">vessels</text>
+<polygon fill="#404040" stroke="transparent" points="190.5,-216 190.5,-234 357.5,-234 357.5,-216 190.5,-216"></polygon>
+<polygon fill="none" stroke="white" points="190.5,-216 190.5,-234 357.5,-234 357.5,-216 190.5,-216"></polygon>
+<text text-anchor="start" x="193.5" y="-223" font-family="opensans" font-size="10.00" fill="#e2c044">PK </text>
+<text text-anchor="start" x="208.78" y="-223" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="215.78" y="-223" font-family="opensans" font-size="10.00" fill="white"> _id serial NOT NULL</text>
+<polygon fill="#404040" stroke="transparent" points="190.5,-198 190.5,-216 357.5,-216 357.5,-198 190.5,-198"></polygon>
+<polygon fill="none" stroke="white" points="190.5,-198 190.5,-216 357.5,-216 357.5,-198 190.5,-198"></polygon>
+<text text-anchor="start" x="193.5" y="-204" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;name varchar NOT NULL</text>
+<polygon fill="#404040" stroke="transparent" points="190.5,-180 190.5,-198 357.5,-198 357.5,-180 190.5,-180"></polygon>
+<polygon fill="none" stroke="white" points="190.5,-180 190.5,-198 357.5,-198 357.5,-180 190.5,-180"></polygon>
+<text text-anchor="start" x="193.5" y="-186" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;manufacturer varchar</text>
+<polygon fill="#404040" stroke="transparent" points="190.5,-162 190.5,-180 357.5,-180 357.5,-162 190.5,-162"></polygon>
+<polygon fill="none" stroke="white" points="190.5,-162 190.5,-180 357.5,-180 357.5,-162 190.5,-162"></polygon>
+<text text-anchor="start" x="193.5" y="-168" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;model varchar</text>
+<polygon fill="#404040" stroke="transparent" points="190.5,-144 190.5,-162 357.5,-162 357.5,-144 190.5,-144"></polygon>
+<polygon fill="none" stroke="white" points="190.5,-144 190.5,-162 357.5,-162 357.5,-144 190.5,-144"></polygon>
+<text text-anchor="start" x="193.5" y="-150" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;vessel_type varchar NOT NULL</text>
+<polygon fill="#404040" stroke="transparent" points="190.5,-126 190.5,-144 357.5,-144 357.5,-126 190.5,-126"></polygon>
+<polygon fill="none" stroke="white" points="190.5,-126 190.5,-144 357.5,-144 357.5,-126 190.5,-126"></polygon>
+<text text-anchor="start" x="193.5" y="-132" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;vessel_class varchar NOT NULL</text>
+<polygon fill="#404040" stroke="transparent" points="190.5,-108 190.5,-126 357.5,-126 357.5,-108 190.5,-108"></polygon>
+<polygon fill="none" stroke="white" points="190.5,-108 190.5,-126 357.5,-126 357.5,-108 190.5,-108"></polygon>
+<text text-anchor="start" x="193.5" y="-114" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;cost_in_credits bigint</text>
+<polygon fill="#404040" stroke="transparent" points="190.5,-90 190.5,-108 357.5,-108 357.5,-90 190.5,-90"></polygon>
+<polygon fill="none" stroke="white" points="190.5,-90 190.5,-108 357.5,-108 357.5,-90 190.5,-90"></polygon>
+<text text-anchor="start" x="193.5" y="-96" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;length varchar</text>
+<polygon fill="#404040" stroke="transparent" points="190.5,-72 190.5,-90 357.5,-90 357.5,-72 190.5,-72"></polygon>
+<polygon fill="none" stroke="white" points="190.5,-72 190.5,-90 357.5,-90 357.5,-72 190.5,-72"></polygon>
+<text text-anchor="start" x="193.05" y="-78" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;max_atmosphering_speed varchar</text>
+<polygon fill="#404040" stroke="transparent" points="190.5,-54 190.5,-72 357.5,-72 357.5,-54 190.5,-54"></polygon>
+<polygon fill="none" stroke="white" points="190.5,-54 190.5,-72 357.5,-72 357.5,-54 190.5,-54"></polygon>
+<text text-anchor="start" x="193.5" y="-60" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;crew integer</text>
+<polygon fill="#404040" stroke="transparent" points="190.5,-36 190.5,-54 357.5,-54 357.5,-36 190.5,-36"></polygon>
+<polygon fill="none" stroke="white" points="190.5,-36 190.5,-54 357.5,-54 357.5,-36 190.5,-36"></polygon>
+<text text-anchor="start" x="193.5" y="-42" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;passengers integer</text>
+<polygon fill="#404040" stroke="transparent" points="190.5,-18 190.5,-36 357.5,-36 357.5,-18 190.5,-18"></polygon>
+<polygon fill="none" stroke="white" points="190.5,-18 190.5,-36 357.5,-36 357.5,-18 190.5,-18"></polygon>
+<text text-anchor="start" x="193.5" y="-24" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;cargo_capacity varchar</text>
+<polygon fill="#404040" stroke="transparent" points="190.5,0 190.5,-18 357.5,-18 357.5,0 190.5,0"></polygon>
+<polygon fill="none" stroke="white" points="190.5,0 190.5,-18 357.5,-18 357.5,0 190.5,0"></polygon>
+<text text-anchor="start" x="193.5" y="-6" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;consumables varchar</text>
+</g>
+<!-- species_in_films -->
+<g id="node7" class="node" style="opacity: 1;">
+<title>species_in_films</title>
+<polygon fill="#232d95" stroke="transparent" points="0,-758 0,-776 150,-776 150,-758 0,-758"></polygon>
+<polygon fill="none" stroke="white" points="0,-758 0,-776 150,-776 150,-758 0,-758"></polygon>
+<text text-anchor="start" x="3" y="-765" font-family="opensans" font-weight="bold" font-size="10.00" fill="white">species_in_films</text>
+<polygon fill="#404040" stroke="transparent" points="0,-740 0,-758 150,-758 150,-740 0,-740"></polygon>
+<polygon fill="none" stroke="white" points="0,-740 0,-758 150,-758 150,-740 0,-740"></polygon>
+<text text-anchor="start" x="3" y="-747" font-family="opensans" font-size="10.00" fill="#e2c044">PK </text>
+<text text-anchor="start" x="18.28" y="-747" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="25.28" y="-747" font-family="opensans" font-size="10.00" fill="white"> _id serial NOT NULL</text>
+<polygon fill="#404040" stroke="transparent" points="0,-722 0,-740 150,-740 150,-722 0,-722"></polygon>
+<polygon fill="none" stroke="white" points="0,-722 0,-740 150,-740 150,-722 0,-722"></polygon>
+<text text-anchor="start" x="3" y="-729" font-family="opensans" font-size="10.00" fill="#e2c044">FK </text>
+<text text-anchor="start" x="18.28" y="-729" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="25.28" y="-729" font-family="opensans" font-size="10.00" fill="white"> film_id bigint NOT NULL</text>
+<polygon fill="#404040" stroke="transparent" points="0,-704 0,-722 150,-722 150,-704 0,-704"></polygon>
+<polygon fill="none" stroke="white" points="0,-704 0,-722 150,-722 150,-704 0,-704"></polygon>
+<text text-anchor="start" x="2.76" y="-711" font-family="opensans" font-size="10.00" fill="#e2c044">FK </text>
+<text text-anchor="start" x="18.04" y="-711" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="25.04" y="-711" font-family="opensans" font-size="10.00" fill="white"> species_id bigint NOT NULL</text>
+</g>
+<!-- species_in_films&#45;&gt;films -->
+<g id="edge6" class="edge" style="opacity: 1;">
+<title>species_in_films:film_id-&gt;films:_id</title>
+<path fill="none" stroke="#5ea54a" d="M150,-731C181.58,-731 157.58,-674.89 176.13,-661.73"></path>
+<polygon fill="#5ea54a" stroke="#5ea54a" points="177.3,-665.04 186,-659 175.43,-658.3 177.3,-665.04"></polygon>
+</g>
+<!-- species_in_films&#45;&gt;species -->
+<g id="edge7" class="edge" style="opacity: 1;">
+<title>species_in_films:species_id-&gt;species:_id</title>
+<path fill="none" stroke="#5ea54a" d="M150,-713C256.35,-713 285.43,-713 386.94,-713"></path>
+<polygon fill="#5ea54a" stroke="#5ea54a" points="387,-716.5 397,-713 387,-709.5 387,-716.5"></polygon>
+</g>
+<!-- planets_in_films -->
+<g id="node8" class="node" style="opacity: 1;">
+<title>planets_in_films</title>
+<polygon fill="#232d95" stroke="transparent" points="2,-667 2,-685 148,-685 148,-667 2,-667"></polygon>
+<polygon fill="none" stroke="white" points="2,-667 2,-685 148,-685 148,-667 2,-667"></polygon>
+<text text-anchor="start" x="5" y="-674" font-family="opensans" font-weight="bold" font-size="10.00" fill="white">planets_in_films</text>
+<polygon fill="#404040" stroke="transparent" points="2,-649 2,-667 148,-667 148,-649 2,-649"></polygon>
+<polygon fill="none" stroke="white" points="2,-649 2,-667 148,-667 148,-649 2,-649"></polygon>
+<text text-anchor="start" x="5" y="-656" font-family="opensans" font-size="10.00" fill="#e2c044">PK </text>
+<text text-anchor="start" x="20.28" y="-656" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="27.28" y="-656" font-family="opensans" font-size="10.00" fill="white"> _id serial NOT NULL</text>
+<polygon fill="#404040" stroke="transparent" points="2,-631 2,-649 148,-649 148,-631 2,-631"></polygon>
+<polygon fill="none" stroke="white" points="2,-631 2,-649 148,-649 148,-631 2,-631"></polygon>
+<text text-anchor="start" x="5" y="-638" font-family="opensans" font-size="10.00" fill="#e2c044">FK </text>
+<text text-anchor="start" x="20.28" y="-638" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="27.28" y="-638" font-family="opensans" font-size="10.00" fill="white"> film_id bigint NOT NULL</text>
+<polygon fill="#404040" stroke="transparent" points="2,-613 2,-631 148,-631 148,-613 2,-613"></polygon>
+<polygon fill="none" stroke="white" points="2,-613 2,-631 148,-631 148,-613 2,-613"></polygon>
+<text text-anchor="start" x="4.98" y="-620" font-family="opensans" font-size="10.00" fill="#e2c044">FK </text>
+<text text-anchor="start" x="20.26" y="-620" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="27.26" y="-620" font-family="opensans" font-size="10.00" fill="white"> planet_id bigint NOT NULL</text>
+</g>
+<!-- planets_in_films&#45;&gt;films -->
+<g id="edge8" class="edge" style="opacity: 1;">
+<title>planets_in_films:film_id-&gt;films:_id</title>
+<path fill="none" stroke="#5ea54a" d="M149,-640C163.44,-640 166.62,-651.6 176.13,-656.67"></path>
+<polygon fill="#5ea54a" stroke="#5ea54a" points="175.46,-660.11 186,-659 177.07,-653.3 175.46,-660.11"></polygon>
+</g>
+<!-- planets_in_films&#45;&gt;planets -->
+<g id="edge9" class="edge" style="opacity: 1;">
+<title>planets_in_films:planet_id-&gt;planets:_id</title>
+<path fill="none" stroke="#5ea54a" d="M149,-622C191.84,-622 150.96,-557.65 186,-533 253.28,-485.66 467.81,-511.87 559.91,-513.88"></path>
+<polygon fill="#5ea54a" stroke="#5ea54a" points="559.96,-517.38 570,-514 560.04,-510.38 559.96,-517.38"></polygon>
+</g>
+<!-- pilots -->
+<g id="node9" class="node" style="opacity: 1;">
+<title>pilots</title>
+<polygon fill="#232d95" stroke="transparent" points="1,-388 1,-406 149,-406 149,-388 1,-388"></polygon>
+<polygon fill="none" stroke="white" points="1,-388 1,-406 149,-406 149,-388 1,-388"></polygon>
+<text text-anchor="start" x="4" y="-395" font-family="opensans" font-weight="bold" font-size="10.00" fill="white">pilots</text>
+<polygon fill="#404040" stroke="transparent" points="1,-370 1,-388 149,-388 149,-370 1,-370"></polygon>
+<polygon fill="none" stroke="white" points="1,-370 1,-388 149,-388 149,-370 1,-370"></polygon>
+<text text-anchor="start" x="4" y="-377" font-family="opensans" font-size="10.00" fill="#e2c044">PK </text>
+<text text-anchor="start" x="19.28" y="-377" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="26.28" y="-377" font-family="opensans" font-size="10.00" fill="white"> _id serial NOT NULL</text>
+<polygon fill="#404040" stroke="transparent" points="1,-352 1,-370 149,-370 149,-352 1,-352"></polygon>
+<polygon fill="none" stroke="white" points="1,-352 1,-370 149,-370 149,-352 1,-352"></polygon>
+<text text-anchor="start" x="3.87" y="-359" font-family="opensans" font-size="10.00" fill="#e2c044">FK </text>
+<text text-anchor="start" x="19.15" y="-359" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="26.15" y="-359" font-family="opensans" font-size="10.00" fill="white"> person_id bigint NOT NULL</text>
+<polygon fill="#404040" stroke="transparent" points="1,-334 1,-352 149,-352 149,-334 1,-334"></polygon>
+<polygon fill="none" stroke="white" points="1,-334 1,-352 149,-352 149,-334 1,-334"></polygon>
+<text text-anchor="start" x="4" y="-341" font-family="opensans" font-size="10.00" fill="#e2c044">FK </text>
+<text text-anchor="start" x="19.28" y="-341" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="26.28" y="-341" font-family="opensans" font-size="10.00" fill="white"> vessel_id bigint NOT NULL</text>
+</g>
+<!-- pilots&#45;&gt;people -->
+<g id="edge10" class="edge" style="opacity: 1;">
+<title>pilots:person_id-&gt;people:_id</title>
+<path fill="none" stroke="#5ea54a" d="M150,-361C195.94,-361 161.14,-444.29 194.47,-457.3"></path>
+<polygon fill="#5ea54a" stroke="#5ea54a" points="194.06,-460.78 204.5,-459 195.23,-453.88 194.06,-460.78"></polygon>
+</g>
+<!-- pilots&#45;&gt;vessels -->
+<g id="edge11" class="edge" style="opacity: 1;">
+<title>pilots:vessel_id-&gt;vessels:_id</title>
+<path fill="none" stroke="#5ea54a" d="M150,-343C201.42,-343 143.57,-241.01 179.62,-226.67"></path>
+<polygon fill="#5ea54a" stroke="#5ea54a" points="180.22,-230.12 189.5,-225 179.06,-223.21 180.22,-230.12"></polygon>
+</g>
+<!-- vessels_in_films -->
+<g id="node10" class="node" style="opacity: 1;">
+<title>vessels_in_films</title>
+<polygon fill="#232d95" stroke="transparent" points="2,-483 2,-501 148,-501 148,-483 2,-483"></polygon>
+<polygon fill="none" stroke="white" points="2,-483 2,-501 148,-501 148,-483 2,-483"></polygon>
+<text text-anchor="start" x="5" y="-490" font-family="opensans" font-weight="bold" font-size="10.00" fill="white">vessels_in_films</text>
+<polygon fill="#404040" stroke="transparent" points="2,-465 2,-483 148,-483 148,-465 2,-465"></polygon>
+<polygon fill="none" stroke="white" points="2,-465 2,-483 148,-483 148,-465 2,-465"></polygon>
+<text text-anchor="start" x="5" y="-472" font-family="opensans" font-size="10.00" fill="#e2c044">PK </text>
+<text text-anchor="start" x="20.28" y="-472" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="27.28" y="-472" font-family="opensans" font-size="10.00" fill="white"> _id serial NOT NULL</text>
+<polygon fill="#404040" stroke="transparent" points="2,-447 2,-465 148,-465 148,-447 2,-447"></polygon>
+<polygon fill="none" stroke="white" points="2,-447 2,-465 148,-465 148,-447 2,-447"></polygon>
+<text text-anchor="start" x="4.98" y="-454" font-family="opensans" font-size="10.00" fill="#e2c044">FK </text>
+<text text-anchor="start" x="20.26" y="-454" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="27.26" y="-454" font-family="opensans" font-size="10.00" fill="white"> vessel_id bigint NOT NULL</text>
+<polygon fill="#404040" stroke="transparent" points="2,-429 2,-447 148,-447 148,-429 2,-429"></polygon>
+<polygon fill="none" stroke="white" points="2,-429 2,-447 148,-447 148,-429 2,-429"></polygon>
+<text text-anchor="start" x="5" y="-436" font-family="opensans" font-size="10.00" fill="#e2c044">FK </text>
+<text text-anchor="start" x="20.28" y="-436" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="27.28" y="-436" font-family="opensans" font-size="10.00" fill="white"> film_id bigint NOT NULL</text>
+</g>
+<!-- vessels_in_films&#45;&gt;films -->
+<g id="edge13" class="edge" style="opacity: 1;">
+<title>vessels_in_films:film_id-&gt;films:_id</title>
+<path fill="none" stroke="#5ea54a" d="M149,-438C244.89,-438 98.09,-642.9 175.97,-658.11"></path>
+<polygon fill="#5ea54a" stroke="#5ea54a" points="175.73,-661.6 186,-659 176.35,-654.63 175.73,-661.6"></polygon>
+</g>
+<!-- vessels_in_films&#45;&gt;vessels -->
+<g id="edge12" class="edge" style="opacity: 1;">
+<title>vessels_in_films:vessel_id-&gt;vessels:_id</title>
+<path fill="none" stroke="#5ea54a" d="M149,-456C249.57,-456 96.74,-240.96 179.49,-225.84"></path>
+<polygon fill="#5ea54a" stroke="#5ea54a" points="179.83,-229.32 189.5,-225 179.24,-222.35 179.83,-229.32"></polygon>
+</g>
+<!-- starship_specs -->
+<g id="node11" class="node" style="opacity: 1;">
+<title>starship_specs</title>
+<polygon fill="#232d95" stroke="transparent" points="2,-288 2,-306 148,-306 148,-288 2,-288"></polygon>
+<polygon fill="none" stroke="white" points="2,-288 2,-306 148,-306 148,-288 2,-288"></polygon>
+<text text-anchor="start" x="5" y="-295" font-family="opensans" font-weight="bold" font-size="10.00" fill="white">starship_specs</text>
+<polygon fill="#404040" stroke="transparent" points="2,-270 2,-288 148,-288 148,-270 2,-270"></polygon>
+<polygon fill="none" stroke="white" points="2,-270 2,-288 148,-288 148,-270 2,-270"></polygon>
+<text text-anchor="start" x="5" y="-277" font-family="opensans" font-size="10.00" fill="#e2c044">PK </text>
+<text text-anchor="start" x="20.28" y="-277" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="27.28" y="-277" font-family="opensans" font-size="10.00" fill="white"> _id serial NOT NULL</text>
+<polygon fill="#404040" stroke="transparent" points="2,-252 2,-270 148,-270 148,-252 2,-252"></polygon>
+<polygon fill="none" stroke="white" points="2,-252 2,-270 148,-270 148,-252 2,-252"></polygon>
+<text text-anchor="start" x="5" y="-258" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;hyperdrive_rating varchar</text>
+<polygon fill="#404040" stroke="transparent" points="2,-234 2,-252 148,-252 148,-234 2,-234"></polygon>
+<polygon fill="none" stroke="white" points="2,-234 2,-252 148,-252 148,-234 2,-234"></polygon>
+<text text-anchor="start" x="5" y="-240" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;MGLT varchar</text>
+<polygon fill="#404040" stroke="transparent" points="2,-216 2,-234 148,-234 148,-216 2,-216"></polygon>
+<polygon fill="none" stroke="white" points="2,-216 2,-234 148,-234 148,-216 2,-216"></polygon>
+<text text-anchor="start" x="4.98" y="-223" font-family="opensans" font-size="10.00" fill="#e2c044">FK </text>
+<text text-anchor="start" x="20.26" y="-223" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="27.26" y="-223" font-family="opensans" font-size="10.00" fill="white"> vessel_id bigint NOT NULL</text>
+</g>
+<!-- starship_specs&#45;&gt;vessels -->
+<g id="edge14" class="edge" style="opacity: 1;">
+<title>starship_specs:vessel_id-&gt;vessels:_id</title>
+<path fill="none" stroke="#5ea54a" d="M149,-225C163.06,-225 168.89,-225 179.34,-225"></path>
+<polygon fill="#5ea54a" stroke="#5ea54a" points="179.5,-228.5 189.5,-225 179.5,-221.5 179.5,-228.5"></polygon>
+</g>
+</g>
+</svg>

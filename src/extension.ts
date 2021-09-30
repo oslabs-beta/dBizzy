@@ -6,6 +6,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { worker } from 'cluster';
 import { format } from 'sql-formatter';
+import { Base64 } from 'js-base64';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -75,6 +76,7 @@ export function activate(context: vscode.ExtensionContext) {
     
       // And get the special URI to use with the webview
       const scriptSrc = panel.webview.asWebviewUri(onDiskPath);
+      console.log(scriptSrc)
       const styleSrc = panel.webview.asWebviewUri(styleDiskPath);
       const logoSrc = panel.webview.asWebviewUri(logoDiskPath);
 
@@ -90,12 +92,36 @@ export function activate(context: vscode.ExtensionContext) {
               return;
             case 'parseButtonClicked': 
               panel.webview.postMessage({ command: 'parseAgain' });
+              return;
+            case 'exportSVG':
+              const workspaceDirectory = path.join(__dirname, '../saved_diagrams/')
+              const newFilePath = path.join(workspaceDirectory, 'VsCodeExtensionTest.svg');
+              writeFile(newFilePath, message.text, () => {
+                vscode.window.showInformationMessage(`The file ${newFilePath} has been created in the root of the workspace.`);      
+              });
           }
         },
         undefined,
         context.subscriptions
       );
     
+      function getWorkspaceFolder(): string {
+        var folder = vscode.workspace.workspaceFolders;
+        var directoryPath: string = '';
+        if (folder != null) {
+          directoryPath = folder[0].uri.fsPath;
+        }
+        return directoryPath;
+      }
+      
+      function writeFile(filename: string, content: string | Uint8Array, callback: () => void) {
+        fs.writeFile(filename, content, function (err) {
+          if (err) {
+            return console.error(err);
+          }
+          callback();
+        });
+      }
     })
   );
 
@@ -150,11 +176,6 @@ export function activate(context: vscode.ExtensionContext) {
       const workerSrc = panel.webview.asWebviewUri(workerFilePath);
       const styleSrc = panel.webview.asWebviewUri(styleDiskPath);
       const logoSrc = panel.webview.asWebviewUri(logoDiskPath);
-      // const styleSrc = panel.webview.asWebviewUri(styleDiskPath);
-      console.log('onDiskPath: ', onDiskPath);
-      console.log('scriptSrc: ', scriptSrc);
-      console.log('workerSrc: ', workerSrc);
-      console.log('logoSrc: ', logoSrc);
       panel.webview.html = getBrowserWebviewContent(queryTitle, scriptSrc.toString(), workerSrc.toString(), styleSrc.toString(), logoSrc.toString());
 
       // Listens for 'getText' message.command from webview and sends back SQL file's text content
@@ -163,9 +184,7 @@ export function activate(context: vscode.ExtensionContext) {
           switch (message.command) {
             case 'getText':
               const sqlText = fs.readFileSync(SQLfilePath, 'utf8');
-              console.log('sending text to webview: ', sqlText);
               panel.webview.postMessage({ command: 'sendText' , text: sqlText});
-              // console.log('Browser path posted message: ', sqlText)
               return;
           }
         },
@@ -190,16 +209,20 @@ const getPreviewWebviewContent = (view: string, viewTitle: string, scriptSrc: st
       <script src="https://d3js.org/d3.v5.min.js"></script>
       <script src="https://unpkg.com/@hpcc-js/wasm@0.3.11/dist/index.min.js"></script>
       <script src="https://unpkg.com/d3-graphviz@3.0.5/build/d3-graphviz.js"></script>
+      <script src="https://cdn.rawgit.com/eligrey/canvas-toBlob.js/f1a01896135ab378aa5c0118eadd81da55e698d8/canvas-toBlob.js"></script>
+      <script src="https://cdn.rawgit.com/eligrey/FileSaver.js/e9d941381475b5df8b7d7691013401e171014e89/FileSaver.min.js"></script>
       <script type="text/javascript" src="${ scriptSrc }"></script>
       <title> ${ viewTitle } </title>
     </head>
     <body>
+      <button id="exportButton">Export Diagram SVG</button>
       <h1 id="title"><img id="dbizzy_logo"src="${ logoSrc }">Entity-Relation Visualizer</h1>
       <script>
         document.addEventListener('DOMContentLoaded', () => {
           const parseButton = document.querySelector('#sqlParseButton');
           const sqlInput = document.querySelector('#sqlInput');
-          
+          const exportButton = document.querySelector('#exportButton');
+
           const vscode = acquireVsCodeApi();
           function getText() {
             vscode.postMessage({
@@ -214,7 +237,16 @@ const getPreviewWebviewContent = (view: string, viewTitle: string, scriptSrc: st
             })
           })
 
+          exportButton.addEventListener('click', () => {
+            const svg = document.querySelectorAll('svg')[0];
+            var svgData = document.querySelectorAll('svg')[0].outerHTML.replace(/&nbsp;/g, '&#160;');
+            vscode.postMessage({
+              command: 'exportSVG', 
+              text: svgData
+            })
+          })
         });
+
       </script> 
     </body>
     </html>`
