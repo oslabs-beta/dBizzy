@@ -511,7 +511,7 @@ document.addEventListener('DOMContentLoaded', () => {
  
       // Push in string code to d3tables array to render table name as a row
       d3Tables.push(`
-        ${tableModel.Name} [label=<<table border ="0" cellborder ="1" cellspacing = "0" color = "white"><tr><td ALIGN = "LEFT" bgcolor = "#232d95"><b><font color = "white">${tableModel.Name}</font></b></td></tr>
+        ${tableModel.Name} [label=<<table border ="0" cellborder ="1" cellspacing = "0" color = "white" opacity = "0.5"><tr><td ALIGN = "LEFT" bgcolor = "#232d95"><b><font color = "white">${tableModel.Name}</font></b></td></tr>
       `)
 
       for (let i = 0; i < tableModel.Properties.length; i++) {
@@ -566,34 +566,56 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function interactive() {
-      nodes = d3.selectAll('.node');
-      // nodes = d3.selectAll('.node,.edge');
+      let nodes = d3.selectAll('.node');
+      let edges = d3.selectAll('.edge');
+      const nodeList = nodes._groups[0];
+      const edgeList = edges._groups[0];
+      console.log(nodeList, edgeList);
       nodes
         .on("mouseenter", function () {
-            var title = d3.select(this).selectAll('title').text().trim();
-            var text = d3.select(this).selectAll('text').text();
-            var id = d3.select(this).attr('id');
-            var class1 = d3.select(this).attr('class');
-            dotElement = title.replace('->',' -> ');
-            console.log('Element id="%s" class="%s" title="%s" text="%s" dotElement="%s"', id, class1, title, text, dotElement);
-            console.log('Finding references to %s "%s" from the DOT source', class1, dotElement);
-            for (i = 0; i < dotSrcLines.length; i += 1) {
-              if (dotSrcLines[i].indexOf(dotElement) >= 0) {
-                console.log('Reference on line %d: %s', i, dotSrcLines[i]);
-                
-              } 
+          const relatedTables = new Set();
+          const title = d3.select(this).selectAll('title').text().trim();
+          relatedTables.add(title);
+          for (let i = 0; i < edgeList.length; i += 1) {
+            const edgeTitle = edgeList[i].children[0].innerHTML;
+            const tableNames = edgeTitle.match(/([a-zA-Z_])+(?=:)/g);
+            if (tableNames.includes(title)) {
+              tableNames.forEach(tableName => {
+                relatedTables.add(tableName);
+              });
+            } else {
+              edgeList[i].style.opacity = '10%';
             }
-            diagraphString = dotSrcLines.join('\n');
-            render();
+          }
+          for (let i = 0; i < nodeList.length; i += 1) {
+            if (!relatedTables.has(nodeList[i].children[0].innerHTML)) {
+              nodeList[i].style.opacity = '10%';
+            }
+          }
+        })
+        .on("mouseleave", function () {
+          const relatedTables = new Set();
+          const title = d3.select(this).selectAll('title').text().trim();
+          relatedTables.add(title);
+          for (let i = 0; i < edgeList.length; i += 1) {
+            const edgeTitle = edgeList[i].children[0].innerHTML;
+            const tableNames = edgeTitle.match(/([a-zA-Z_])+(?=:)/g);
+            if (tableNames.includes(title)) {
+              tableNames.forEach(tableName => {
+                relatedTables.add(tableName);
+              });
+            } else {
+              edgeList[i].style.opacity = '100%';
+            }
+          }
+          for (let i = 0; i < nodeList.length; i += 1) {
+            if (!relatedTables.has(nodeList[i].children[0].innerHTML)) {
+              nodeList[i].style.opacity = '100%';
+            }
+          }
         });
     }
-
     render(diagraphString);
-    // d3.select('#graph')
-    // .graphviz()
-    // .renderDot(diagraphString)
-    // .on("end", interactive);
-
   };
 
   
