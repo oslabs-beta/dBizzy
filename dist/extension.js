@@ -14,7 +14,6 @@ const vscode = require("vscode");
 const path = require("path");
 const fs = require("fs");
 const sql_formatter_1 = require("sql-formatter");
-const js_base64_1 = require("js-base64");
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 function activate(context) {
@@ -76,13 +75,8 @@ function activate(context) {
                     panel.webview.postMessage({ command: 'parseAgain' });
                     return;
                 case 'exportSVG':
-                    // console.log('received exportSVG message', message.text)
-                    const dataUrl = message.text.split(',');
-                    const u8arr = js_base64_1.Base64.toUint8Array(dataUrl[1]);
                     const workspaceDirectory = path.join(__dirname, '../saved_diagrams/');
                     const newFilePath = path.join(workspaceDirectory, 'VsCodeExtensionTest.svg');
-                    console.log('workspaceDirectory: ', workspaceDirectory);
-                    console.log('newFilePath', newFilePath);
                     writeFile(newFilePath, message.text, () => {
                         vscode.window.showInformationMessage(`The file ${newFilePath} has been created in the root of the workspace.`);
                     });
@@ -138,20 +132,13 @@ function activate(context) {
         const workerSrc = panel.webview.asWebviewUri(workerFilePath);
         const styleSrc = panel.webview.asWebviewUri(styleDiskPath);
         const logoSrc = panel.webview.asWebviewUri(logoDiskPath);
-        // const styleSrc = panel.webview.asWebviewUri(styleDiskPath);
-        console.log('onDiskPath: ', onDiskPath);
-        console.log('scriptSrc: ', scriptSrc);
-        console.log('workerSrc: ', workerSrc);
-        console.log('logoSrc: ', logoSrc);
         panel.webview.html = getBrowserWebviewContent(queryTitle, scriptSrc.toString(), workerSrc.toString(), styleSrc.toString(), logoSrc.toString());
         // Listens for 'getText' message.command from webview and sends back SQL file's text content
         panel.webview.onDidReceiveMessage(message => {
             switch (message.command) {
                 case 'getText':
                     const sqlText = fs.readFileSync(SQLfilePath, 'utf8');
-                    console.log('sending text to webview: ', sqlText);
                     panel.webview.postMessage({ command: 'sendText', text: sqlText });
-                    // console.log('Browser path posted message: ', sqlText)
                     return;
             }
         }, undefined, context.subscriptions);
@@ -199,39 +186,11 @@ const getPreviewWebviewContent = (view, viewTitle, scriptSrc, styleSrc, logoSrc)
 
           exportButton.addEventListener('click', () => {
             const svg = document.querySelectorAll('svg')[0];
-
-            var svgData = document.querySelectorAll('svg')[0].outerHTML;
-            console.log(svgData)
-
-            let svgData2 = svgData.replace(/&nbsp;/g, ' ')
-            console.log(svgData2)
-            // var svgBlob = new Blob([svgData], {type:"image/svg+xml;charset=utf-8"});
-            // console.log('svgBlob',svgBlob)
-            // var svgUrl = URL.createObjectURL(svgBlob);
-            // svgUrl = svgUrl.slice(svgUrl.indexOf(':') + 1);
-            // console.log('svgUrl',svgUrl)
-
-            // const svgImage = document.createElement('img');
-            // svgImage.src = svgUrl;
-            // // document.querySelector('body').append(svgImage);
-            // console.log('svgImage', svgImage)
-            // const canvas = document.createElement('canvas');
-            // canvas.width = svg.getAttribute('width');
-            // canvas.height = svg.getAttribute('height');
-            // const canvasCtx = canvas.getContext('2d');
-            // canvasCtx.drawImage(svgImage, 0, 0);
-            // const imgData = canvas.toDataURL('image/png');
-  
-            // console.log('imgData: ', imgData)
-
-
-
+            var svgData = document.querySelectorAll('svg')[0].outerHTML.replace(/&nbsp;/g, '&#160;');
             vscode.postMessage({
               command: 'exportSVG', 
               text: svgData
             })
-
-
           })
         });
 
