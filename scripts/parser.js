@@ -553,7 +553,6 @@ document.addEventListener('DOMContentLoaded', () => {
     d3Tables.push('}')
     // Combine array to form a string for graphviz syntax
     let diagraphString = d3Tables.join('');
-    console.log(diagraphString);
     // console.log(diagraphString);
     let graphviz = d3.select('#graph').graphviz();
     // Select #graph div and render the graph
@@ -561,24 +560,24 @@ document.addEventListener('DOMContentLoaded', () => {
       dotSrcLines = diagraphString.split('\n');
   
       graphviz
+        .width(window.innerWidth)
+        .height(window.innerHeight)
         .renderDot(diagraphString)
         .on("end", interactive);
     }
 
     function interactive() {
-      let nodes = d3.selectAll('.node');
-      let edges = d3.selectAll('.edge');
+      const nodes = d3.selectAll('.node');
+      const edges = d3.selectAll('.edge');
       const nodeList = nodes._groups[0];
       const edgeList = edges._groups[0];
-      console.log(nodeList, edgeList);
       nodes
         .on("mouseenter", function () {
           const relatedTables = new Set();
           const title = d3.select(this).selectAll('title').text().trim();
           relatedTables.add(title);
           for (let i = 0; i < edgeList.length; i += 1) {
-            const edgeTitle = edgeList[i].children[0].innerHTML;
-            const tableNames = edgeTitle.match(/([a-zA-Z_])+(?=:)/g);
+            const tableNames = edgeList[i].children[0].innerHTML.match(/([a-zA-Z_])+(?=:)/g);
             if (tableNames.includes(title)) {
               tableNames.forEach(tableName => {
                 relatedTables.add(tableName);
@@ -598,8 +597,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const title = d3.select(this).selectAll('title').text().trim();
           relatedTables.add(title);
           for (let i = 0; i < edgeList.length; i += 1) {
-            const edgeTitle = edgeList[i].children[0].innerHTML;
-            const tableNames = edgeTitle.match(/([a-zA-Z_])+(?=:)/g);
+            const tableNames = edgeList[i].children[0].innerHTML.match(/([a-zA-Z_])+(?=:)/g);
             if (tableNames.includes(title)) {
               tableNames.forEach(tableName => {
                 relatedTables.add(tableName);
@@ -617,22 +615,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     render(diagraphString);
   };
-
-  
-
-  function render() {
-    console.log('DOT source =', dotSrc);
-    dotSrcLines = dotSrc.split('\n');
-
-    graphviz
-      .transition(function() {
-        return d3.transition()
-          .delay(100)
-          .duration(1000);
-      })
-      .renderDot(dotSrc)
-      .on("end", interactive);
-  }
 
   // Event Listeners
 
