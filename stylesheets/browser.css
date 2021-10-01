@@ -46,13 +46,6 @@ tbody::before {
   padding: .3rem .5rem;
 }
 
-/* buttons with no functionality are not displayed */
-#savedb, 
-#savedesc, 
-#localdb {
-  display: none
-}
-
 #title {
   font-family: var(--primary-font);
   font-weight: 500;
