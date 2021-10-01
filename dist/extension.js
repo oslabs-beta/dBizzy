@@ -63,7 +63,7 @@ function activate(context) {
                     return;
                 case 'exportSVG':
                     const workspaceDirectory = path.join(__dirname, '../saved_diagrams/');
-                    const newFilePath = path.join(workspaceDirectory, 'VsCodeExtensionTest.svg');
+                    const newFilePath = path.join(workspaceDirectory, 'dBizzyPreview.svg');
                     writeFile(newFilePath, message.text, () => {
                         vscode.window.showInformationMessage(`The file ${newFilePath} has been created in the root of the workspace.`);
                     });
