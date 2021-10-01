@@ -1,0 +1,20 @@
+table, th, td {
+  border: 1px solid black;
+}
+
+#dbizzy_logo {
+  height: auto;
+  margin-right: 0.5rem;
+  width: 1.25rem;
+}
+
+#title {
+  font-family: var(--primary-font);
+  font-weight: 500;
+  color: rgb(235, 235, 235);
+}
+
+button {
+  display: inline-block;
+  margin-right: 10px;
+}

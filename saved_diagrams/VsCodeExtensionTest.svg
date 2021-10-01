@@ -1,0 +1,102 @@
+<svg width="1482" height="953" viewBox="0 0 1111.5 714.75" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="translate(4,151.1999969482422) scale(1)">
+<title>G</title>
+<polygon fill="transparent" stroke="transparent" points="-4,4 -4,-151.2 435,-151.2 435,4 -4,4"></polygon>
+<!-- Countries -->
+<g id="node1" class="node">
+<title>Countries</title>
+<polygon fill="#232d95" stroke="transparent" points="325,-58.2 325,-76.2 431,-76.2 431,-58.2 325,-58.2"></polygon>
+<polygon fill="none" stroke="white" points="325,-58.2 325,-76.2 431,-76.2 431,-58.2 325,-58.2"></polygon>
+<text text-anchor="start" x="328" y="-65.2" font-family="opensans" font-weight="bold" font-size="10.00" fill="white">Countries</text>
+<polygon fill="#404040" stroke="transparent" points="325,-40.2 325,-58.2 431,-58.2 431,-40.2 325,-40.2"></polygon>
+<polygon fill="none" stroke="white" points="325,-40.2 325,-58.2 431,-58.2 431,-40.2 325,-40.2"></polygon>
+<text text-anchor="start" x="328" y="-47.2" font-family="opensans" font-size="10.00" fill="#e2c044">PK </text>
+<text text-anchor="start" x="343.28" y="-47.2" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="350.28" y="-47.2" font-family="opensans" font-size="10.00" fill="white"> country_ID int</text>
+<polygon fill="#404040" stroke="transparent" points="325,-22.2 325,-40.2 431,-40.2 431,-22.2 325,-22.2"></polygon>
+<polygon fill="none" stroke="white" points="325,-22.2 325,-40.2 431,-40.2 431,-22.2 325,-22.2"></polygon>
+<text text-anchor="start" x="327.61" y="-28.2" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;name varchar(255)</text>
+<polygon fill="#404040" stroke="transparent" points="325,-4.2 325,-22.2 431,-22.2 431,-4.2 325,-4.2"></polygon>
+<polygon fill="none" stroke="white" points="325,-4.2 325,-22.2 431,-22.2 431,-4.2 325,-4.2"></polygon>
+<text text-anchor="start" x="328" y="-10.2" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;population int</text>
+</g>
+<!-- Persons -->
+<g id="node2" class="node">
+<title>Persons</title>
+<polygon fill="#232d95" stroke="transparent" points="0.5,-129.2 0.5,-147.2 127.5,-147.2 127.5,-129.2 0.5,-129.2"></polygon>
+<polygon fill="none" stroke="white" points="0.5,-129.2 0.5,-147.2 127.5,-147.2 127.5,-129.2 0.5,-129.2"></polygon>
+<text text-anchor="start" x="3.5" y="-136.2" font-family="opensans" font-weight="bold" font-size="10.00" fill="white">Persons</text>
+<polygon fill="#404040" stroke="transparent" points="0.5,-111.2 0.5,-129.2 127.5,-129.2 127.5,-111.2 0.5,-111.2"></polygon>
+<polygon fill="none" stroke="white" points="0.5,-111.2 0.5,-129.2 127.5,-129.2 127.5,-111.2 0.5,-111.2"></polygon>
+<text text-anchor="start" x="3.5" y="-118.2" font-family="opensans" font-size="10.00" fill="#e2c044">PK </text>
+<text text-anchor="start" x="18.78" y="-118.2" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="25.78" y="-118.2" font-family="opensans" font-size="10.00" fill="white"> person_ID int</text>
+<polygon fill="#404040" stroke="transparent" points="0.5,-93.2 0.5,-111.2 127.5,-111.2 127.5,-93.2 0.5,-93.2"></polygon>
+<polygon fill="none" stroke="white" points="0.5,-93.2 0.5,-111.2 127.5,-111.2 127.5,-93.2 0.5,-93.2"></polygon>
+<text text-anchor="start" x="3.5" y="-99.2" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;last_name varchar(255)</text>
+<polygon fill="#404040" stroke="transparent" points="0.5,-75.2 0.5,-93.2 127.5,-93.2 127.5,-75.2 0.5,-75.2"></polygon>
+<polygon fill="none" stroke="white" points="0.5,-75.2 0.5,-93.2 127.5,-93.2 127.5,-75.2 0.5,-75.2"></polygon>
+<text text-anchor="start" x="3.05" y="-81.2" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;first_name varchar(255)</text>
+<polygon fill="#404040" stroke="transparent" points="0.5,-57.2 0.5,-75.2 127.5,-75.2 127.5,-57.2 0.5,-57.2"></polygon>
+<polygon fill="none" stroke="white" points="0.5,-57.2 0.5,-75.2 127.5,-75.2 127.5,-57.2 0.5,-57.2"></polygon>
+<text text-anchor="start" x="3.5" y="-63.2" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;address varchar(255)</text>
+<polygon fill="#404040" stroke="transparent" points="0.5,-39.2 0.5,-57.2 127.5,-57.2 127.5,-39.2 0.5,-39.2"></polygon>
+<polygon fill="none" stroke="white" points="0.5,-39.2 0.5,-57.2 127.5,-57.2 127.5,-39.2 0.5,-39.2"></polygon>
+<text text-anchor="start" x="3.5" y="-46.2" font-family="opensans" font-size="10.00" fill="#e2c044">FK </text>
+<text text-anchor="start" x="18.78" y="-46.2" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="25.78" y="-46.2" font-family="opensans" font-size="10.00" fill="white"> city_ID int</text>
+<polygon fill="#404040" stroke="transparent" points="0.5,-21.2 0.5,-39.2 127.5,-39.2 127.5,-21.2 0.5,-21.2"></polygon>
+<polygon fill="none" stroke="white" points="0.5,-21.2 0.5,-39.2 127.5,-39.2 127.5,-21.2 0.5,-21.2"></polygon>
+<text text-anchor="start" x="3.5" y="-28.2" font-family="opensans" font-size="10.00" fill="#e2c044">FK </text>
+<text text-anchor="start" x="18.78" y="-28.2" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="25.78" y="-28.2" font-family="opensans" font-size="10.00" fill="white"> country_ID int</text>
+</g>
+<!-- Persons&#45;&gt;Countries -->
+<g id="edge2" class="edge">
+<title>Persons:country_ID-&gt;Countries:country_ID</title>
+<path fill="none" stroke="#5ea54a" d="M127,-30.2C144.69,-30.2 145.73,-17.08 163,-13.2 217.64,-0.95 237.26,8.23 289,-13.2 305.99,-20.24 304.2,-39.61 315.07,-46.62"></path>
+<polygon fill="#5ea54a" stroke="#5ea54a" points="314.44,-50.08 325,-49.2 316.2,-43.3 314.44,-50.08"></polygon>
+</g>
+<!-- Cities -->
+<g id="node3" class="node">
+<title>Cities</title>
+<polygon fill="#232d95" stroke="transparent" points="163,-94.2 163,-112.2 289,-112.2 289,-94.2 163,-94.2"></polygon>
+<polygon fill="none" stroke="white" points="163,-94.2 163,-112.2 289,-112.2 289,-94.2 163,-94.2"></polygon>
+<text text-anchor="start" x="166" y="-101.2" font-family="opensans" font-weight="bold" font-size="10.00" fill="white">Cities</text>
+<polygon fill="#404040" stroke="transparent" points="163,-76.2 163,-94.2 289,-94.2 289,-76.2 163,-76.2"></polygon>
+<polygon fill="none" stroke="white" points="163,-76.2 163,-94.2 289,-94.2 289,-76.2 163,-76.2"></polygon>
+<text text-anchor="start" x="166" y="-83.2" font-family="opensans" font-size="10.00" fill="#e2c044">PK | FK </text>
+<text text-anchor="start" x="201.06" y="-83.2" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="208.05" y="-83.2" font-family="opensans" font-size="10.00" fill="white"> city_ID int</text>
+<polygon fill="#404040" stroke="transparent" points="163,-58.2 163,-76.2 289,-76.2 289,-58.2 163,-58.2"></polygon>
+<polygon fill="none" stroke="white" points="163,-58.2 163,-76.2 289,-76.2 289,-58.2 163,-58.2"></polygon>
+<text text-anchor="start" x="165.61" y="-64.2" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;city_name varchar(255)</text>
+<polygon fill="#404040" stroke="transparent" points="163,-40.2 163,-58.2 289,-58.2 289,-40.2 163,-40.2"></polygon>
+<polygon fill="none" stroke="white" points="163,-40.2 163,-58.2 289,-58.2 289,-40.2 163,-40.2"></polygon>
+<text text-anchor="start" x="166" y="-47.2" font-family="opensans" font-size="10.00" fill="#e2c044">FK </text>
+<text text-anchor="start" x="181.28" y="-47.2" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="188.28" y="-47.2" font-family="opensans" font-size="10.00" fill="white"> country_ID int</text>
+<polygon fill="#404040" stroke="transparent" points="163,-22.2 163,-40.2 289,-40.2 289,-22.2 163,-22.2"></polygon>
+<polygon fill="none" stroke="white" points="163,-22.2 163,-40.2 289,-40.2 289,-22.2 163,-22.2"></polygon>
+<text text-anchor="start" x="166" y="-28.2" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;population int</text>
+</g>
+<!-- Persons&#45;&gt;Cities -->
+<g id="edge1" class="edge">
+<title>Persons:city_ID-&gt;Cities:city_ID</title>
+<path fill="none" stroke="#5ea54a" d="M127,-48.2C145.82,-48.2 142.55,-73.1 153.43,-82.05"></path>
+<polygon fill="#5ea54a" stroke="#5ea54a" points="152.41,-85.4 163,-85.2 154.6,-78.75 152.41,-85.4"></polygon>
+</g>
+<!-- Cities&#45;&gt;Countries -->
+<g id="edge3" class="edge" style="opacity: 1;">
+<title>Cities:city_ID-&gt;Countries:population</title>
+<path fill="none" stroke="#5ea54a" d="M289,-85.2C320.58,-85.2 296.58,-29.09 315.13,-15.94"></path>
+<polygon fill="#5ea54a" stroke="#5ea54a" points="316.3,-19.25 325,-13.2 314.43,-12.5 316.3,-19.25"></polygon>
+</g>
+<!-- Cities&#45;&gt;Countries -->
+<g id="edge4" class="edge" style="opacity: 1;">
+<title>Cities:country_ID-&gt;Countries:country_ID</title>
+<path fill="none" stroke="#5ea54a" d="M289,-49.2C301,-49.2 306.25,-49.2 314.88,-49.2"></path>
+<polygon fill="#5ea54a" stroke="#5ea54a" points="315,-52.7 325,-49.2 315,-45.7 315,-52.7"></polygon>
+</g>
+</g>
+</svg>
