@@ -70,10 +70,10 @@ export function activate(context: vscode.ExtensionContext) {
               panel.webview.postMessage({ command: 'parseAgain' });
               return;
             case 'exportSVG':
-              const workspaceDirectory = path.join(__dirname, '../saved_diagrams/')
+              const workspaceDirectory = getWorkspaceFolder();
               const newFilePath = path.join(workspaceDirectory, 'dBizzyPreview.svg');
               writeFile(newFilePath, message.text, () => {
-                vscode.window.showInformationMessage(`The file ${newFilePath} has been created in the root of the workspace.`);      
+                vscode.window.showInformationMessage(`The file dBizzyPreview.svg has been updated!`);      
               });
           }
         },
@@ -81,6 +81,15 @@ export function activate(context: vscode.ExtensionContext) {
         context.subscriptions
       );
       
+      function getWorkspaceFolder(): string {
+        var folder = vscode.workspace.workspaceFolders;
+        var directoryPath: string = '';
+        if (folder != null) {
+          directoryPath = folder[0].uri.fsPath;
+        }
+        return directoryPath;
+      }
+
       function writeFile(filename: string, content: string | Uint8Array, callback: () => void) {
         fs.writeFile(filename, content, function (err) {
           if (err) {

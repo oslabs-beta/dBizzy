@@ -1,4 +1,4 @@
 node_modules/
 .eslintrc.json
 vsc-extension-quickstart.md
-saved_diagrams/*.svg
+dBizzyPreview.svg
