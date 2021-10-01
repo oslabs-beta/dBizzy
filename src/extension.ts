@@ -1,35 +1,12 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
-import { countReset } from 'console';
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
-import { worker } from 'cluster';
 import { format } from 'sql-formatter';
-import { Base64 } from 'js-base64';
 
-// this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) { 
-
-  // // And get the special URI to use with the webview
-  // const scriptSrc = panel.webview.asWebviewUri(onDiskPath);
-
-
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "dbizzy" is now active!');
-
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	context.subscriptions.push(vscode.commands.registerCommand('dbizzy.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('bello World from dBizzy!');
-	  })
-  );
-	
 	// Preview Database -- create new webview panel 
 	context.subscriptions.push(
 		vscode.commands.registerCommand('dbizzy.previewDatabase', async () => {
@@ -76,7 +53,6 @@ export function activate(context: vscode.ExtensionContext) {
     
       // And get the special URI to use with the webview
       const scriptSrc = panel.webview.asWebviewUri(onDiskPath);
-      console.log(scriptSrc)
       const styleSrc = panel.webview.asWebviewUri(styleDiskPath);
       const logoSrc = panel.webview.asWebviewUri(logoDiskPath);
 
@@ -104,15 +80,6 @@ export function activate(context: vscode.ExtensionContext) {
         undefined,
         context.subscriptions
       );
-    
-      function getWorkspaceFolder(): string {
-        var folder = vscode.workspace.workspaceFolders;
-        var directoryPath: string = '';
-        if (folder != null) {
-          directoryPath = folder[0].uri.fsPath;
-        }
-        return directoryPath;
-      }
       
       function writeFile(filename: string, content: string | Uint8Array, callback: () => void) {
         fs.writeFile(filename, content, function (err) {
@@ -159,7 +126,7 @@ export function activate(context: vscode.ExtensionContext) {
 
       // Get path to resource on disk
       const onDiskPath = vscode.Uri.file(
-        path.join(context.extensionPath,'scripts', 'gui.js')
+        path.join(context.extensionPath,'scripts', 'browser.js')
       );
       const workerFilePath = vscode.Uri.file(
         path.join(context.extensionPath,'scripts', 'worker.sql-wasm.js')
@@ -239,7 +206,7 @@ const getPreviewWebviewContent = (view: string, viewTitle: string, scriptSrc: st
 
           exportButton.addEventListener('click', () => {
             const svg = document.querySelectorAll('svg')[0];
-            var svgData = document.querySelectorAll('svg')[0].outerHTML.replace(/&nbsp;/g, '&#160;');
+            const svgData = document.querySelectorAll('svg')[0].outerHTML.replace(/&nbsp;/g, '&#160;');
             vscode.postMessage({
               command: 'exportSVG', 
               text: svgData
@@ -276,34 +243,9 @@ const getBrowserWebviewContent = (queryTitle: String, guiScript: String, workerS
       <h1 id="title"><img id="dbizzy_logo"src="${ logoSrc }">Local SQL Interpreter</h1>
     
       <main>
-        <textarea id="commands">DROP TABLE IF EXISTS employees;
-              CREATE TABLE employees( id          integer,  name    text,
-              designation text,     manager integer,
-              hired_on    date,     salary  integer,
-              commission  float,    dept    integer);
-              
-              INSERT INTO employees VALUES (1,'JOHNSON','ADMIN',6,'1990-12-17',18000,NULL,4);
-              INSERT INTO employees VALUES (2,'HARDING','MANAGER',9,'1998-02-02',52000,300,3);
-              INSERT INTO employees VALUES (3,'TAFT','SALES I',2,'1996-01-02',25000,500,3);
-              INSERT INTO employees VALUES (4,'HOOVER','SALES I',2,'1990-04-02',27000,NULL,3);
-              INSERT INTO employees VALUES (5,'LINCOLN','TECH',6,'1994-06-23',22500,1400,4);
-              INSERT INTO employees VALUES (6,'GARFIELD','MANAGER',9,'1993-05-01',54000,NULL,4);
-              INSERT INTO employees VALUES (7,'POLK','TECH',6,'1997-09-22',25000,NULL,4);
-              INSERT INTO employees VALUES (8,'GRANT','ENGINEER',10,'1997-03-30',32000,NULL,2);
-              INSERT INTO employees VALUES (9,'JACKSON','CEO',NULL,'1990-01-01',75000,NULL,4);
-              INSERT INTO employees VALUES (10,'FILLMORE','MANAGER',9,'1994-08-09',56000,NULL,2);
-              INSERT INTO employees VALUES (11,'ADAMS','ENGINEER',10,'1996-03-15',34000,NULL,2);
-              INSERT INTO employees VALUES (12,'WASHINGTON','ADMIN',6,'1998-04-16',18000,NULL,4);
-              INSERT INTO employees VALUES (13,'MONROE','ENGINEER',10,'2000-12-03',30000,NULL,2);
-              INSERT INTO employees VALUES (14,'ROOSEVELT','CPA',9,'1995-10-12',35000,NULL,1);
-              
-              SELECT designation,COUNT(*) AS nbr, (AVG(salary)) AS avg_salary FROM employees GROUP BY designation ORDER BY avg_salary DESC;
-              SELECT name,hired_on FROM employees ORDER BY hired_on;</textarea>
+        <textarea id="commands">-- Did not select .sql file!</textarea>
         <div class="button_container">
           <button id="execute" class="button">Execute</button>
-          <button id='savedb' class="button">Save the db</button>
-          <label id='savedesc' class="button">Load an SQLite database file: <input type='file' id='dbfile'></label>
-          <button id="localdb" class="button">Use Local File</button>
         </div>
         <div id="query_performance"></div>
         <div id="error" class="error"></div>
@@ -313,15 +255,8 @@ const getBrowserWebviewContent = (queryTitle: String, guiScript: String, workerS
     
       <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.1/mode/sql/sql.min.js"></script>
     
-      <!--
-      <footer>
-        Original work by kripken (<a href='https://github.com/sql-js/sql.js'>sql.js</a>).
-        C to Javascript compiler by kripken (<a href='https://github.com/kripken/emscripten'>emscripten</a>).
-      </footer>
-      -->
       <script type="text/javascript">
         const workerSource = '${workerScript}';
-        
         const sqlInput = document.querySelector('#commands');
         (function() {
           const vscode = acquireVsCodeApi();
@@ -329,11 +264,8 @@ const getBrowserWebviewContent = (queryTitle: String, guiScript: String, workerS
               command: 'getText'
           })    
         }());
-
       </script>
-
       <script type="text/javascript" src="${ guiScript }"></script>
-
       <script type="text/javascript">
 
         window.addEventListener('message', event => {

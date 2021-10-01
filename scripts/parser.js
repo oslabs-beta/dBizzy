@@ -506,7 +506,6 @@ document.addEventListener('DOMContentLoaded', () => {
     d3Tables.push('}')
     // Combine array to form a string for graphviz syntax
     const diagraphString = d3Tables.join('');
-    // console.log(diagraphString);
     const graphviz = d3.select('#graph').graphviz();
     // Select #graph div and render the graph
     function render() {

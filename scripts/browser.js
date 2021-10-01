@@ -2,9 +2,6 @@ const execBtn = document.getElementById("execute");
 const outputElm = document.getElementById('output');
 const errorElm = document.getElementById('error');
 const commandsElm = document.getElementById('commands');
-const dbFileElm = document.getElementById('dbfile');
-const savedbElm = document.getElementById('savedb');
-const localBtn = document.getElementById('localdb');
 const queryPerformance = document.getElementById('query_performance');
 
 let worker;
@@ -26,10 +23,6 @@ fetch(workerSource, {
     // Open a database
     worker.postMessage({ action: 'open' });
 
-    // Connect to the HTML element we 'print' to
-    function print(text) {
-      outputElm.innerHTML = text.replace(/\n/g, '<br>');
-    }
     function error(e) {
       console.log(e);
       errorElm.style.height = '2em';
@@ -93,7 +86,6 @@ fetch(workerSource, {
     function toc(msg) {
       const dt = performance.now() - tictime;
       queryPerformance.innerText = `${msg || 'toc'}` + ': ' + dt + 'ms';
-      console.log((msg || 'toc') + ": " + dt + "ms");
     }
 
     // Add syntax highlighting to the textarea
@@ -107,52 +99,6 @@ fetch(workerSource, {
       autofocus: true,
       extraKeys: {
         "Ctrl-Enter": execEditorContents,
-        "Ctrl-S": savedb,
       }
     });
-
-    // Loading database from a SQL file
-    dbFileElm.onchange = function () {
-      const f = dbFileElm.files[0];
-      const r = new FileReader();
-      r.onload = function () {
-        worker.onmessage = function () {
-          toc("Loading database from file");
-          // Show the schema of the loaded database
-          editor.setValue("SELECT `name`, `sql`\n  FROM `sqlite_master`\n  WHERE type='table';");
-          execEditorContents();
-        };
-        tic();
-        try {
-          worker.postMessage({ action: 'open', buffer: r.result }, [r.result]);
-        }
-        catch (exception) {
-          worker.postMessage({ action: 'open', buffer: r.result });
-        }
-      }
-      r.readAsArrayBuffer(f);
-    }
-
-    // not being used
-    // Save the db to a file
-    function savedb() {
-      worker.onmessage = function (event) {
-        toc("Exporting the database");
-        var arraybuff = event.data.buffer;
-        var blob = new Blob([arraybuff]);
-        var a = document.createElement("a");
-        document.body.appendChild(a);
-        a.href = window.URL.createObjectURL(blob);
-        a.download = "sql.db";
-        a.onclick = function () {
-          setTimeout(function () {
-            window.URL.revokeObjectURL(a.href);
-          }, 1500);
-        };
-        a.click();
-      };
-      tic();
-      worker.postMessage({ action: 'export' });
-    }
-    savedbElm.addEventListener("click", savedb, true);
   });

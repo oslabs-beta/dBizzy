@@ -10,7 +10,6 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:dbizzy.helloWorld",
 		"onCommand:dbizzy.previewDatabase",
 		"onCommand:dbizzy.openDatabaseBrowser"
 	],
@@ -26,10 +25,6 @@
 				"command": "dbizzy.openDatabaseBrowser",
 				"title": "Open Database Browser",
 				"category": "dBizzy"
-			},
-			{
-				"command": "dbizzy.helloWorld",
-				"title": "Hello World"
 			}
 		]
 	},
@@ -46,7 +41,6 @@
 	},
 	"dependencies": {
 		"d3-graphviz": "^4.0.0",
-		"js-base64": "^3.7.2",
 		"sql-formatter": "^4.0.2",
 		"sql.js": "^1.6.1"
 	},
@@ -63,7 +57,7 @@
 		"ts-loader": "^9.2.2",
 		"typescript": "^4.3.2",
 		"vscode-test": "^1.5.2",
-		"webpack": "^5.38.1",
+		"webpack": "^5.55.1",
 		"webpack-cli": "^4.8.0"
 	}
 }
