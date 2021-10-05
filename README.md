@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/oslabs-beta/dBizzy">
-    <img src="https://github.com/oslabs-beta/dBizzy/blob/main/media/dbizzy-logo-marketplace.png" alt="Logo" height="120">
+    <img src="https://github.com/oslabs-beta/dBizzy/blob/main/assets/dbizzy-logo-marketplace.png" alt="Logo" height="120">
   </a>
 
   <h3 align="center">dBizzy</h3>
