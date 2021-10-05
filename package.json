@@ -2,7 +2,7 @@
 	"name": "dbizzy",
 	"displayName": "dBizzy",
 	"publisher": "dbizzy",
-	"icon": "https://github.com/oslabs-beta/dBizzy/blob/main/media/dbizzy-logo-marketplace.png",
+	"icon": "media/dbizzy-logo-marketplace.png",
 	"description": "ER Diagram Visualizer",
 	"version": "0.0.2",
 	"repository": {
