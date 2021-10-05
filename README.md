@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/oslabs-beta/dBizzy">
-    <img src="assets/dbizzy-logo.png" alt="Logo" height="120">
+    <img src="assets/dbizzy-logo-marketplace.png" alt="Logo" height="120">
   </a>
 
   <h3 align="center">dBizzy</h3>
@@ -21,6 +21,14 @@
     <a href="https://github.com/oslabs-beta/dBizzy/network/members"><img alt="GitHub forks" src="https://img.shields.io/github/forks/oslabs-beta/dBizzy"></a>
     <!-- STARS -->
     <a href="https://github.com/oslabs-beta/dBizzy/stargazers"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/oslabs-beta/dBizzy"></a>
+    <!-- MARKETPLACE -->
+    <a href="https://marketplace.visualstudio.com/items?itemName=dBizzy.dbizzy">
+      <img src="https://vsmarketplacebadge.apphb.com/version-short/dBizzy.dbizzy.svg">
+    </a>
+    <!-- DOWNLOADS -->
+    <a href="https://marketplace.visualstudio.com/items?itemName=dBizzy.dbizzy">
+      <img src="https://vsmarketplacebadge.apphb.com/downloads-short/dBizzy.dbizzy.svg">
+    </a>
     <!-- GITHUB RELEASE VERSION -->
     <a href="https://github.com/oslabs-beta/dBizzy/releases"><img alt="GitHub release (latest by date including pre-releases)" src="https://img.shields.io/github/v/release/oslabs-beta/sapling?include_prereleases"></a>
     <!-- LICENSE -->
