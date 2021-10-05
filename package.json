@@ -4,11 +4,11 @@
 	"publisher": "dbizzy",
 	"icon": "assets/dbizzy-logo-marketplace.png",
 	"description": "ER Diagram Visualizer",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"repository": {
-    "type": "git",
-    "url": "https://github.com/oslabs-beta/dBizzy.git"
-  },
+		"type": "git",
+		"url": "https://github.com/oslabs-beta/dBizzy.git"
+	},
 	"engines": {
 		"vscode": "^1.60.0"
 	},
