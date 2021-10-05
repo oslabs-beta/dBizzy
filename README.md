@@ -1,6 +1,34 @@
-## ![dBizzy](./assets/dbizzy-logo.png) About
+<p align="center">
+  <a href="https://github.com/oslabs-beta/dBizzy">
+    <img src="assets/dbizzy-logo.png" alt="Logo" height="120">
+  </a>
 
-dBizzy is an easy-to-use VS Code Extension designed to facilitate early-stage database development.
+  <h3 align="center">dBizzy</h3>
+
+  <p align="center">
+    An intuitive VS Code Extension designed to facilitate early-stage database development.
+    <br />
+    <a href="https://github.com/oslabs-beta/dBizzy"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/oslabs-beta/dBizzy/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/oslabs-beta/dBizzy/issues">Request Feature</a>
+  </p>
+    <!-- BADGES -->
+  <p align="center">
+    <!-- FORKS -->
+    <a href="https://github.com/oslabs-beta/dBizzy/network/members"><img alt="GitHub forks" src="https://img.shields.io/github/forks/oslabs-beta/dBizzy"></a>
+    <!-- STARS -->
+    <a href="https://github.com/oslabs-beta/dBizzy/stargazers"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/oslabs-beta/dBizzy"></a>
+    <!-- GITHUB RELEASE VERSION -->
+    <a href="https://github.com/oslabs-beta/dBizzy/releases"><img alt="GitHub release (latest by date including pre-releases)" src="https://img.shields.io/github/v/release/oslabs-beta/sapling?include_prereleases"></a>
+    <!-- LICENSE -->
+    <a href="https://github.com/oslabs-beta/dBizzy/LICENSE"><img alt="GitHub" src="https://img.shields.io/github/license/oslabs-beta/dBizzy"></a>
+    <!-- CONTRIBUTIONS -->
+    <a href="https://github.com/oslabs-beta/dBizzy/README.md"><img alt="Contributions" src="https://img.shields.io/badge/contributors-welcome-brightgreen"></a>
+  </p>
+</p>
 
 ## Features
 
