@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/oslabs-beta/dBizzy">
-    <img src="https://github.com/oslabs-beta/dBizzy/blob/main/assets/dbizzy-logo-marketplace.png" alt="Logo" height="120">
+    <img src="https://github.com/oslabs-beta/dBizzy/raw/main/assets/dbizzy-logo-marketplace.png" alt="Logo" height="120">
   </a>
 
   <h3 align="center">dBizzy</h3>
@@ -32,7 +32,7 @@
     <!-- GITHUB RELEASE VERSION -->
     <a href="https://github.com/oslabs-beta/dBizzy/releases"><img alt="GitHub release (latest by date including pre-releases)" src="https://img.shields.io/github/v/release/oslabs-beta/dBizzy?include_prereleases"></a>
     <!-- LICENSE -->
-    <a href="https://github.com/oslabs-beta/dBizzy/blob/main/LICENSE"><img alt="GitHub" src="https://img.shields.io/github/license/oslabs-beta/dBizzy"></a>
+    <a href="https://github.com/oslabs-beta/dBizzy/raw/main/LICENSE"><img alt="GitHub" src="https://img.shields.io/github/license/oslabs-beta/dBizzy"></a>
     <!-- CONTRIBUTIONS -->
     <a href="https://github.com/oslabs-beta/dBizzy/blob/main/README.md"><img alt="Contributions" src="https://img.shields.io/badge/contributors-welcome-brightgreen"></a>
   </p>
@@ -46,20 +46,20 @@ Once the extension is installed, navigate to the command palette. Two commands a
 
 Running the command [dBizzy: Preview Database] prompts .sql file selection.  The selected .sql file is then displayed in a new VSCode panel beside current panel.  Changes to the .sql file can be reflected in the visualization upon clicking 'Update Diagrams.'
 
-![Preview Database](https://github.com/oslabs-beta/dBizzy/blob/main/media/preview-database.gif)
+![Preview Database](https://github.com/oslabs-beta/dBizzy/raw/main/media/preview-database.gif)
 
 
 ER diagrams can be exported as SVG files by clicking the "Export Diagram" button. They will be saved in the current project directory folder. 
 
-![Export ER Diagram](https://github.com/oslabs-beta/dBizzy/blob/main/media/export-diagram.gif)
+![Export ER Diagram](https://github.com/oslabs-beta/dBizzy/raw/main/media/export-diagram.gif)
 
 ### Open Database Browser
 
 Running the command [dBizzy: Open Database Browser] prompts .sql file selection. The selected .sql file's text content is populated in the browser's query field.  Upon first executing a valid query, a database is created in memory and the query is executed.  Any returned results from the query are displayed under the query field.  The database is persistent and is cleared from memory upon closing the browser panel.
 
-![Open Database Browser](https://github.com/oslabs-beta/dBizzy/blob/main/media/open-database.gif)
+![Open Database Browser](https://github.com/oslabs-beta/dBizzy/raw/main/media/open-database.gif)
 
-![Persistent Database](https://github.com/oslabs-beta/dBizzy/blob/main/media/persistent-database.gif)
+![Persistent Database](https://github.com/oslabs-beta/dBizzy/raw/main/media/persistent-database.gif)
 
 
 ## Features to improve / implement
