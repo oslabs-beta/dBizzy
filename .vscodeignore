@@ -3,9 +3,11 @@
 node_modules/**
 src/**
 samples/**
+media/**
 dBizzyPreview.svg
 .gitignore
 .yarnrc
+.eslintrc.json
 vsc-extension-quickstart.md
 **/tsconfig.json
 **/.eslintrc.json

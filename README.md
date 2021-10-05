@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/oslabs-beta/dBizzy">
-    <img src="assets/dbizzy-logo-marketplace.png" alt="Logo" height="120">
+    <img src="https://github.com/oslabs-beta/dBizzy/blob/main/media/dbizzy-logo-marketplace.png" alt="Logo" height="120">
   </a>
 
   <h3 align="center">dBizzy</h3>
@@ -46,13 +46,19 @@ Once the extension is installed, navigate to the command palette. Two commands a
 
 Running the command [dBizzy: Preview Database] prompts .sql file selection.  The selected .sql file is then displayed in a new VSCode panel beside current panel.  Changes to the .sql file can be reflected in the visualization upon clicking 'Update Diagrams.'
 
-\!\[Preview Database\]\(images/feature-x.png\)
+![Preview Database](https://miro.medium.com/max/640/1*hKbmNRoxTzCoS3-D3lrFWw.gif)
+
+
+ER diagrams can be exported as SVG files by clicking the "Export Diagram" button. They will be saved in the current project directory folder. 
+
+![Export ER Diagram](https://github.com/oslabs-beta/dBizzy/blob/main/media/export-diagram.gif)
 
 ### Open Database Browser
 
 Running the command [dBizzy: Open Database Browser] prompts .sql file selection. The selected .sql file's text content is populated in the browser's query field.  Upon first executing a valid query, a database is created in memory and the query is executed.  Any returned results from the query are displayed under the query field.  The database is cleared from memory upon closing the browser panel.  
 
-\!\[Open Database Browser\]\(images/feature-x.png\)
+\!\[Open Database Browser\]\(./media/open-database.gif)
+
 
 ## Features to improve / implement
 
@@ -66,8 +72,16 @@ Implements base product:
 * Parses .sql files to display entity relationships.
 * Creates database browsers to query databases in memory.  Databases persist while browsers are open.
 
+## Creators
+
+* [Kai Rilliet](https://github.com/kairilliet)
+* [Omar Rana](https://github.com/omar-rana)
+* [Johnny Chen](https://github.com/JcsChen)
+* [Matthew Lee](https://github.com/mcl030)
+
 ## Credits
 
 * Link to [sql.js](https://www.npmjs.com/package/sql.js).
 * Link to [diagrams.net](https://www.diagrams.net/).
 * Link to [d3-graphviz](https://www.npmjs.com/package/d3-graphviz).
+* Link to [Best README Template](https://github.com/othneildrew/Best-README-Template)
