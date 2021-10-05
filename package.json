@@ -2,7 +2,7 @@
 	"name": "dbizzy",
 	"displayName": "dBizzy",
 	"publisher": "dbizzy",
-	"icon": "media/dbizzy-logo-marketplace.png",
+	"icon": "assets/dbizzy-logo-marketplace.png",
 	"description": "ER Diagram Visualizer",
 	"version": "0.0.2",
 	"repository": {
