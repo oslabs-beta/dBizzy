@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/oslabs-beta/dBizzy">
-    <img src="https://github.com/oslabs-beta/dBizzy/blob/main/media/dbizzy-logo-marketplace.png" alt="Logo" height="120">
+    <img src="https://github.com/oslabs-beta/dBizzy/tree/readme/media/dbizzy-logo-marketplace.png" alt="Logo" height="120">
   </a>
 
   <h3 align="center">dBizzy</h3>
@@ -51,7 +51,7 @@ Running the command [dBizzy: Preview Database] prompts .sql file selection.  The
 
 ER diagrams can be exported as SVG files by clicking the "Export Diagram" button. They will be saved in the current project directory folder. 
 
-![Export ER Diagram](https://github.com/oslabs-beta/dBizzy/blob/main/media/export-diagram.gif)
+![Export ER Diagram](https://github.com/oslabs-beta/dBizzy/tree/readme/media/export-diagram.gif)
 
 ### Open Database Browser
 
