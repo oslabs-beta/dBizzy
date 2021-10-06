@@ -70,7 +70,7 @@ Running the command [dBizzy: Open Database Browser] prompts .sql file selection.
 
 ## Release Notes
 
-### 0.0.5
+### 0.0.6
 
 Implements base product:
 * Parses .sql files to display entity relationships.
