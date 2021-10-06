@@ -4,7 +4,7 @@
 	"publisher": "dbizzy",
 	"icon": "assets/dbizzy-logo-marketplace.png",
 	"description": "ER Diagram Visualizer",
-	"version": "0.0.2",
+	"version": "0.0.6",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/oslabs-beta/dBizzy.git"
@@ -13,7 +13,14 @@
 		"vscode": "^1.60.0"
 	},
 	"categories": [
-		"Other"
+		"Visualization"
+	],
+	"tags" : [
+		"SQL", 
+		"ER Diagram", 
+		"Database", 
+		"Query",
+		"SQLite"
 	],
 	"activationEvents": [
 		"onCommand:dbizzy.previewDatabase",
